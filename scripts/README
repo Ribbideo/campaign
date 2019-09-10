@@ -1,0 +1,10 @@
+Sequence of scripts
+
+export PROVIDER_ID=`./newProvider`
+./getProviderById $PROVIDER_ID
+./getProviderByNameAndType SAMi CLINIC
+./newMember
+./getMemberByName
+export CAMPAIGN_ID=`./newCampaign`
+export MEMBER_ID=`./getMemberIdByName`
+

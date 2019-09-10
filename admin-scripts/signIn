@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curl \
+	-H "Content-Type: application/json" \
+	--request PUT \
+	--data '{"token":"123456","mobileNumber":"4085552222"}' \
+	https://nuc.emsemble.com:8443/rx/api/v2/user/signIn | jq .authOutput.authToken | tr -d '"'

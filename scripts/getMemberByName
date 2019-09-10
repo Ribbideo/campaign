@@ -1,0 +1,5 @@
+#!/bin/bash
+
+curl \
+	-H "Content-Type: application/json" \
+	http://localhost:6060/api/provider/$PROVIDER_ID/member/byName/Kumar/Patient | jq .

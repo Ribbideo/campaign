@@ -1,0 +1,16 @@
+*~ 
+*.iml 
+target/**
+**/target/**
+.idea 
+.project
+**/.settings/**
+**/.classpath
+**/.factorypath
+*/bin/*
+out/
+nohup.out
+*/src/main/resources/*.properties
+*/src/main/resources/*.yaml
+/campaign/mq (copy)/target/
+/campaign/twilio/target/

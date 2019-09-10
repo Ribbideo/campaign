@@ -1,0 +1,8 @@
+#!/bin/bash
+
+curl \
+	-H "Content-Type: application/json" \
+	-H "Authorization: Bearer ${AUTH_TOKEN}" \
+	--request PUT \
+	--data '{"participantIds":["793191c3-46ba-4efc-a343-cfd9a80720e5"]}' \
+	https://nuc.emsemble.com:8443/rx/api/v1/admin/outreach/provider/campaign/$CAMPAIGN_ID/execution/sms

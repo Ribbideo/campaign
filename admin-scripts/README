@@ -1,0 +1,11 @@
+Sequence of scripts
+
+export AUTH_TOKEN=`./signIn`
+./newProvider
+./getProvider
+export MEMBER_ID=`./newMember`
+./getMembers
+./getMemberByName
+export CAMPAIGN_ID=`./newCampaign`
+export MEMBER_ID=`./getMemberIdByName`
+

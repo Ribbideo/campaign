@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curl \
+	-H "Content-Type: application/json" \
+	--request POST \
+	--data '{"firstName":"Patient","lastName":"Kumar","landline":"14085555555","mobileNumber":"14085556666","email":"some@one.com","gender":"MALE"}' \
+	http://localhost:6060/api/provider/$PROVIDER_ID/member

@@ -1,0 +1,6 @@
+curl \
+	-H "Content-Type: application/json" \
+	--request PUT \
+	--data '{ "72ed7605-2b97-49eb-8257-979b9bcf6342.yes": "Yes"}' \
+	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$1 
+

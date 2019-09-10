@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curl \
+	-H "Content-Type: application/json" \
+	-H "Authorization: Bearer ${AUTH_TOKEN}" \
+	https://nuc.emsemble.com:8443/rx/api/v1/admin/outreach/provider/flow?type=SMS | jq .
+

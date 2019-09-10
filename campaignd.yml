@@ -1,0 +1,27 @@
+# Campaignd configuration
+
+mongo:
+  uri: mongodb://khadmin:k3nc0rh@localhost:27017/campaigndb
+
+broker:
+  host: localhost
+  port: 5672
+
+twilio:
+  accountSid: AC4faf925d7493efa2fd1025febf86db0f
+  authToken: 1777916f53fcf34310cb875149cdcd2a
+  adminNumber: +14082146400
+
+logging:
+  level: DEBUG
+
+  appenders:
+    - type: file
+      threshold: DEBUG
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: /usr/local/ribbideo/logs/campaignd.log
+      archivedLogFilenamePattern: /usr/local/ribbideo/logs//campaignd-%d{yyyy-MM-dd}-%i.log.gz
+      archivedFileCount: 7
+      timeZone: UTC
+      maxFileSize: 500MB
+

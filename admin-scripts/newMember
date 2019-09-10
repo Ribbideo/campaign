@@ -1,0 +1,8 @@
+#!/bin/bash
+
+curl \
+	-H "Content-Type: application/json" \
+	-H "Authorization: Bearer ${AUTH_TOKEN}" \
+	--request POST \
+	--data '{"patientId":"33292a91-731c-41b2-ba29-de21e75f8b46"}' \
+	https://nuc.emsemble.com:8443/rx/api/v1/admin/outreach/provider/member
