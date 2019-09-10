@@ -6,6 +6,7 @@ import com.rabbitmq.client.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ public class MQUtil implements CMQConstants {
     private final static Logger log = LoggerFactory.getLogger(MQUtil.class);
 
     private static Connection getConnection(AMQPProvider provider)
-            throws IOException {
+        throws TimeoutException, IOException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(provider.getAMQPHostname());
         factory.setPort(provider.getAMQPPort());
@@ -22,7 +23,8 @@ public class MQUtil implements CMQConstants {
 
     public static void sendMessage(Object data,
             String routingKey,
-            AMQPProvider provider) throws CampaignException, IOException {
+            AMQPProvider provider)
+        throws CampaignException, TimeoutException, IOException {
         byte[] jsonAsBytes = null;
 
         String dataStr = null;
@@ -48,7 +50,7 @@ public class MQUtil implements CMQConstants {
             byte[] data,
             boolean persistForRetry,
             AMQPProvider provider)
-            throws IOException {
+        throws TimeoutException, IOException {
         boolean retVal = false;
 
         Connection connection = null;
@@ -107,7 +109,7 @@ public class MQUtil implements CMQConstants {
             } finally {
                 try {
                     c.close();
-                } catch (IOException ex) {
+                } catch (IOException | TimeoutException ex) {
                     log.warn("Could not close connection", ex);
                 }
             }
@@ -159,7 +161,7 @@ public class MQUtil implements CMQConstants {
     }
 
     private static Connection getMQConnection(String brokerHost, int brokerPort)
-            throws IOException {
+        throws TimeoutException, IOException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(brokerHost);
         factory.setPort(brokerPort);
