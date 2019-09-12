@@ -12,16 +12,24 @@ import java.util.Objects;
     @JsonSubTypes.Type(value = TitleNav.class, name = "title"),
     @JsonSubTypes.Type(value = MediaNav.class, name = "media"),
     @JsonSubTypes.Type(value = BranchNav.class, name = "branch"),
-    @JsonSubTypes.Type(value = ChoiceNav.class, name = "choice"),
-    @JsonSubTypes.Type(value = FormNav.class, name = "form")
+    @JsonSubTypes.Type(value = ProcessingBasedNav.class, name = "processing-based")
 })
 public abstract class Nav implements Sanitizer {
     private String id;
-    private RequestType requestType;
+    protected RequestType requestType;
+    private transient boolean mustAbort;
     
     public Nav() {
         id = CampaignUtil.uniqueString();
         requestType = RequestType.PUT;
+    }
+
+    public boolean mustAbort() {
+        return mustAbort;
+    }
+
+    public void mustAbort(boolean mustAbort) {
+        this.mustAbort = mustAbort;
     }
     
     public RequestType getRequestType() {

@@ -11,9 +11,9 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import java.util.SortedMap;
 import com.kencorhealth.campaign.delegate.common.CampaigndConstants;
-import com.kencorhealth.campaign.delegate.handler.MQExecCampaignIVRHandler;
-import com.kencorhealth.campaign.delegate.handler.MQExecCampaignSMSHandler;
-import com.kencorhealth.campaign.delegate.handler.MQSubmitCampaignFormHandler;
+import com.kencorhealth.campaign.delegate.receiver.MQExecCampaignIVRReceiver;
+import com.kencorhealth.campaign.delegate.receiver.MQExecCampaignSMSReceiver;
+import com.kencorhealth.campaign.delegate.receiver.MQCampaignStageDataReceiver;
 import com.kencorhealth.campaign.mq.CMQConstants;
 import com.kencorhealth.campaign.mq.MessageHandler;
 import java.util.Map;
@@ -61,19 +61,16 @@ public class Campaignd extends AppDelegate<CampaigndConfig>
     @Override
     public final void populateRoutingDataMap(
         Map<String, Class<? extends MessageHandler<?>>> routingDataMap) {
-        routingDataMap.put(
-            EXEC_CAMPAIGN_SMS,
-            MQExecCampaignSMSHandler.class
+        routingDataMap.put(EXEC_CAMPAIGN_SMS,
+            MQExecCampaignSMSReceiver.class
         );
 
-        routingDataMap.put(
-            EXEC_CAMPAIGN_IVR,
-            MQExecCampaignIVRHandler.class
+        routingDataMap.put(EXEC_CAMPAIGN_IVR,
+            MQExecCampaignIVRReceiver.class
         );
 
-        routingDataMap.put(
-            SUBMIT_CAMPAIGN_FORM,
-            MQSubmitCampaignFormHandler.class
+        routingDataMap.put(SUBMIT_CAMPAIGN_STAGE_DATA,
+            MQCampaignStageDataReceiver.class
         );
     }
 

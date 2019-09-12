@@ -26,10 +26,10 @@ public class ParticipantHandlerImpl
     }
 
     @Override
-    public String add(ParticipantInput input)
+    public Participant add(ParticipantInput input)
         throws InvalidException, ExistsException,
         DbException, CampaignException {
-        String retVal = null;
+        Participant retVal = null;
         
         try (MemberHandler mh = new MemberHandlerImpl(mc)) {
             String memberId = input.getMemberId();

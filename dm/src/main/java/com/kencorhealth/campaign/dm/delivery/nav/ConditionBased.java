@@ -2,8 +2,6 @@ package com.kencorhealth.campaign.dm.delivery.nav;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.kencorhealth.campaign.dm.exception.CampaignException;
-import java.util.Map;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
@@ -29,11 +27,6 @@ public abstract class ConditionBased {
 
     public void setNav(Nav nav) {
         this.nav = nav;
-    }
-
-    public boolean evaluate(Map<String, Object> data, Evaluator evaluator)
-        throws CampaignException {
-        return evaluator.evaluate(data, condition);
     }
 
     @Override

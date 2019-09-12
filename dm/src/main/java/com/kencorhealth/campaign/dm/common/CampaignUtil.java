@@ -3,11 +3,24 @@ package com.kencorhealth.campaign.dm.common;
 import com.google.common.net.UrlEscapers;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.UUID;
 import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.text.StrongTextEncryptor;
 
 public class CampaignUtil {
+    public static Calendar utcCalendar() {
+        return new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+    }
+    
+    public static long utcTime() {
+        Calendar calendar = utcCalendar();
+        return calendar.getTimeInMillis();
+    }
+    
     public static <T> T extractFromData(Class<T> dataClass, Object... data) {
 	T retVal = null;
 
@@ -70,7 +83,27 @@ public class CampaignUtil {
         return retVal;
     }
     
-    public static String encrypt(String token) {
+    public static Crypter crypter() {
+        return new Crypter() {
+            @Override
+            public String encrypt(String plain, SaltProvider sp) {
+                StrongTextEncryptor st = new StrongTextEncryptor();
+                st.setPassword(sp.provideSalt());
+                String encrypted = st.encrypt(plain);
+                return base64Encode(encrypted);
+            }
+
+            @Override
+            public String decrypt(String encrypted, SaltProvider sp) {
+                encrypted = base64Decode(encrypted);
+                StrongTextEncryptor st = new StrongTextEncryptor();
+                st.setPassword(sp.provideSalt());
+                return st.decrypt(encrypted);
+            }
+        };
+    }
+    
+    public static String hash(String token) {
         String retVal = null;
 
         if (valid(token)) {
@@ -83,17 +116,24 @@ public class CampaignUtil {
         return retVal;
     }
     
-    public static boolean verify(String original, String encrypted) {
+    public static boolean verify(String clear, String hashed) {
         boolean retVal = false;
 
-        if (valid(original) && valid(encrypted)) {
-            String decoded = base64Decode(encrypted);
+        if (valid(clear) && valid(hashed)) {
+            String decoded = base64Decode(hashed);
             
             retVal =
-                new BasicPasswordEncryptor().checkPassword(original, decoded);
+                new BasicPasswordEncryptor().checkPassword(clear, decoded);
         }
 
         return retVal;
+    }
+    
+    public static boolean verify(
+        String clear, String encrypted, SaltProvider sp) {
+        String decrypted = crypter().decrypt(encrypted, sp);
+
+        return decrypted.equals(clear);
     }
     
     public static String protect(Object obj) {

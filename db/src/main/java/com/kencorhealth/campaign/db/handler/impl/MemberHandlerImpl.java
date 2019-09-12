@@ -10,6 +10,7 @@ import com.kencorhealth.campaign.dm.exception.ExistsException;
 import com.kencorhealth.campaign.dm.exception.InvalidException;
 import com.kencorhealth.campaign.dm.exception.NotFoundException;
 import com.kencorhealth.campaign.dm.input.MemberInput;
+import com.kencorhealth.campaign.dm.provider.Role;
 import com.kencorhealth.campaign.mongo.handler.impl.MongoHandlerImpl;
 import com.mongodb.MongoClient;
 import java.util.HashMap;
@@ -23,10 +24,10 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
     }
 
     @Override
-    public String add(MemberInput input)
+    public Member add(MemberInput input)
         throws InvalidException, ExistsException,
         DbException, NotFoundException, CampaignException {
-        String retVal = null;
+        Member retVal = null;
         
         try (ProviderHandler ph = new ProviderHandlerImpl(mc)) {
             String providerId = input.getProviderId();
@@ -100,25 +101,18 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
     }
 
     @Override
-    public Member findByMobileNumber(
-        String providerId, String mobileNumber)
-        throws NotFoundException, CampaignException {
-        Member retVal = null;
-        
+    public boolean existsByMobileNumber(
+        String providerId, String mobileNumber, String roleName)
+        throws CampaignException {
         Map<String, Object> filter = new HashMap();
 
         filter.put(PROVIDER_ID_KEY, providerId);
         filter.put(MOBILE_NUMBER_KEY, mobileNumber);
+        filter.put(ROLE_INFO_KEY + "." + ROLE_KEY, Role.valueOf(roleName));
         
         List<Member> members = findMany(filter);
-        
-        if (members.isEmpty()) {
-            throw new NotFoundException("No data found");
-        } else {
-            retVal = members.get(0);
-        }
-        
-        return retVal;
+
+        return !members.isEmpty();
     }
 
     @Override

@@ -20,7 +20,7 @@ public interface MongoHandler<T extends Identified, TI extends Input>
     }
     String databaseName();
     
-    String add(TI input)
+    T add(TI input)
         throws InvalidException, NotFoundException, ExistsException,
         DbException, CampaignException;
     void update(T data)

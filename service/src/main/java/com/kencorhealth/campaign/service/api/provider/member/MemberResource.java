@@ -26,11 +26,11 @@ public class MemberResource extends CampaignBasedResource {
 
         try (MemberHandler mh = CampaignFactory.get(MemberHandler.class)) {
             input.setProviderId(providerId);
-            String memberId = mh.add(input);
+            Member m = mh.add(input);
             retVal =
                 Response
                     .status(HttpServletResponse.SC_CREATED)
-                    .entity(memberId)
+                    .entity(m.getId())
                     .build();
         } catch (Exception e) {
             retVal = fromException(e);

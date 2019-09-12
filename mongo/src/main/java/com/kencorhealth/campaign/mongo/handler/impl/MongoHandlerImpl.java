@@ -40,7 +40,7 @@ public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
     }
     
     @Override
-    public String add(TI input)
+    public T add(TI input)
         throws InvalidException, NotFoundException, ExistsException,
         DbException,  CampaignException {
         return doAdd(input);
@@ -69,7 +69,9 @@ public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
         throws CampaignException {
         List<Document> filterDoc = new ArrayList();
         
-        filter.forEach((key, value) -> filterDoc.add(new Document(key, value)));
+        filter.forEach((key, value) ->
+            filterDoc.add(new Document(key, normalizeValue(value)))
+        );
         
         Document and = new Document("$and", filterDoc);
         
@@ -129,16 +131,19 @@ public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
         return database;
     }
 
-    protected <TI extends Input> String doAdd(TI input)
-        throws ExistsException, CampaignException {
-        String retVal = null;
+    protected T doAdd(TI input) throws ExistsException, CampaignException {
+        T retVal = (T) input.convert();
         
-        Identified identified = input.convert();
+        doAdd(retVal);
         
+        return retVal;
+    }
+    
+    protected void doAdd(T data) throws CampaignException, ExistsException {
         boolean proceed = false;
         
-        if (identified instanceof Named) {
-            Named named = (Named) identified;
+        if (data instanceof Named) {
+            Named named = (Named) data;
             
             String name = named.getName();
             
@@ -157,11 +162,8 @@ public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
         
         if (proceed) {
             // We are good to go
-            collection().insertOne(JsonUtil.asDoc(identified));
-            retVal = identified.getId();
+            collection().insertOne(JsonUtil.asDoc(data));
         }
-        
-        return retVal;
     }
 
     protected <T extends Identified> void doUpdate(T identified)
@@ -174,5 +176,18 @@ public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
             eq(ID_KEY, identified.getId()),
             JsonUtil.asDoc(identified)
         );
+    }
+
+    private Object normalizeValue(Object value) {
+        Object retVal = null;
+        
+        if (value instanceof Enum) {
+            Enum e = (Enum) value;
+            retVal = e.name();
+        } else {
+            retVal = value;
+        }
+        
+        return retVal;
     }
 }

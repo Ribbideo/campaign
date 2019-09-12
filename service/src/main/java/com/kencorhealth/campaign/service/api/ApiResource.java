@@ -1,5 +1,6 @@
 package com.kencorhealth.campaign.service.api;
 
+import com.kencorhealth.campaign.service.api.auth.AuthResource;
 import com.kencorhealth.campaign.service.api.campaign.CampaignResource;
 import com.kencorhealth.campaign.service.api.provider.ProviderResource;
 import javax.ws.rs.Path;
@@ -10,6 +11,11 @@ public class ApiResource extends CampaignBasedResource {
     @Path("/" + CAMPAIGN)
     public CampaignResource getCampaignResource() {
         return new CampaignResource();
+    }
+
+    @Path("/" + AUTH)
+    public AuthResource getAuthResource() {
+        return new AuthResource();
     }
 
     @Path("/" + PROVIDER)

@@ -4,91 +4,30 @@ import com.kencorhealth.campaign.ngin.ScriptUtil;
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.common.Executor;
 import com.kencorhealth.campaign.dm.common.Script;
-import com.kencorhealth.campaign.dm.delegate.CampaignForm;
-import com.kencorhealth.campaign.dm.delivery.nav.Evaluator;
-import com.kencorhealth.campaign.dm.delivery.nav.PreProcessor;
-import com.kencorhealth.campaign.dm.delivery.nav.Processor;
+import com.kencorhealth.campaign.dm.delegate.CampaignDispatcher;
+import com.kencorhealth.campaign.dm.delivery.nav.ProcessorBased;
+import com.kencorhealth.campaign.dm.delivery.script.ScriptInput;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.mq.CMQFactory;
-import java.io.IOException;
-import java.util.Map;
 
 class ExUtil {
-    static Executor<Boolean> getExecutor(String campaignId, String formId) {
-        return new Executor<Boolean>() {
+    static <T> Executor<T> getExecutor() {
+        return new Executor<T>() {
             @Override
-            public Boolean execute(Map<String, Object> data, Object... arg)
-                throws CampaignException {
-                boolean retVal = false;
+            public T execute(
+                ScriptInput scriptInput,
+                Object... arg) throws CampaignException {
+                ProcessorBased pb =
+                    CampaignUtil.extractFromData(ProcessorBased.class, arg);
                 
-                PreProcessor preProcessor =
-                    CampaignUtil.extractFromData(PreProcessor.class, arg);
+                Script script = pb.getScript();
                 
-                if (preProcessor != null) {
-                    Script script = preProcessor.getScript();
-
-                    retVal = (boolean) ScriptUtil.invoke(script, data);
-                } else {
-                    retVal = true;
-                }
-                
-                if (retVal) {
-                    Processor processor =
-                        CampaignUtil.extractFromData(Processor.class, arg);
-
-                    if (processor != null) {
-                        CampaignForm cf = new CampaignForm();
-                        cf.setCampaignId(campaignId);
-                        cf.setProcessor(processor);
-                        cf.setFormId(formId);
-                        cf.setData(data);
-
-                        try {
-                            CMQFactory
-                                .getDispatcher()
-                                .dispatchSubmitCampaignForm(cf);
-                        } catch (IOException e) {
-                            throw new CampaignException(e);
-                        }
-                        
-                        retVal = true;
-                    }
-                }
-                
-                return retVal;
+                return (T) ScriptUtil.invoke(script, scriptInput);
             }
-        };
-    }
 
-    static Evaluator getEvaluator() {
-        return new Evaluator() {
             @Override
-            public boolean evaluate(Map<String, Object> data, String expression)
-                throws CampaignException {
-                boolean retVal = false;
-                
-                String[] split = expression.split(" ");
-                
-                String key = split[0];
-                String comparison = split[1];
-                String value = split[2].replaceAll("\"", "");
-                
-                switch (comparison) {
-                    case "==":
-                        if (data.containsKey(key)) {
-                            retVal = data.get(key).equals(value);
-                        }
-                        break;
-                    case "!=":
-                        if (data.containsKey(key)) {
-                            retVal = !data.get(key).equals(value);
-                        } else {
-                            retVal = true;
-                        }
-                        break;
-                }
-                
-                return retVal;
+            public CampaignDispatcher getDispatcher() {
+                return CMQFactory.getDispatcher();
             }
         };
     }

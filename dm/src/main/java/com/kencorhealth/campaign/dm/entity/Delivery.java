@@ -1,7 +1,7 @@
 package com.kencorhealth.campaign.dm.entity;
 
-import com.kencorhealth.campaign.dm.delivery.type.SmsMethod;
-import com.kencorhealth.campaign.dm.delivery.type.WebMethod;
+import com.kencorhealth.campaign.dm.delivery.sms.SmsMethod;
+import com.kencorhealth.campaign.dm.delivery.web.WebMethod;
 
 public class Delivery {
     private SmsMethod sms;

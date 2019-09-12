@@ -2,12 +2,9 @@ package com.kencorhealth.campaign.twilio.handler.impl;
 
 import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.db.handler.MemberHandler;
-import com.kencorhealth.campaign.db.handler.ParticipantTokenHandler;
 import com.kencorhealth.campaign.dm.provider.Member;
 import com.kencorhealth.campaign.dm.entity.Participant;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
-import com.kencorhealth.campaign.dm.input.ParticipantTokenInput;
-import com.kencorhealth.campaign.json.JsonUtil;
 import com.kencorhealth.campaign.twilio.TwilioFactory;
 import com.kencorhealth.campaign.twilio.handler.TwilioHandler;
 import com.twilio.rest.api.v2010.account.Message;
@@ -17,7 +14,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
-import org.bson.Document;
+import com.kencorhealth.campaign.db.handler.AuthTokenHandler;
 
 public class TwilioHandlerImpl implements TwilioHandler {
     @Override
@@ -26,8 +23,8 @@ public class TwilioHandlerImpl implements TwilioHandler {
         throws CampaignException {
         String retVal = null;
         
-        try (ParticipantTokenHandler pth =
-             CampaignFactory.get(ParticipantTokenHandler.class);
+        try (AuthTokenHandler pth =
+             CampaignFactory.get(AuthTokenHandler.class);
              MemberHandler mh =
              CampaignFactory.get(MemberHandler.class)) {
             Template t =
@@ -39,17 +36,17 @@ public class TwilioHandlerImpl implements TwilioHandler {
 
             Writer out = new StringWriter();
             
-            ParticipantTokenInput pti = new ParticipantTokenInput();
-            pti.setParticipantId(to.getId());
+            /*ParticipantTokenInput pti = new ParticipantTokenInput();
+            pti.setParticipantId(to.getId());*/
             
             Member member = mh.findById(to.getMemberId());
             
-            String token = pth.add(pti);
+            /*ParticipantToken pt = pth.add(pti);
             
             Document memberDoc = JsonUtil.asDoc(member);
-            memberDoc.put("token", token);
+            memberDoc.put("token", pt.getId());
             
-            data.put("member", memberDoc);
+            data.put("member", memberDoc);*/
 
             t.process(data, out);
 

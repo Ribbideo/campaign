@@ -7,15 +7,28 @@ public interface CampaignMongoConstants extends MongoConstants {
     String PROVIDER_COLLECTION = "Provider";
     String MEMBER_COLLECTION = "Member";
     String CAMPAIGN_COLLECTION = "Campaign";
-    String PARTICIPANT_TOKEN_COLLECTION = "ParticipantToken";
+    String WORKFLOW_DATA_COLLECTION = "WorkflowData";
+    String AUTH_TOKEN_COLLECTION = "AuthToken";
     String CAMPAIGN_DATABASE = "campaigndb";
     String PARTICIPANT_COLLECTION = "Participant";
-    
+
+    // JWT-related
+    String JWT_ISSUER = "KencorHealth";
+    String JWT_SUBJECT = "AuthToken";
+        
     // Keys
     String PROVIDER_TYPE_KEY = "providerType";
     String PROVIDER_ID_KEY = "providerId";
+    String USER_ID_KEY = "userId";
+    String IN_USE_KEY = "inUse";
     String CAMPAIGN_ID_KEY = "campaignId";
     String LAST_NAME_KEY = "lastName";
     String FIRST_NAME_KEY = "firstName";
     String MOBILE_NUMBER_KEY = "mobileNumber";
+    String EXTRA_KEY = "extra";
+    String ROLE_INFO_KEY = "roleInfo";
+    String JWT_KEY = "jwt";
+    String ROLE_KEY = "role";
+    String EMAIL_KEY = "email";
+    String PASSWORD_KEY = "password";
 }

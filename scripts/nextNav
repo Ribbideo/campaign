@@ -1,6 +1,11 @@
+export CAMPAIGN_ID=`./getCampaignByName "Patient%20enrolment%20campaign"|jq ._id|tr -d '"'`
+export CONTAINER_ID=$2
+
+export JWT=`./signIn`
+
 curl \
+	--request POST \
 	-H "Content-Type: application/json" \
-	--request PUT \
-	--data '{ "72ed7605-2b97-49eb-8257-979b9bcf6342.yes": "No"}' \
-	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$1 
+	-H "Authorization: Bearer $JWT" \
+	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$1?containerId=$CONTAINER_ID 
 

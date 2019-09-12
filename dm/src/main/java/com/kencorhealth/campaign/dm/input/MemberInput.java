@@ -5,10 +5,12 @@ import com.kencorhealth.campaign.dm.common.Gender;
 import com.kencorhealth.campaign.dm.common.Input;
 import com.kencorhealth.campaign.dm.common.NotifSettings;
 import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.provider.RoleInfo;
 import com.ribbideo.dm.input.register.PhoneNumber;
 import java.util.Set;
 
 public class MemberInput extends Input<Member> {
+    private String roleName;
     private String providerId;
     private String firstName;
     private String lastName;
@@ -48,6 +50,7 @@ public class MemberInput extends Input<Member> {
         email = patient.getEmail();
         gender = Gender.from(patient.getGender());
         dob = patient.getDob();
+        roleName = patient.getRoleName();
         
         com.ribbideo.dm.shared.Address address = patient.getAddress();
         
@@ -73,10 +76,19 @@ public class MemberInput extends Input<Member> {
         retVal.setDob(dob);
         retVal.setLocation(location);
         retVal.setTags(tags);
+        retVal.setRoleInfo(RoleInfo.from(roleName));
         
         return retVal;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    
     public NotifSettings getNotifSettings() {
         return notifSettings;
     }
@@ -173,6 +185,6 @@ public class MemberInput extends Input<Member> {
             ", mobileNumber=" + mobileNumber + ", email=" + email +
             ", gender=" + gender + ", dob=" + dob + ", location=" +
             location + ", tags=" + tags + ", notifSettings=" +
-            notifSettings + '}';
+            notifSettings + ", roleName=" + roleName + '}';
     }
 }

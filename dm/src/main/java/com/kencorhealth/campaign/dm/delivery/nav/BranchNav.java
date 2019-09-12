@@ -1,15 +1,22 @@
 package com.kencorhealth.campaign.dm.delivery.nav;
 
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
-import com.kencorhealth.campaign.dm.exception.CampaignException;
 import java.util.List;
-import java.util.Map;
 
-public class BranchNav extends Nav implements Evaluatable {
+public class BranchNav extends Nav {
     private IfCondition ifCondition;
     private List<ElseIfCondition> elseIfCondition;
     private ElseCondition elseCondition;
+    private Nav failureNav;
 
+    public Nav getFailureNav() {
+        return failureNav;
+    }
+
+    public void setFailureNav(Nav failureNav) {
+        this.failureNav = failureNav;
+    }
+    
     public IfCondition getIfCondition() {
         return ifCondition;
     }
@@ -39,9 +46,9 @@ public class BranchNav extends Nav implements Evaluatable {
         Nav retVal = super.findById(id);
         
         if (retVal == null) {
-            if (ifCondition.getNav().getId().equals(id)) {
-                retVal = ifCondition.getNav();
-            } else if (CampaignUtil.valid(elseIfCondition)) {
+            retVal = ifCondition.getNav();
+            
+            if (retVal == null && CampaignUtil.valid(elseIfCondition)) {
                 for (ElseIfCondition condition: elseIfCondition) {
                     if (condition.getNav().getId().equals(id)) {
                         retVal = condition.getNav();
@@ -56,30 +63,9 @@ public class BranchNav extends Nav implements Evaluatable {
                 retVal = elseCondition.getNav();
             }
         }
-        
-        return retVal;
-    }
 
-    @Override
-    public Nav evaluate(Map<String, Object> data, Evaluator evaluator)
-        throws CampaignException {
-        Nav retVal = null;
-        
-        if (ifCondition.evaluate(data, evaluator)) {
-            retVal = ifCondition.getNav();
-        } else {
-            if (CampaignUtil.valid(elseIfCondition)) {
-                for (ElseIfCondition condition: elseIfCondition) {
-                    if (condition.evaluate(data, evaluator)) {
-                        retVal = condition.getNav();
-                        break;
-                    }
-                }
-            }
-            
-            if (retVal == null && elseCondition != null) {
-                retVal = elseCondition.getNav();
-            }
+        if (retVal == null && failureNav != null) {
+            retVal = failureNav.findById(id);
         }
         
         return retVal;
@@ -90,6 +76,6 @@ public class BranchNav extends Nav implements Evaluatable {
         return
             "BranchNav{" + "ifCondition=" + ifCondition +
             ", elseIfCondition=" + elseIfCondition + ", elseCondition=" +
-            elseCondition + '}';
+            elseCondition + ", failureNav=" + failureNav + '}';
     }
 }

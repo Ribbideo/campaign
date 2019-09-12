@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export JWT=`./signIn`
+
 curl \
 	-H "Content-Type: application/json" \
-	http://localhost:6060/api/provider/$1/campaign/byName/$2 | jq .
+	-H "Authorization: Bearer $JWT" \
+	http://localhost:6060/api/campaign/byName/$1 | jq .

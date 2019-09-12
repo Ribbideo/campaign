@@ -3,6 +3,7 @@ package com.kencorhealth.campaign.service.common;
 public interface CampaignConstants {
     String API = "api";
     String CAMPAIGN = "campaign";
+    String AUTH = "auth";
     String PROVIDER = "provider";
     String MEMBER = "member";
     String EXECUTION = "execution";
@@ -21,6 +22,7 @@ public interface CampaignConstants {
     String PROVIDER_ID = "providerId";
     String CAMPAIGN_ID = "campaignId";
     String NAV_ID = "navId";
+    String CONTAINER_ID = "containerId";
     String MEMBER_ID = "memberId";
     String PARTICIPANT_ID = "participantId";
     

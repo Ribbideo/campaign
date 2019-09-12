@@ -1,7 +1,6 @@
 package com.kencorhealth.campaign.service.api.provider;
 
 import com.kencorhealth.campaign.service.api.CampaignBasedResource;
-import com.kencorhealth.campaign.service.api.provider.campaign.CampaignResource;
 import com.kencorhealth.campaign.service.api.provider.member.MemberResource;
 import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.db.handler.ProviderHandler;
@@ -46,10 +45,5 @@ public class ProviderIdResource extends CampaignBasedResource {
     @Path("/" + MEMBER)
     public MemberResource getMemberResource() {
         return new MemberResource();
-    }
-    
-    @Path("/" + CAMPAIGN)
-    public CampaignResource getCampaignResource() {
-        return new CampaignResource();
     }
 }

@@ -2,7 +2,7 @@ package com.kencorhealth.campaign.dm.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class Identified {
+public abstract class Identified implements SaltProvider {
     @JsonProperty("_id")
     private String id;
     private Long createTime;
@@ -12,6 +12,11 @@ public abstract class Identified {
         id = another.id;
         createTime = another.createTime;
         updateTime = another.updateTime;
+    }
+
+    @Override
+    public String provideSalt() {
+        return CryptHelper.saltFor(this);
     }
     
     public void updateUpdateTime() {

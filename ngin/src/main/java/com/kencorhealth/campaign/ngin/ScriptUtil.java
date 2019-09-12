@@ -3,6 +3,7 @@ package com.kencorhealth.campaign.ngin;
 import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.dm.annotations.Exportable;
 import com.kencorhealth.campaign.dm.common.Script;
+import com.kencorhealth.campaign.dm.delivery.script.ScriptInput;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.mongo.handler.MongoHandler;
 import java.io.StringReader;
@@ -22,7 +23,7 @@ public class ScriptUtil {
     private static final Map<String, MongoHandler> DB_HANDLERS;
     private static final Map<String, HttpBasedHandler> RPM_HANDLERS;
 
-    public static Object invoke(Script script, Map<String, Object> input)
+    public static Object invoke(Script script, ScriptInput scriptInput)
         throws CampaignException {
         Object retVal = null;
         
@@ -31,6 +32,9 @@ public class ScriptUtil {
 
             Invocable invocable = (Invocable) ENGINE;
             
+            Map<String, Object> input = new HashMap();
+            
+            input.put("campaign.script", scriptInput);
             input.put("campaign.handler.db", DB_HANDLERS);
             input.put("campaign.handler.http.rpm", RPM_HANDLERS);
             
@@ -53,20 +57,22 @@ public class ScriptUtil {
         };
 
         Reflections reflections = new Reflections(packages);
-        Set<Class<? extends Exportable>> handlerTypes =
-            reflections.getSubTypesOf(Exportable.class);
+        Set<Class<?>> handlerTypes =
+            reflections.getTypesAnnotatedWith(Exportable.class);
 
-        handlerTypes.forEach((handlerType) -> {
-            if (MongoHandler.class.isAssignableFrom(handlerType)) {
-                Class<? extends MongoHandler> dbHandlerType =
-                    (Class<? extends MongoHandler>) handlerType;
-                MongoHandler handler = CampaignFactory.get(dbHandlerType);
-                DB_HANDLERS.put(handler.alias(), handler);
-            } else if (RpmBasedHandler.class.isAssignableFrom(handlerType)) {
-                Class<? extends RpmBasedHandler> rpmHandlerType =
-                    (Class<? extends RpmBasedHandler>) handlerType;
-                RpmBasedHandler handler = CHRFactory.get(rpmHandlerType);
-                RPM_HANDLERS.put(handler.alias(), handler);
+        handlerTypes.forEach((type) -> {
+            if (type.isInterface()) {
+                if (MongoHandler.class.isAssignableFrom(type)) {
+                    Class<? extends MongoHandler> dbHandlerType =
+                        (Class<? extends MongoHandler>) type;
+                    MongoHandler handler = CampaignFactory.get(dbHandlerType);
+                    DB_HANDLERS.put(handler.alias(), handler);
+                } else if (RpmBasedHandler.class.isAssignableFrom(type)) {
+                    Class<? extends RpmBasedHandler> rpmHandlerType =
+                        (Class<? extends RpmBasedHandler>) type;
+                    RpmBasedHandler handler = CHRFactory.get(rpmHandlerType);
+                    RPM_HANDLERS.put(handler.alias(), handler);
+                }
             }
         });
     }

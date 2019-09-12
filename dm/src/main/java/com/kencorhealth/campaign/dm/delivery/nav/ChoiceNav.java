@@ -2,7 +2,7 @@ package com.kencorhealth.campaign.dm.delivery.nav;
 
 import java.util.List;
 
-public class ChoiceNav extends Nav {
+public class ChoiceNav extends ProcessingBasedNav {
     private List<ChoiceInput> choices;
     private ChoiceType choiceType;
     private String title;

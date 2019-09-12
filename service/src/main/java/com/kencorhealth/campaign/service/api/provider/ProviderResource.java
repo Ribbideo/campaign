@@ -4,6 +4,7 @@ import com.kencorhealth.campaign.service.api.CampaignBasedResource;
 import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.db.handler.ProviderHandler;
 import com.kencorhealth.campaign.dm.input.ProviderInput;
+import com.kencorhealth.campaign.dm.provider.Provider;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -18,11 +19,11 @@ public class ProviderResource extends CampaignBasedResource {
         Response retVal = null;
 
         try (ProviderHandler ph = CampaignFactory.get(ProviderHandler.class)) {
-            String campaignId = ph.add(input);
+            Provider p = ph.add(input);
             retVal =
                 Response
                     .status(HttpServletResponse.SC_CREATED)
-                    .entity(campaignId)
+                    .entity(p.getId())
                     .build();
         } catch (Exception e) {
             retVal = fromException(e);

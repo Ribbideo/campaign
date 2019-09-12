@@ -20,9 +20,9 @@ public interface MemberHandler
     Member findByName(
         String providerId, String lastName, String firstName)
         throws NotFoundException, CampaignException;
-    Member findByMobileNumber(
-        String providerId, String mobileNumber)
-        throws NotFoundException, CampaignException;
+    boolean existsByMobileNumber(
+        String providerId, String mobileNumber, String roleName)
+        throws CampaignException;
     Member findById(String providerId, String memberId)
         throws NotFoundException, CampaignException;
 }

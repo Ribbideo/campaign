@@ -1,14 +1,48 @@
 package com.kencorhealth.campaign.service.api.campaign;
 
+import com.kencorhealth.campaign.db.CampaignFactory;
+import com.kencorhealth.campaign.db.handler.CampaignHandler;
+import com.kencorhealth.campaign.dm.auth.AuthToken;
+import com.kencorhealth.campaign.dm.entity.Campaign;
+import com.kencorhealth.campaign.dm.input.CampaignInput;
 import com.kencorhealth.campaign.service.api.CampaignBasedResource;
-import com.kencorhealth.campaign.service.api.campaign.runtime.RuntimeResource;
-import static com.kencorhealth.campaign.service.common.CampaignConstants.CAMPAIGN_ID_ENDPOINT;
+import io.dropwizard.auth.Auth;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class CampaignResource extends CampaignBasedResource {
-    @Path("/" + RUNTIME)
-    public RuntimeResource getRuntimeResource() {
-        return new RuntimeResource();
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createCampaign(
+        @Auth AuthToken at,
+        CampaignInput input) {
+        Response retVal = null;
+        
+        try (CampaignHandler ch = CampaignFactory.get(CampaignHandler.class)) {
+            input.setProviderId(at.getProviderId());
+            
+            Campaign campaign = ch.add(input);
+            retVal =
+                Response
+                    .status(HttpServletResponse.SC_CREATED)
+                    .entity(campaign.getId())
+                    .build();
+        } catch (Exception e) {
+           retVal = fromException(e);
+         }
+        
+        return retVal;
+    }
+    
+    @Path("/" + BY_NAME)
+    public ByNameResource getByNameResource() {
+        return new ByNameResource();
     }
 
     @Path("/" + CAMPAIGN_ID_ENDPOINT)

@@ -19,7 +19,15 @@ public class RoleInfo {
     public void setExtra(String extra) {
         this.extra = extra;
     }
-
+    
+    public static RoleInfo from(String roleName) {
+        RoleInfo retVal = new RoleInfo();
+        
+        retVal.role = Role.valueOf(roleName);
+        
+        return retVal;
+    }
+    
     @Override
     public String toString() {
         return "RoleInfo{" + "role=" + role + ", extra=" + extra + '}';

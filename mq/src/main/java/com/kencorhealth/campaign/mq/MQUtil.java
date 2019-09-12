@@ -21,9 +21,10 @@ public class MQUtil implements CMQConstants {
         return factory.newConnection();
     }
 
-    public static void sendMessage(Object data,
-            String routingKey,
-            AMQPProvider provider)
+    public static void sendMessage(
+        Object data,
+        String routingKey,
+        AMQPProvider provider)
         throws CampaignException, TimeoutException, IOException {
         byte[] jsonAsBytes = null;
 
@@ -46,10 +47,11 @@ public class MQUtil implements CMQConstants {
         }
     }
 
-    public static boolean sendMessage(String routingKey,
-            byte[] data,
-            boolean persistForRetry,
-            AMQPProvider provider)
+    public static boolean sendMessage(
+        String routingKey,
+        byte[] data,
+        boolean persistForRetry,
+        AMQPProvider provider)
         throws TimeoutException, IOException {
         boolean retVal = false;
 
