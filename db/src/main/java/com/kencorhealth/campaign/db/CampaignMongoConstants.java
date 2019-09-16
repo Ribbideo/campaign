@@ -29,6 +29,7 @@ public interface CampaignMongoConstants extends MongoConstants {
     String ROLE_INFO_KEY = "roleInfo";
     String JWT_KEY = "jwt";
     String ROLE_KEY = "role";
+    String FILE_ID_KEY = "fileId";
     String EMAIL_KEY = "email";
     String PASSWORD_KEY = "password";
 }

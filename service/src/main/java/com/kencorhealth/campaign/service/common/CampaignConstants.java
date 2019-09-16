@@ -23,6 +23,7 @@ public interface CampaignConstants {
     String CAMPAIGN_ID = "campaignId";
     String NAV_ID = "navId";
     String CONTAINER_ID = "containerId";
+    String FILE = "file";
     String MEMBER_ID = "memberId";
     String PARTICIPANT_ID = "participantId";
     

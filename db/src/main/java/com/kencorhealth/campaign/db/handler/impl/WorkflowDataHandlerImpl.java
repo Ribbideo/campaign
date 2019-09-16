@@ -55,7 +55,7 @@ public class WorkflowDataHandlerImpl
     public void update(
         String providerId,
         String campaignId,
-        String id,
+        String containerId,
         String key,
         Map<String, Object> value)
         throws NotFoundException, CampaignException, DbException {
@@ -63,7 +63,7 @@ public class WorkflowDataHandlerImpl
         Map<String, Object> filter = new HashMap();
         filter.put(PROVIDER_ID_KEY, providerId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
-        filter.put(ID_KEY, id);
+        filter.put(ID_KEY, containerId);
         
         List<WorkflowData> values = findMany(filter);
         
@@ -80,13 +80,44 @@ public class WorkflowDataHandlerImpl
             }
 
             newData.put(key, value);
+            
+            existing.setData(newData);
 
             update(existing);
         } else {
             String message =
                 "No data found for provider '" + providerId +
-                "' and Id '" + id + "'";
+                "' and Id '" + containerId + "'";
             throw new NotFoundException(message);
         }
     }
+    
+    @Override
+    public Map<String, Object> get(
+        String providerId,
+        String campaignId,
+        String containerId,
+        String key)
+        throws NotFoundException, CampaignException, DbException {
+        Map<String, Object> retVal = null;
+        
+        Map<String, Object> filter = new HashMap();
+        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CAMPAIGN_ID_KEY, campaignId);
+        filter.put(ID_KEY, containerId);
+        
+        List<WorkflowData> values = findMany(filter);
+        
+        if (!values.isEmpty()) {
+            WorkflowData value = values.get(0);
+            retVal = value.getData().get(key);
+        } else {
+            String message =
+                "No data found for provider '" + providerId +
+                "' and Id '" + containerId + "'";
+            throw new NotFoundException(message);
+        }
+        
+        return retVal;
+    }    
 }

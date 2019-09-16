@@ -18,9 +18,15 @@ public interface WorkflowDataHandler
 
     WorkflowData createOrGetUnused(String providerId, String campaignId)
         throws CampaignException, DbException;
+    Map<String, Object> get(
+        String providerId,
+        String campaignId,
+        String containerId,
+        String key)
+        throws NotFoundException, CampaignException, DbException;
     void update(String providerId,
                 String campaignId,
-                String id,
+                String containerId,
                 String key,
                 Map<String, Object> value)
         throws NotFoundException, CampaignException, DbException;

@@ -2,6 +2,7 @@ package com.kencorhealth.campaign.service;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
+import com.kencorhealth.campaign.cdn.CDNUtil;
 import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.db.handler.ProviderHandler;
 import com.kencorhealth.campaign.dm.auth.AuthToken;
@@ -19,6 +20,7 @@ import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 public class Campaign extends Application<CampaignConfig>
     implements CampaignConstants {
@@ -62,6 +64,8 @@ public class Campaign extends Application<CampaignConfig>
         
         CMQFactory.init(cc);
         
+        CDNUtil.init(cc.getS3());
+        
         JerseyEnvironment je = e.jersey();
         
         je.register(
@@ -72,6 +76,8 @@ public class Campaign extends Application<CampaignConfig>
                     .buildAuthFilter()
             )
         );
+        
+        je.register(MultiPartFeature.class);
 
         je.register(
             new AuthValueFactoryProvider.Binder(AuthToken.class)

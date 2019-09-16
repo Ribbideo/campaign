@@ -17,6 +17,7 @@
         <module>service</module>
         <module>http</module>
         <module>json</module>
+        <module>cdn</module>
         <module>delegate</module>
         <module>mq</module>
         <module>twilio</module>
