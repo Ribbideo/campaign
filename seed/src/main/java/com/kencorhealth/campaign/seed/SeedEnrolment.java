@@ -2,6 +2,7 @@ package com.kencorhealth.campaign.seed;
 
 import com.kencorhealth.campaign.dm.common.Script;
 import com.kencorhealth.campaign.dm.common.TypeInfo;
+import com.kencorhealth.campaign.dm.delivery.UrlDisplay;
 import com.kencorhealth.campaign.dm.delivery.nav.BranchNav;
 import com.kencorhealth.campaign.dm.delivery.nav.FormNav;
 import com.kencorhealth.campaign.dm.delivery.nav.IfCondition;
@@ -12,6 +13,7 @@ import com.kencorhealth.campaign.dm.delivery.nav.ChoiceInput;
 import com.kencorhealth.campaign.dm.delivery.nav.ChoiceNav;
 import com.kencorhealth.campaign.dm.delivery.nav.ChoiceType;
 import com.kencorhealth.campaign.dm.delivery.nav.ElseCondition;
+import com.kencorhealth.campaign.dm.delivery.nav.FileInput;
 import com.kencorhealth.campaign.dm.delivery.nav.PostProcessor;
 import com.kencorhealth.campaign.dm.delivery.nav.PreProcessor;
 import com.kencorhealth.campaign.dm.delivery.nav.Processing;
@@ -81,25 +83,25 @@ public class SeedEnrolment {
 
         havePhone.setChoices(Arrays.asList(yes, no));
         
-        FormNav details = new FormNav();
-        details.setTitle("Enter details");
+        FormNav register = new FormNav();
+        register.setTitle("Enter details");
         
         Processing processing = new Processing();
         
         PreProcessor preProcessor = new PreProcessor();
-        preProcessor.setScript(loadScript("form-pre-processor"));
+        preProcessor.setScript(loadScript("register-pre-processor"));
 
         Processor processor = new Processor();
-        processor.setScript(loadScript("form-processor"));
+        processor.setScript(loadScript("register-processor"));
         
         PostProcessor postProcessor = new PostProcessor();
-        postProcessor.setScript(loadScript("form-post-processor"));
+        postProcessor.setScript(loadScript("register-post-processor"));
 
         processing.setPreProcessor(preProcessor);
         processing.setProcessor(processor);
         processing.setPostProcessor(postProcessor);
         
-        details.setProcessing(processing);
+        register.setProcessing(processing);
         
         TextInput fnn = new TextInput();
         fnn.setFieldName("firstName");
@@ -116,26 +118,66 @@ public class SeedEnrolment {
         mnn.setTitle("Mobile Number");
         mnn.setHint("Enter mobile number");
         
-        details.setItems(Arrays.asList(fnn, lnn, mnn));
-        details.setButtonText("Submit");
-        details.setHint("Press ENTER");
+        register.setItems(Arrays.asList(fnn, lnn, mnn));
+        register.setButtonText("Submit");
+        register.setHint("Press ENTER");
+        
+        FormNav terms = new FormNav();
+        terms.setTitle("Terms");
+        
+        Processing termsProcessing = new Processing();
+        
+        PreProcessor termsPreProcessor = new PreProcessor();
+        termsPreProcessor.setScript(loadScript("terms-pre-processor"));
+
+        Processor termsProcessor = new Processor();
+        termsProcessor.setScript(loadScript("terms-processor"));
+        
+        PostProcessor termsPostProcessor = new PostProcessor();
+        termsPostProcessor.setScript(loadScript("terms-post-processor"));
+
+        termsProcessing.setPreProcessor(termsPreProcessor);
+        termsProcessing.setProcessor(termsProcessor);
+        termsProcessing.setPostProcessor(termsPostProcessor);
+        
+        terms.setProcessing(termsProcessing);
+        
+        UrlDisplay ud = new UrlDisplay();
+        ud.setUrl("http://google.com");
+        ud.setTitle("Terms");
+
+        FileInput fi = new FileInput();
+        fi.setFieldName("signature");
+        fi.setHint("Signature");
+        
+        terms.setItems(Arrays.asList(ud, fi));
+        terms.setButtonText("Submit");
+        terms.setHint("Press ENTER");        
         
         TitleNav thankYou = new TitleNav();
         thankYou.setTitle("Thank you. You should receive an SMS");
         thankYou.setButtonText("Finish");
         thankYou.setHint("Press ENTER");
         
-        TitleNav formOops = new TitleNav();
-        formOops.setTitle("Oops, something went wrong");
-        formOops.setButtonText("Finish");
-        formOops.setHint("Press ENTER");
+        TitleNav registerOops = new TitleNav();
+        registerOops.setTitle("Oops, something went wrong");
+        registerOops.setButtonText("Finish");
+        registerOops.setHint("Press ENTER");
         
-        details.setSuccessNav(thankYou);
-        details.setFailureNav(formOops);
+        TitleNav termsOops = new TitleNav();
+        termsOops.setTitle("Oops, something went wrong");
+        termsOops.setButtonText("Finish");
+        termsOops.setHint("Press ENTER");
+        
+        terms.setSuccessNav(thankYou);
+        terms.setFailureNav(termsOops);
+        
+        register.setSuccessNav(terms);
+        register.setFailureNav(registerOops);
         
         IfCondition ifHavePhoneCondition = new IfCondition();
         ifHavePhoneCondition.setCondition("formData.yes == \"Yes\"");
-        ifHavePhoneCondition.setNav(details);
+        ifHavePhoneCondition.setNav(register);
 
         TitleNav noPhone = new TitleNav();
         noPhone.setTitle("Sorry, you need a smartphone");

@@ -15,7 +15,7 @@ function execute(input) {
     if (memberExists) {
         retVal = nav.failureNav;
         retVal.title = "Looks like you have already registered";
-        retVal.mustAbort = true;
+        retVal.mustAbort(true);
     } else {
         retVal = nav.successNav;
     }

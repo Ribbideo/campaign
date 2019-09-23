@@ -13,6 +13,8 @@ public class CampaignInput extends DescribedInput<Campaign> {
     private TypeInfo typeInfo;
     private Delivery delivery;
     private CampaignSettings settings;
+    private String logoUrl;
+    private String poweredByUrl;
 
     @Override
     public Campaign convert() {
@@ -27,10 +29,28 @@ public class CampaignInput extends DescribedInput<Campaign> {
         retVal.setBeginDate(beginDate);
         retVal.setEndDate(endDate);
         retVal.setSettings(settings);
+        retVal.setLogoUrl(logoUrl);
+        retVal.setPoweredByUrl(poweredByUrl);
         
         return retVal;
     }
 
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getPoweredByUrl() {
+        return poweredByUrl;
+    }
+
+    public void setPoweredByUrl(String poweredByUrl) {
+        this.poweredByUrl = poweredByUrl;
+    }
+    
     public TypeInfo getTypeInfo() {
         return typeInfo;
     }
@@ -93,6 +113,7 @@ public class CampaignInput extends DescribedInput<Campaign> {
             "Campaign{" + "providerId=" + providerId + ", beginDate=" +
             beginDate + ", endDate=" + endDate + ", settings=" + settings +
             ", delivery=" + delivery + ", goal=" + goal +
-            ", typeInfo=" + typeInfo + "}, " + super.toString();
+            ", typeInfo=" + typeInfo + ", logoUrl=" + logoUrl +
+            ", poweredByUrl=" + poweredByUrl + "}, " + super.toString();
     }
 }

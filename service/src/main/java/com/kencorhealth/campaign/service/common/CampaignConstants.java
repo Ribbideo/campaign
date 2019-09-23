@@ -21,6 +21,7 @@ public interface CampaignConstants {
 
     String PROVIDER_ID = "providerId";
     String CAMPAIGN_ID = "campaignId";
+    String FILE_ID = "fileId";
     String NAV_ID = "navId";
     String CONTAINER_ID = "containerId";
     String FILE = "file";
@@ -30,6 +31,7 @@ public interface CampaignConstants {
     String PROVIDER_ID_ENDPOINT = "{" + PROVIDER_ID + "}";
     String MEMBER_ID_ENDPOINT = "{" + MEMBER_ID + "}";
     String CAMPAIGN_ID_ENDPOINT = "{" + CAMPAIGN_ID + "}";
+    String FILE_ID_ENDPOINT = "{" + FILE_ID + "}";
     String NAV_ID_ENDPOINT = "{" + NAV_ID + "}";
     String PARTICIPANT_ID_ENDPOINT = "{" + PARTICIPANT_ID + "}";
     

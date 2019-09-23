@@ -24,6 +24,6 @@ public class TextInput extends InputBased {
     public String toString() {
         return
             "TextInput{" + "title=" + title + ", hint=" + hint + "}, " +
-            super.toString() ;
+            super.toString();
     }
 }

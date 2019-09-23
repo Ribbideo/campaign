@@ -6,8 +6,10 @@ import com.kencorhealth.campaign.db.handler.CampaignHandler;
 import com.kencorhealth.campaign.dm.auth.AuthToken;
 import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.service.api.campaign.execution.ExecutionResource;
+import com.kencorhealth.campaign.service.api.campaign.file.FileResource;
 import com.kencorhealth.campaign.service.api.campaign.nav.NavResource;
 import com.kencorhealth.campaign.service.api.campaign.participant.ParticipantResource;
+import static com.kencorhealth.campaign.service.common.CampaignConstants.FILE;
 import io.dropwizard.auth.Auth;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -38,6 +40,11 @@ public class CampaignIdResource extends CampaignBasedResource {
         }
         
         return retVal;
+    }
+    
+    @Path("/" + FILE)
+    public FileResource getFileResource() {
+        return new FileResource();
     }
 
     @Path("/" + NAV)

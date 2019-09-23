@@ -3,7 +3,7 @@ package com.kencorhealth.campaign.dm.delivery.nav;
 import java.util.List;
 
 public class FormNav extends ProcessingBasedNav implements Executable {
-    private List<InputBased> items;
+    private List<DisplayBased> items;
     private String title;
     private String buttonText;
     private String hint;
@@ -28,11 +28,11 @@ public class FormNav extends ProcessingBasedNav implements Executable {
         this.hint = hint;
     }
     
-    public List<InputBased> getItems() {
+    public List<DisplayBased> getItems() {
         return items;
     }
 
-    public void setItems(List<InputBased> items) {
+    public void setItems(List<DisplayBased> items) {
         this.items = items;
     }
 

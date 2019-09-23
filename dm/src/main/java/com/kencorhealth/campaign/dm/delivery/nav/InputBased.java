@@ -6,9 +6,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = TextInput.class, name = "text-input"),
-    @JsonSubTypes.Type(value = ChoiceInput.class, name = "choice-input")
+    @JsonSubTypes.Type(value = ChoiceInput.class, name = "choice-input"),
+    @JsonSubTypes.Type(value = FileInput.class, name = "file-input")
 })
-public abstract class InputBased {
+public abstract class InputBased extends DisplayBased {
     private String fieldName;
 
     public String getFieldName() {

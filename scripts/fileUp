@@ -1,12 +1,11 @@
 #!/bin/bash
 
 export CAMPAIGN_ID=`./getCampaignByName "Patient%20enrolment%20campaign"|jq ._id|tr -d '"'`
-export CONTAINER_ID=$2
 export JWT=`./signIn`
 
-curl -v \
+curl \
 	--form 'file=@/tmp/signature.png' \
 	-H "Content-Type: multipart/form-data" \
 	-H "Authorization: Bearer $JWT" \
-	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$1/file?containerId=$CONTAINER_ID
+	http://localhost:6060/api/campaign/$CAMPAIGN_ID/file
 

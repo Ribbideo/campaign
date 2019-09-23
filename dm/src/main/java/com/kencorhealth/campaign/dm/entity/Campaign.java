@@ -12,6 +12,24 @@ public class Campaign extends Described {
     private Long endDate;
     private CampaignSettings settings;
     private Delivery delivery;
+    private String logoUrl;
+    private String poweredByUrl;
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getPoweredByUrl() {
+        return poweredByUrl;
+    }
+
+    public void setPoweredByUrl(String poweredByUrl) {
+        this.poweredByUrl = poweredByUrl;
+    }
     
     public Delivery getDelivery() {
         return delivery;
@@ -76,6 +94,7 @@ public class Campaign extends Described {
             ", beginDate=" + beginDate + ", endDate=" +
             endDate + ", settings=" + settings + ", typeInfo=" +
             typeInfo + ", goal=" + goal + ", delivery=" + delivery +
+            ", logoUrl=" + logoUrl + ", poweredByUrl=" + poweredByUrl +
             "}, " + super.toString();
     }
 }
