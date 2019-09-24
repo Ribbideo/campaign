@@ -6,11 +6,15 @@ import com.kencorhealth.campaign.dm.auth.AuthToken;
 import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.dm.input.CampaignInput;
 import com.kencorhealth.campaign.service.api.CampaignBasedResource;
+import static com.kencorhealth.campaign.service.common.CampaignConstants.NAME;
 import io.dropwizard.auth.Auth;
+import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,6 +43,28 @@ public class CampaignResource extends CampaignBasedResource {
         
         return retVal;
     }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCampaigns(
+        @Auth AuthToken at,
+        @PathParam(NAME) String name) {
+        Response retVal = null;
+        
+        try (CampaignHandler ch = CampaignFactory.get(CampaignHandler.class)) {
+            List<Campaign> campaigns = ch.findAll();
+            retVal =
+                Response
+                    .status(HttpServletResponse.SC_OK)
+                    .entity(campaigns)
+                    .build();
+        } catch (Exception e) {
+           retVal = fromException(e);
+        }
+        
+        return retVal;
+    }
+    
     
     @Path("/" + BY_NAME)
     public ByNameResource getByNameResource() {
