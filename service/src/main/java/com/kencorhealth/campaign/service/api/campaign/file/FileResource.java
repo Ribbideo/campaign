@@ -89,8 +89,8 @@ public class FileResource extends CampaignBasedResource {
                 switch (subtype) {
                     case "base64":
                     case "octet-stream":
-                        isBase64 = true;
-                        extension = "base64";
+                        isBase64 = false;
+                        extension = "png";
                         break;
                 }
                 break;
