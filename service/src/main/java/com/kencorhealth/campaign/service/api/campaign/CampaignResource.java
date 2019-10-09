@@ -6,7 +6,6 @@ import com.kencorhealth.campaign.dm.auth.AuthToken;
 import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.dm.input.CampaignInput;
 import com.kencorhealth.campaign.service.api.CampaignBasedResource;
-import static com.kencorhealth.campaign.service.common.CampaignConstants.NAME;
 import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
