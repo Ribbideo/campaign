@@ -7,14 +7,16 @@ import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.service.api.CampaignBasedResource;
 import io.dropwizard.auth.Auth;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -53,6 +55,30 @@ public class FileResource extends CampaignBasedResource {
         return retVal;
     }
     
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response uploadEncodedFile(
+        String encodedContents,
+        @Auth AuthToken at,
+        @PathParam(CAMPAIGN_ID) String campaignId) {
+        Response retVal = null;
+        
+        try {
+            File outFile = uploadEncodedContents(campaignId, encodedContents);
+            
+            retVal =
+                Response
+                    .status(HttpServletResponse.SC_CREATED)
+                    .entity(outFile.getName())
+                    .build();
+        } catch (Exception e) {
+            retVal = fromException(e);
+        }
+        
+        return retVal;
+    }
+    
     @Path("/" + FILE_ID_ENDPOINT)
     public FileIdResource getFileIdResource() {
         return new FileIdResource();
@@ -67,8 +93,6 @@ public class FileResource extends CampaignBasedResource {
         String subtype = mediaType.getSubtype();
         
         String extension = null;
-        
-        boolean isBase64 = false;
         
         switch (type) {
             case "image":
@@ -85,34 +109,13 @@ public class FileResource extends CampaignBasedResource {
                         break;
                 }
                 break;
-            default:
-                isBase64 = true;
-                extension = "png";
-                break;
         }
         
         File retVal =
             new File(tmpDir, CampaignUtil.uniqueString() + "." + extension);
 
-        try (OutputStream os = isBase64?
-             new ByteArrayOutputStream() : new FileOutputStream(retVal)) {
+        try (OutputStream os = new FileOutputStream(retVal)) {
             IOUtils.copy(is, os);
-            
-            if (isBase64) {
-                os.close();
-                ByteArrayOutputStream baos = (ByteArrayOutputStream) os;
-                String base64 = baos.toString("UTF-8");
-                byte[] bytes = CampaignUtil.base64Decode(base64).getBytes();
-                
-                // Base64 will be converted to png
-                retVal = new File(tmpDir, CampaignUtil.uniqueString() + ".png");
-                try (FileOutputStream fos = new FileOutputStream(retVal);
-                     ByteArrayInputStream bais =
-                     new ByteArrayInputStream(bytes)) {
-                    IOUtils.copy(bais, fos);
-                }
-            }
-            
         } catch (Exception e) {
             throw new CampaignException(e);
         }
@@ -120,5 +123,24 @@ public class FileResource extends CampaignBasedResource {
         CDNUtil.upload(campaignId, retVal);
         
         return retVal;
-    }    
+    }
+    
+    private File uploadEncodedContents(String campaignId, String base64)
+        throws FileNotFoundException, IOException, CampaignException {
+        byte[] bytes = CampaignUtil.base64Decode(base64).getBytes();
+
+        String tmpDir = CDNUtil.tmpDir();
+
+        // Base64 will be converted to png
+        File retVal = new File(tmpDir, CampaignUtil.uniqueString() + ".png");
+        try (FileOutputStream fos = new FileOutputStream(retVal);
+             ByteArrayInputStream bais =
+             new ByteArrayInputStream(bytes)) {
+            IOUtils.copy(bais, fos);
+        }
+        
+        CDNUtil.upload(campaignId, retVal);
+        
+        return retVal;
+    }
 }
