@@ -1,9 +1,11 @@
 package com.kencorhealth.campaign.dm.delivery.script;
 
+import com.kencorhealth.campaign.dm.auth.AuthToken;
+
 public class ScriptContext {
     private String campaignId;
     private String containerId;
-    private String providerId;
+    private AuthToken authToken;
 
     public String getCampaignId() {
         return campaignId;
@@ -21,18 +23,18 @@ public class ScriptContext {
         this.containerId = containerId;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public AuthToken getAuthToken() {
+        return authToken;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setAuthToken(AuthToken authToken) {
+        this.authToken = authToken;
     }
 
     @Override
     public String toString() {
         return
             "ScriptContext{" + "campaignId=" + campaignId + ", containerId=" +
-            containerId + ", providerId=" + providerId + '}';
+            containerId + ", authToken=" + authToken + '}';
     }
 }

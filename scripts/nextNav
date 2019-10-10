@@ -1,5 +1,4 @@
 export CAMPAIGN_ID=`./getCampaignByName "Patient%20enrolment%20campaign"|jq ._id|tr -d '"'`
-export CONTAINER_ID=$2
 
 export JWT=`./signIn`
 

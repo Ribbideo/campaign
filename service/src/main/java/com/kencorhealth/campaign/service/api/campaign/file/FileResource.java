@@ -22,6 +22,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
@@ -127,7 +128,7 @@ public class FileResource extends CampaignBasedResource {
     
     private File uploadEncodedContents(String campaignId, String base64)
         throws FileNotFoundException, IOException, CampaignException {
-        byte[] bytes = CampaignUtil.base64Decode(base64).getBytes();
+        byte[] bytes = DatatypeConverter.parseBase64Binary(base64);
 
         String tmpDir = CDNUtil.tmpDir();
 

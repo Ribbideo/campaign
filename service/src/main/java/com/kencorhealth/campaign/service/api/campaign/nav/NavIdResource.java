@@ -99,7 +99,7 @@ public class NavIdResource extends CampaignBasedResource {
             ScriptContext contextData = new ScriptContext();
             contextData.setCampaignId(campaignId);
             contextData.setContainerId(containerId);
-            contextData.setProviderId(at.getProviderId());
+            contextData.setAuthToken(at);
             
             ScriptInput scriptInput = new ScriptInput();
             

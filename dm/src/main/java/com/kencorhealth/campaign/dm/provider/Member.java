@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class Member extends Identified {
     private String providerId;
+    private String approverId;
+    private String approverName;
     private String firstName;
     private String lastName;
     private String landLine;
@@ -22,6 +24,22 @@ public class Member extends Identified {
     private RoleInfo roleInfo;
     private Map<String, Object> extra;
 
+    public String getApproverId() {
+        return approverId;
+    }
+
+    public void setApproverId(String approverId) {
+        this.approverId = approverId;
+    }
+
+    public String getApproverName() {
+        return approverName;
+    }
+
+    public void setApproverName(String approverName) {
+        this.approverName = approverName;
+    }
+    
     public RoleInfo getRoleInfo() {
         return roleInfo;
     }
@@ -134,7 +152,8 @@ public class Member extends Identified {
             landLine + ", mobileNumber=" + mobileNumber + ", email=" +
             email + ", gender=" + gender + ", dob=" + dob + ", location=" +
             location + ", tags=" + tags + ", notifSettings=" + notifSettings +
-            ", roleInfo=" + roleInfo + ", extra=" + extra + "}, " +
-            super.toString();
+            ", roleInfo=" + roleInfo + ", extra=" + extra + ", approverId=" +
+            approverId + ", approverName=" + approverName +
+            "}, " + super.toString();
     }
 }

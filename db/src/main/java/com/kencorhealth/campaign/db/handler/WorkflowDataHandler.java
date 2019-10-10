@@ -24,6 +24,12 @@ public interface WorkflowDataHandler
         String containerId,
         String key)
         throws NotFoundException, CampaignException, DbException;
+    Map<String, Object> get(
+        String providerId,
+        String campaignId,
+        String containerId,
+        int index)
+        throws NotFoundException, CampaignException, DbException;
     void update(String providerId,
                 String campaignId,
                 String containerId,

@@ -1,5 +1,4 @@
 export CAMPAIGN_ID=`./getCampaignByName "Patient%20enrolment%20campaign"|jq ._id|tr -d '"'`
-export CONTAINER_ID=$2
 
 export JWT=`./signIn`
 
@@ -8,5 +7,5 @@ curl \
 	--data '{"firstName": "Srini", "lastName": "Veeravalli", "mobileNumber": "4085555555" }' \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $JWT" \
-	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$1?containerId=$CONTAINER_ID 
+	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$REGISTER_NAV_ID?containerId=$CONTAINER_ID 
 

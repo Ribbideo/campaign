@@ -1,10 +1,11 @@
 Sequence of scripts
 
-export PROVIDER_ID=`./newProvider`
-./getProviderById $PROVIDER_ID
-./getProviderByNameAndType SAMi CLINIC
-./newMember
-./getMemberByName
-export CAMPAIGN_ID=`./newCampaign`
-export MEMBER_ID=`./getMemberIdByName`
-
+# Create if not already present
+./newCampaign
+export CONTAINER_ID=`./welcomeNav |jq .containerId|tr -d '"'`
+export WELCOME_NAV_ID=`./welcomeNav |jq .nav.id|tr -d '"'`
+export MEDIA_NAV_ID=`./mediaNav |jq .nav.id|tr -d '"'`
+export REGISTER_NAV_ID=`./doYouNav |jq .nav.successNav.ifCondition.nav.successNav.id | tr -d '"'`
+export TERMS_NAV_ID=`./registerNav |jq .nav.id | tr -d '"'`
+export FILE_ID=`./fileUp`
+./termsNav

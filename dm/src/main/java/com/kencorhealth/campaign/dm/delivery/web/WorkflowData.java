@@ -1,13 +1,13 @@
 package com.kencorhealth.campaign.dm.delivery.web;
 
 import com.kencorhealth.campaign.dm.common.Identified;
-import java.util.Map;
+import java.util.List;
 
 public class WorkflowData extends Identified {
     private boolean inUse;
     private String providerId;
     private String campaignId;
-    private Map<String, Map<String, Object>> data;
+    private List<FormData> formData;
 
     public String getCampaignId() {
         return campaignId;
@@ -33,18 +33,18 @@ public class WorkflowData extends Identified {
         this.inUse = inUse;
     }
 
-    public Map<String, Map<String, Object>> getData() {
-        return data;
+    public List<FormData> getFormData() {
+        return formData;
     }
 
-    public void setData(Map<String, Map<String, Object>> data) {
-        this.data = data;
+    public void setFormData(List<FormData> formData) {
+        this.formData = formData;
     }
 
     @Override
     public String toString() {
         return
-            "WorkflowData{" + "data=" + data + ", inUse=" + inUse +
+            "WorkflowData{" + "formData=" + formData + ", inUse=" + inUse +
             ", providerId=" + providerId + ", campaignId=" + campaignId +
             "}, " + super.toString();
     }

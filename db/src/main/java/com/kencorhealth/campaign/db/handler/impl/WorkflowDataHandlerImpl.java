@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.kencorhealth.campaign.db.handler.WorkflowDataHandler;
+import com.kencorhealth.campaign.dm.delivery.web.FormData;
 import com.kencorhealth.campaign.dm.exception.ExistsException;
+import java.util.ArrayList;
 
 public class WorkflowDataHandlerImpl
     extends MongoHandlerImpl<WorkflowData, WorkflowDataInput>
@@ -68,22 +70,26 @@ public class WorkflowDataHandlerImpl
         List<WorkflowData> values = findMany(filter);
         
         if (!values.isEmpty()) {
-            WorkflowData existing = values.get(0);
-            existing.setInUse(true);
+            WorkflowData wfd = values.get(0);
+            wfd.setInUse(true);
 
-            Map<String, Map<String, Object>> data = existing.getData();
+            List<FormData> existingData = wfd.getFormData();
 
-            Map<String, Map<String, Object>> newData = new HashMap();
+            List<FormData> newData = new ArrayList();
 
-            if (data != null) {
-                newData.putAll(data);
+            if (existingData != null) {
+                newData.addAll(existingData);
             }
 
-            newData.put(key, value);
+            FormData fd = new FormData();
+            fd.setId(key);
+            fd.setData(value);
             
-            existing.setData(newData);
+            newData.add(fd);
+            
+            wfd.setFormData(newData);
 
-            update(existing);
+            update(wfd);
         } else {
             String message =
                 "No data found for provider '" + providerId +
@@ -110,7 +116,45 @@ public class WorkflowDataHandlerImpl
         
         if (!values.isEmpty()) {
             WorkflowData value = values.get(0);
-            retVal = value.getData().get(key);
+            
+            List<FormData> formData = value.getFormData();
+            
+            for (FormData fd: formData) {
+                if (fd.getId().equals(key)) {
+                    retVal = fd.getData();
+                    break;
+                }
+            }
+        } else {
+            String message =
+                "No data found for provider '" + providerId +
+                "' and Id '" + containerId + "'";
+            throw new NotFoundException(message);
+        }
+        
+        return retVal;
+    }    
+
+    @Override
+    public Map<String, Object> get(
+        String providerId,
+        String campaignId,
+        String containerId,
+        int index)
+        throws NotFoundException, CampaignException, DbException {
+        Map<String, Object> retVal = null;
+        
+        Map<String, Object> filter = new HashMap();
+        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CAMPAIGN_ID_KEY, campaignId);
+        filter.put(ID_KEY, containerId);
+        
+        List<WorkflowData> values = findMany(filter);
+        
+        if (!values.isEmpty()) {
+            WorkflowData value = values.get(0);
+            
+            retVal = value.getFormData().get(0).getData();
         } else {
             String message =
                 "No data found for provider '" + providerId +

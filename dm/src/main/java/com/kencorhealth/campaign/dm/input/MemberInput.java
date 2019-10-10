@@ -12,6 +12,8 @@ import java.util.Set;
 public class MemberInput extends Input<Member> {
     private String roleName;
     private String providerId;
+    private String approverId;
+    private String approverName;
     private String firstName;
     private String lastName;
     private String landline;
@@ -66,6 +68,8 @@ public class MemberInput extends Input<Member> {
         retVal.autoFill();
         
         retVal.setProviderId(providerId);
+        retVal.setApproverId(approverId);
+        retVal.setApproverName(approverName);
         retVal.setFirstName(firstName);
         retVal.setLastName(lastName);
         retVal.setLandLine(landline);
@@ -79,6 +83,22 @@ public class MemberInput extends Input<Member> {
         retVal.setRoleInfo(RoleInfo.from(roleName));
         
         return retVal;
+    }
+
+    public String getApproverName() {
+        return approverName;
+    }
+
+    public void setApproverName(String approverName) {
+        this.approverName = approverName;
+    }
+    
+    public String getApproverId() {
+        return approverId;
+    }
+
+    public void setApproverId(String approverId) {
+        this.approverId = approverId;
     }
 
     public String getRoleName() {
@@ -185,6 +205,7 @@ public class MemberInput extends Input<Member> {
             ", mobileNumber=" + mobileNumber + ", email=" + email +
             ", gender=" + gender + ", dob=" + dob + ", location=" +
             location + ", tags=" + tags + ", notifSettings=" +
-            notifSettings + ", roleName=" + roleName + '}';
+            notifSettings + ", roleName=" + roleName + ", approverId=" +
+            approverId + ", approverName=" + approverName + '}';
     }
 }

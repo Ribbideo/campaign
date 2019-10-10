@@ -28,7 +28,7 @@ public class MQCampaignStageDataReceiver
         
         String campaignId = cd.getCampaignId();
         String containerId = cd.getContainerId();
-        String providerId = cd.getProviderId();
+        String providerId = cd.getAuthToken().getProviderId();
         
         Map<String, Object> formData = si.getFormData();
         
