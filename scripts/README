@@ -5,7 +5,7 @@ Sequence of scripts
 export CONTAINER_ID=`./welcomeNav |jq .containerId|tr -d '"'`
 export WELCOME_NAV_ID=`./welcomeNav |jq .nav.id|tr -d '"'`
 export MEDIA_NAV_ID=`./mediaNav |jq .nav.id|tr -d '"'`
-export REGISTER_NAV_ID=`./doYouNav |jq .nav.successNav.ifCondition.nav.successNav.id | tr -d '"'`
+export REGISTER_NAV_ID=`./doYouNav |jq .nav.successNav.ifCondition.nav.id | tr -d '"'`
 export TERMS_NAV_ID=`./registerNav |jq .nav.id | tr -d '"'`
 export FILE_ID=`./fileUp`
 ./termsNav

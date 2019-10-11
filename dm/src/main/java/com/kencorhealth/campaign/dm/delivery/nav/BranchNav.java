@@ -46,22 +46,23 @@ public class BranchNav extends Nav {
         Nav retVal = super.findById(id);
         
         if (retVal == null) {
-            retVal = ifCondition.getNav();
+            retVal = ifCondition.getNav().findById(id);
+        }
             
-            if (retVal == null && CampaignUtil.valid(elseIfCondition)) {
-                for (ElseIfCondition condition: elseIfCondition) {
-                    if (condition.getNav().getId().equals(id)) {
-                        retVal = condition.getNav();
-                        break;
-                    }
+        if (retVal == null && CampaignUtil.valid(elseIfCondition)) {
+            for (ElseIfCondition eic: elseIfCondition) {
+                retVal = eic.getNav().findById(id);
+
+                if (retVal != null) {
+                    break;
                 }
             }
-            
-            if (retVal == null &&
-                elseCondition != null &&
-                elseCondition.getNav().getId().equals(id)) {
-                retVal = elseCondition.getNav();
-            }
+        }
+
+        if (retVal == null &&
+            elseCondition != null &&
+            elseCondition.getNav().getId().equals(id)) {
+            retVal = elseCondition.getNav().findById(id);
         }
 
         if (retVal == null && failureNav != null) {

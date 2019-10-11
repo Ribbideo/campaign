@@ -1,10 +1,15 @@
 package com.kencorhealth.campaign.ngin;
 
 import com.kencorhealth.campaign.db.CampaignFactory;
+import com.kencorhealth.campaign.db.handler.MemberHandler;
+import com.kencorhealth.campaign.db.handler.ProviderHandler;
 import com.kencorhealth.campaign.dm.annotations.Exportable;
+import com.kencorhealth.campaign.dm.auth.AuthToken;
+import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.common.Script;
 import com.kencorhealth.campaign.dm.delivery.script.ScriptInput;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
+import com.kencorhealth.campaign.dm.provider.Member;
 import com.kencorhealth.campaign.mongo.handler.MongoHandler;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -14,14 +19,14 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import org.reflections.Reflections;
-import com.kencorhealth.campaign.http.base.handler.HttpBasedHandler;
 import com.kencorhealth.campaign.http.rpm.CHRFactory;
+import com.kencorhealth.campaign.http.rpm.UrlInfo;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
 
 public class ScriptUtil {
     private static final ScriptEngine ENGINE;
     private static final Map<String, MongoHandler> DB_HANDLERS;
-    private static final Map<String, HttpBasedHandler> RPM_HANDLERS;
+    private static final Map<String, RpmBasedHandler> RPM_HANDLERS;
 
     public static Object invoke(Script script, ScriptInput scriptInput)
         throws CampaignException {
@@ -36,13 +41,53 @@ public class ScriptUtil {
             
             input.put("campaign.script", scriptInput);
             input.put("campaign.handler.db", DB_HANDLERS);
-            input.put("campaign.handler.http.rpm", RPM_HANDLERS);
+            input.put(
+                "campaign.handler.http.rpm",
+                rpmHandlers(scriptInput.getContext().getAuthToken())
+            );
             
             retVal = invocable.invokeFunction("execute", input);
         } catch (Exception e) {
             throw new CampaignException(e);
         }
 
+        return retVal;
+    }
+    
+    private static Map<String, RpmBasedHandler> rpmHandlers(AuthToken at)
+        throws Exception {
+        Map<String, RpmBasedHandler> retVal = new HashMap();
+        
+        try (ProviderHandler ph = CampaignFactory.get(ProviderHandler.class);
+             MemberHandler mh = CampaignFactory.get(MemberHandler.class)) {
+            String baseUrl =
+                ph.findById(at.getProviderId()).getBaseUrl() + "/rx/api";
+            Member member = mh.findById(at.getUserId());
+            String password =
+                CampaignUtil.crypter().decrypt(
+                    (String) member.getExtra().get("password"),
+                    member
+                );
+            
+            UrlInfo ui = new UrlInfo();
+            ui.setBaseUrl(baseUrl);
+            ui.setUserName(member.getMobileNumber());
+            ui.setPassword(password);
+            
+            for (String key: RPM_HANDLERS.keySet()) {
+                try {
+                    RpmBasedHandler handler =
+                        RPM_HANDLERS.get(key)
+                        .getClass().getConstructor().newInstance();
+                    handler.setUrlInfo(ui);
+
+                    retVal.put(key, handler);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        
         return retVal;
     }
 
@@ -53,7 +98,7 @@ public class ScriptUtil {
 
         Object[] packages = {
             "com.kencorhealth.campaign.db",
-            "com.kencorhealth.campaign.http.prm"
+            "com.kencorhealth.campaign.http.rpm"
         };
 
         Reflections reflections = new Reflections(packages);

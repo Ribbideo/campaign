@@ -1,4 +1,5 @@
-// Enrolment form pre-processing script
+// Register pre-processor
 function execute(input) {
+    print("Register pre-processor");
     return true;
 }

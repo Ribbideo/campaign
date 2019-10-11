@@ -4,6 +4,6 @@
 curl \
 	-H "Content-Type: application/json" \
 	--request PUT \
-	--data '{"identity":{"type":"MOBILE_NUMBER", "value":"14085555555"}, "password":"123456", "role":"NURSE"}' \
+	--data '{"identity":{"type":"MOBILE_NUMBER", "value":"4085552222"}, "password":"123456", "role":"NURSE"}' \
 	http://localhost:6060/api/auth|jq .jwt | tr -d '"'
 

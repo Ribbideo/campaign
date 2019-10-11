@@ -1,6 +1,6 @@
-// Enrolment form processing script
+// Register processor
 function execute(input) {
-    print("Form processing");
+    print("Register processor");
 
     var scriptInput = input["campaign.script"];
 

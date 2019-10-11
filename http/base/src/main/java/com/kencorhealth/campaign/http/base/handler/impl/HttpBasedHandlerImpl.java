@@ -4,7 +4,6 @@ import com.kencorhealth.campaign.dm.common.RequestType;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
-import com.kencorhealth.campaign.dm.common.Input;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.http.base.handler.HttpBasedHandler;
 import com.kencorhealth.campaign.json.JsonUtil;

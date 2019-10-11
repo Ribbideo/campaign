@@ -12,13 +12,15 @@ abstract class RpmBasedHandlerImpl extends HttpBasedHandlerImpl
     implements RpmBasedHandler {
     @Override
     public void setUrlInfo(UrlInfo urlInfo) throws CampaignException {
-        setAuthorization(getAuthToken(urlInfo));
+        setBaseUrl(urlInfo.getBaseUrl(), false);
+        setAuthorization("Bearer " + getAuthToken(urlInfo));
     }
     
     protected String getAuthToken(UrlInfo urlInfo) throws CampaignException  {
         Map<String, Object> result = doSignIn(urlInfo);
+        Map authOutput = (Map) result.get("authOutput");
         
-        return (String) result.get("authToken");
+        return (String) authOutput.get("authToken");
     }
 
     protected Map<String, Object> doSignIn(UrlInfo urlInfo)
@@ -26,7 +28,7 @@ abstract class RpmBasedHandlerImpl extends HttpBasedHandlerImpl
         Map<String, Object> input = new HashMap();
         
         input.put("mobileNumber", urlInfo.getUserName());
-        input.put("password", urlInfo.getPassword());
+        input.put("token", urlInfo.getPassword());
         
         return
             sendPut(
@@ -34,6 +36,7 @@ abstract class RpmBasedHandlerImpl extends HttpBasedHandlerImpl
                 input,
                 JsonUtil.mapType(String.class, Object.class),
                 V2,
+                USER,
                 SIGN_IN
             );
     }

@@ -1,5 +1,7 @@
-// Check if user has smartphone
+// Have phone processor
 function execute(input) {
+    print("Have phone processor");
+
     var retVal = null;
 
     var scriptInput = input["campaign.script"];
@@ -7,11 +9,7 @@ function execute(input) {
     var formData = scriptInput.formData;
     var nav = scriptInput.nav;
 
-print("Input " + nav);
-
     var branchNav = nav.successNav;
-
-print("Branch " + branchNav);
 
     var ifCondition = branchNav.ifCondition;
 

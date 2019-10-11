@@ -1,6 +1,6 @@
-// Enrolment form post-processing script
+// Terms post processor
 function execute(input) {
-    print("Form processing");
+    print("Terms post processor");
 
     var scriptInput = input["campaign.script"];
 
@@ -12,7 +12,7 @@ function execute(input) {
     var wdh = input["campaign.handler.db"].workflowData;
     var uh = input["campaign.handler.http.rpm"].user;
 
-    var formData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 0).data;
+    var formData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 0);
 
 print("Form data: " + formData);
 

@@ -76,16 +76,35 @@ public class WorkflowDataHandlerImpl
             List<FormData> existingData = wfd.getFormData();
 
             List<FormData> newData = new ArrayList();
+            
+            FormData dataToAddTo = null;
 
             if (existingData != null) {
-                newData.addAll(existingData);
-            }
+                for (FormData fd: existingData) {
+                    if (fd.getId().equals(key)) {
+                        dataToAddTo = fd;
+                        break;
+                    }
+                }
+                
+                if (dataToAddTo != null) {
+                    dataToAddTo.setData(value);
+                    newData.addAll(existingData);
+                } else {
+                    newData.addAll(existingData);
+                    FormData fd = new FormData();
+                    fd.setId(key);
+                    fd.setData(value);
 
-            FormData fd = new FormData();
-            fd.setId(key);
-            fd.setData(value);
-            
-            newData.add(fd);
+                    newData.add(fd);
+                }
+            } else {
+                FormData fd = new FormData();
+                fd.setId(key);
+                fd.setData(value);
+
+                newData.add(fd);
+            }
             
             wfd.setFormData(newData);
 

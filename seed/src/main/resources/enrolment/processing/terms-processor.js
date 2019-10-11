@@ -1,6 +1,6 @@
-// Enrolment form processing script
+// Terns processor
 function execute(input) {
-    print("Form processing");
+    print("Terms processor");
 
     var scriptInput = input["campaign.script"];
 

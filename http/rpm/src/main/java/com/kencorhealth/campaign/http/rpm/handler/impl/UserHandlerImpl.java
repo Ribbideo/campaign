@@ -11,11 +11,10 @@ public class UserHandlerImpl extends RpmBasedHandlerImpl
     public Map<String, Object> create(Map<String, Object> input)
         throws CampaignException {
         return
-            sendPut(
+            sendPost(
                 null,
                 input,
                 JsonUtil.mapType(String.class, Object.class),
-                API,
                 V2,
                 USER
             );
