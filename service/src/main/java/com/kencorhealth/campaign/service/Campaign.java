@@ -1,6 +1,5 @@
 package com.kencorhealth.campaign.service;
 
-import ca.grimoire.dropwizard.cors.CorsBundle;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.kencorhealth.campaign.cdn.CDNUtil;
