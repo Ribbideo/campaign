@@ -21,6 +21,11 @@ import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
+import io.dropwizard.servlets.CacheBustingFilter;
+import java.util.EnumSet;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 public class Campaign extends Application<CampaignConfig>
@@ -41,6 +46,12 @@ public class Campaign extends Application<CampaignConfig>
 
     @Override
     public void run(CampaignConfig cc, Environment e) throws Exception {
+        e.servlets()
+            .addFilter("CacheBustingFilter", new CacheBustingFilter())
+            .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+
+        enableCorsHeaders(e);
+        
         CampaignFactory.init(cc.getMongo().getUri());
         
         final MongoHealthCheck mhc =
@@ -84,4 +95,18 @@ public class Campaign extends Application<CampaignConfig>
             new AuthValueFactoryProvider.Binder(AuthToken.class)
         );
     }
+    
+    private void enableCorsHeaders(Environment env) {
+        final FilterRegistration.Dynamic cors = env.servlets().addFilter("CORS", CrossOriginFilter.class);
+
+        // Configure CORS parameters
+        cors.setInitParameter("Access-Control-Allow-Credentials", "true");
+        cors.setInitParameter("Access-Control-Allow-Origin", "*");
+        cors.setInitParameter("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Headers, Access-Control-Request-Method, Cache-Control, Pragma, Expires");
+        cors.setInitParameter("Access-Control-Allow-Methods\" ", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+        cors.setInitParameter(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, Boolean.FALSE.toString());
+
+        // Add URL mapping
+        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    }    
 }
