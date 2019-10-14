@@ -4,4 +4,4 @@ curl \
 	-H "Content-Type: application/json" \
 	--request POST \
 	--data '{"status":"NEW","memberId":"'${MEMBER_ID}'"}' \
-	http://localhost:6060/api/provider/$PROVIDER_ID/campaign/$CAMPAIGN_ID/participant
+	https://nuc.emsemble.com:6060/api/provider/$PROVIDER_ID/campaign/$CAMPAIGN_ID/participant

@@ -1,5 +1,6 @@
 package com.kencorhealth.campaign.service;
 
+import ca.grimoire.dropwizard.cors.CorsBundle;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.kencorhealth.campaign.cdn.CDNUtil;
@@ -35,7 +36,7 @@ public class Campaign extends Application<CampaignConfig>
 
     @Override
     public void initialize(Bootstrap<CampaignConfig> bootstrap) {
-        // Empty for now
+        bootstrap.addBundle(new CorsBundle<>());
     }
 
     @Override

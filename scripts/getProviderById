@@ -2,4 +2,4 @@
 
 curl \
 	-H "Content-Type: application/json" \
-	http://localhost:6060/api/provider/$1 | jq .
+	https://nuc.emsemble.com:6060/api/provider/$1 | jq .

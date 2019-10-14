@@ -7,5 +7,5 @@ export JWT=`./signIn`
 curl -v \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $JWT" \
-	http://localhost:6060/api/campaign/$CAMPAIGN_ID/nav/$1/file?containerId=$CONTAINER_ID --output /tmp/x.png
+	https://nuc.emsemble.com:6060/api/campaign/$CAMPAIGN_ID/nav/$1/file?containerId=$CONTAINER_ID --output /tmp/x.png
 
