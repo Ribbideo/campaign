@@ -20,7 +20,6 @@ import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
-import io.dropwizard.servlets.CacheBustingFilter;
 import java.util.EnumSet;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
@@ -45,12 +44,6 @@ public class Campaign extends Application<CampaignConfig>
 
     @Override
     public void run(CampaignConfig cc, Environment e) throws Exception {
-        e.servlets()
-            .addFilter("CacheBustingFilter", new CacheBustingFilter())
-            .addMappingForUrlPatterns(
-                EnumSet.of(DispatcherType.REQUEST), true, "/*"
-            );
-
         enableCorsHeaders(e);
         
         CampaignFactory.init(cc.getMongo().getUri());
