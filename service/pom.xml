@@ -30,6 +30,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.doordeck.websecurity</groupId>
+            <artifactId>dropwizard-web-security</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
         </dependency>

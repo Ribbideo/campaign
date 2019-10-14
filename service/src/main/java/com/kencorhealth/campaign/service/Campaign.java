@@ -16,15 +16,11 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import java.util.SortedMap;
 import com.kencorhealth.campaign.service.common.CampaignConstants;
+import com.palantir.websecurity.WebSecurityBundle;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.oauth.OAuthCredentialAuthFilter;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
-import io.dropwizard.servlets.CacheBustingFilter;
-import java.util.EnumSet;
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 public class Campaign extends Application<CampaignConfig>
@@ -40,17 +36,11 @@ public class Campaign extends Application<CampaignConfig>
 
     @Override
     public void initialize(Bootstrap<CampaignConfig> bootstrap) {
-        // Empty for now
+        bootstrap.addBundle(new WebSecurityBundle());
     }
 
     @Override
     public void run(CampaignConfig cc, Environment e) throws Exception {
-        e.servlets()
-            .addFilter("CacheBustingFilter", new CacheBustingFilter())
-            .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
-
-        enableCorsHeaders(e);
-        
         CampaignFactory.init(cc.getMongo().getUri());
         
         final MongoHealthCheck mhc =
@@ -94,19 +84,4 @@ public class Campaign extends Application<CampaignConfig>
             new AuthValueFactoryProvider.Binder(AuthToken.class)
         );
     }
-    
-    private void enableCorsHeaders(Environment env) {
-        final FilterRegistration.Dynamic cors = env.servlets().addFilter("CORS", CrossOriginFilter.class);
-
-        // Configure CORS parameters
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "*");
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,DELETE,HEAD");
-        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
-        cors.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "true");
-        cors.setInitParameter(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, "false");
-
-        // Add URL mapping
-        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-    }    
 }
