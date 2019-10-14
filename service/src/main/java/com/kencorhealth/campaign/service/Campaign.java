@@ -41,7 +41,7 @@ public class Campaign extends Application<CampaignConfig>
 
     @Override
     public void initialize(Bootstrap<CampaignConfig> bootstrap) {
-        bootstrap.addBundle(new CorsBundle<>());
+        // Empty for now
     }
 
     @Override
