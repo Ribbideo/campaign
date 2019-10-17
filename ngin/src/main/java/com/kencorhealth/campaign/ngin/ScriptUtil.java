@@ -24,7 +24,7 @@ import com.kencorhealth.campaign.http.rpm.UrlInfo;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
 
 public class ScriptUtil {
-    private static final ScriptEngine ENGINE;
+//    private static final ScriptEngine ENGINE;
     private static final Map<String, MongoHandler> DB_HANDLERS;
     private static final Map<String, RpmBasedHandler> RPM_HANDLERS;
 
@@ -33,9 +33,10 @@ public class ScriptUtil {
         Object retVal = null;
         
         try {
-            ENGINE.eval(new StringReader(script.getContents()));
+            ScriptEngine se = engine();
+            se.eval(new StringReader(script.getContents()));
 
-            Invocable invocable = (Invocable) ENGINE;
+            Invocable invocable = (Invocable) se;
             
             Map<String, Object> input = new HashMap();
             
@@ -90,9 +91,13 @@ public class ScriptUtil {
         
         return retVal;
     }
+    
+    private static ScriptEngine engine() {
+        return new ScriptEngineManager().getEngineByName("nashorn");
+    }
 
     static {
-        ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
+       // ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
         DB_HANDLERS = new HashMap();
         RPM_HANDLERS = new HashMap();
 

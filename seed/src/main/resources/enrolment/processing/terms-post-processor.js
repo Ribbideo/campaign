@@ -12,7 +12,7 @@ function execute(input) {
     var wdh = input["campaign.handler.db"].workflowData;
     var uh = input["campaign.handler.http.rpm"].user;
 
-    var formData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 0);
+    var formData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 1);
 
 print("Form data: " + formData);
 

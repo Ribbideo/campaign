@@ -173,7 +173,7 @@ public class WorkflowDataHandlerImpl
         if (!values.isEmpty()) {
             WorkflowData value = values.get(0);
             
-            retVal = value.getFormData().get(0).getData();
+            retVal = value.getFormData().get(index).getData();
         } else {
             String message =
                 "No data found for provider '" + providerId +
