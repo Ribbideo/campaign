@@ -26,6 +26,7 @@ public class CampaignConfig extends Configuration
     public WebSecurityConfiguration getWebSecurityConfiguration() {
         return this.webSecurity;
     }
+
     public S3Config getS3() {
         return s3;
     }

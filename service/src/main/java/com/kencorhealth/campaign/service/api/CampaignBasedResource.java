@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.ws.rs.core.Response;
 import com.kencorhealth.campaign.service.common.CampaignConstants;
+import javax.ws.rs.OPTIONS;
 
 public abstract class CampaignBasedResource implements CampaignConstants {
     protected Response fromException(Exception e) {
@@ -29,5 +30,18 @@ public abstract class CampaignBasedResource implements CampaignConstants {
         }
         
         return retVal;
+    }
+
+    @OPTIONS
+    public Response handleOptioinsCall(){
+      return
+          Response
+              .ok("OPTIONS")
+              .header("Allow", "GET")
+              .header("Allow", "PUT")
+              .header("Allow", "POST")
+              .header("Allow", "DELETE")
+              .header("Allow", "OPTIONS")
+              .build();
     }
 }

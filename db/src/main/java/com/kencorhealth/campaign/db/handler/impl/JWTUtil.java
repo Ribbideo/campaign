@@ -46,7 +46,7 @@ public class JWTUtil implements CampaignMongoConstants {
 
         // If it has been specified, let's add the expiration
         if (ttlSeconds >= 0) {
-            long expMillis = nowMillis + ttlSeconds * 1000;
+            long expMillis = nowMillis + ttlSeconds * 60 * 1000;
             Date exp = new Date(expMillis);
             retVal.setExpiration(exp);
         }
