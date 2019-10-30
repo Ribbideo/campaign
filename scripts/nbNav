@@ -8,5 +8,5 @@ curl \
 	--data '{"yes": "Yes"}' \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $JWT" \
-	https://nuc.emsemble.com:6060/api/campaign/$CAMPAIGN_ID/nav/$1?containerId=$CONTAINER_ID 
+	http://srini.kencorhealth.com:6060/api/campaign/$CAMPAIGN_ID/nav/$1?containerId=$CONTAINER_ID 
 

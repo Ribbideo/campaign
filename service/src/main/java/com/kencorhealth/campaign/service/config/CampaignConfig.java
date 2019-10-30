@@ -16,7 +16,6 @@ public class CampaignConfig extends Configuration
     private BrokerInfo broker;
     private S3Config s3;
 
-
     @JsonProperty("webSecurity")
     @NotNull
     @Valid

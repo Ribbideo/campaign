@@ -16,6 +16,7 @@ import com.kencorhealth.campaign.delegate.receiver.MQExecCampaignSMSReceiver;
 import com.kencorhealth.campaign.delegate.receiver.MQCampaignStageDataReceiver;
 import com.kencorhealth.campaign.mq.CMQConstants;
 import com.kencorhealth.campaign.mq.MessageHandler;
+import com.kencorhealth.campaign.pdf.PdfFactory;
 import java.util.Map;
 
 public class Campaignd extends AppDelegate<CampaigndConfig>
@@ -37,6 +38,7 @@ public class Campaignd extends AppDelegate<CampaigndConfig>
     @Override
     public void run(CampaigndConfig cc, Environment e) throws Exception {
         CampaignFactory.init(cc.getMongo().getUri());
+        PdfFactory.init(cc.getS3());
         
         final MongoHealthCheck mhc =
             new MongoHealthCheck(ProviderHandler.class);

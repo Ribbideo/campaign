@@ -4,4 +4,4 @@ curl \
 	-H "Content-Type: application/json" \
 	--request POST \
 	--data '{"firstName":"Patient","lastName":"Kumar","landline":"4085555555","mobileNumber":"4085552222","email":"some@one.com","gender":"MALE"}' \
-	https://nuc.emsemble.com:6060/api/provider/$PROVIDER_ID/member
+	http://srini.kencorhealth.com:6060/api/provider/$PROVIDER_ID/member

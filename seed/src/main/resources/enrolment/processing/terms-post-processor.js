@@ -11,32 +11,34 @@ function execute(input) {
     var mh = input["campaign.handler.db"].member;
     var wdh = input["campaign.handler.db"].workflowData;
     var uh = input["campaign.handler.http.rpm"].user;
+    var ph = input["campaign.handler.pdf"].pdf;
 
-    var formData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 1);
+    var userFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 1);
+    var signatureFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 2);
 
-print("Form data: " + formData);
+    var consentDocUrl = ph.transform("ConsentForm.pdf", context.campaignId, signatureFormData.file);
 
     var memberInput = scriptInput.newMember();
 
     memberInput.providerId = authToken.providerId;
-    memberInput.firstName = formData.firstName;
-    memberInput.lastName = formData.lastName;
-    memberInput.mobileNumber = formData.mobileNumber;
+    memberInput.firstName = userFormData.firstName;
+    memberInput.lastName = userFormData.lastName;
+    memberInput.mobileNumber = userFormData.mobileNumber;
     memberInput.roleName = "PATIENT";
+    memberInput.consentDocUrl = consentDocUrl;
 
     var memberId = mh.add(memberInput);
 
-    print("Member Id: " + memberId);
-
     var userInput = {
         templateType: "CHF",
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        mobileNumber: formData.mobileNumber,
+        firstName: userFormData.firstName,
+        lastName: userFormData.lastName,
+        mobileNumber: userFormData.mobileNumber,
+        consentDocUrl: consentDocUrl,
         phoneType: "mobile",
         userType: "PATIENT",
         role: "patient",
-        userName: formData.mobileNumber,
+        userName: userFormData.mobileNumber,
         clinicId: authToken.providerId,
         billingApproverId: authToken.approverId,
         billingApproverName: authToken.approverName,

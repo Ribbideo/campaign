@@ -2,7 +2,7 @@ package com.kencorhealth.campaign.seed;
 
 import com.kencorhealth.campaign.dm.common.Script;
 import com.kencorhealth.campaign.dm.common.TypeInfo;
-import com.kencorhealth.campaign.dm.delivery.UrlDisplay;
+import com.kencorhealth.campaign.dm.delivery.PdfDisplay;
 import com.kencorhealth.campaign.dm.delivery.nav.BranchNav;
 import com.kencorhealth.campaign.dm.delivery.nav.FormNav;
 import com.kencorhealth.campaign.dm.delivery.nav.IfCondition;
@@ -142,15 +142,15 @@ public class SeedEnrolment {
         
         terms.setProcessing(termsProcessing);
         
-        UrlDisplay ud = new UrlDisplay();
-        ud.setUrl("http://google.com");
-        ud.setTitle("Terms");
+        PdfDisplay pd = new PdfDisplay();
+        pd.setUrl("https://s3-us-west-2.amazonaws.com/com.kencorhealth.campaign/ConsentForm.pdf");
+        pd.setTitle("Consent Form");
 
         FileInput fi = new FileInput();
         fi.setFieldName("signature");
         fi.setHint("Signature");
         
-        terms.setItems(Arrays.asList(ud, fi));
+        terms.setItems(Arrays.asList(pd, fi));
         terms.setButtonText("Submit");
         terms.setHint("Press ENTER");        
         

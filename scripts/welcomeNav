@@ -4,5 +4,5 @@ export JWT=`./signIn`
 curl \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $JWT" \
-	https://nuc.emsemble.com:6060/api/campaign/$CAMPAIGN_ID/nav
+	http://srini.kencorhealth.com:6060/api/campaign/$CAMPAIGN_ID/nav
 

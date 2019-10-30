@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Member extends Identified {
+    private String consentDocUrl;
     private String providerId;
     private String approverId;
     private String approverName;
@@ -23,6 +24,14 @@ public class Member extends Identified {
     private Set<String> tags;
     private RoleInfo roleInfo;
     private Map<String, Object> extra;
+
+    public String getConsentDocUrl() {
+        return consentDocUrl;
+    }
+
+    public void setConsentDocUrl(String consentDocUrl) {
+        this.consentDocUrl = consentDocUrl;
+    }
 
     public String getApproverId() {
         return approverId;
@@ -154,6 +163,6 @@ public class Member extends Identified {
             location + ", tags=" + tags + ", notifSettings=" + notifSettings +
             ", roleInfo=" + roleInfo + ", extra=" + extra + ", approverId=" +
             approverId + ", approverName=" + approverName +
-            "}, " + super.toString();
+            ", consentDocUrl=" + consentDocUrl + "}, " + super.toString();
     }
 }

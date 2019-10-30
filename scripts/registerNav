@@ -7,5 +7,5 @@ curl \
 	--data '{"firstName": "Srini", "lastName": "Veeravalli", "mobileNumber": "4085555555" }' \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $JWT" \
-	https://nuc.emsemble.com:6060/api/campaign/$CAMPAIGN_ID/nav/$REGISTER_NAV_ID?containerId=$CONTAINER_ID 
+	http://srini.kencorhealth.com:6060/api/campaign/$CAMPAIGN_ID/nav/$REGISTER_NAV_ID?containerId=$CONTAINER_ID 
 

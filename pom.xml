@@ -23,6 +23,7 @@
         <module>twilio</module>
         <module>ngin</module>
         <module>seed</module>
+        <module>pdf</module>
     </modules>
     <name>campaign</name>
 </project>

@@ -22,11 +22,13 @@ import org.reflections.Reflections;
 import com.kencorhealth.campaign.http.rpm.CHRFactory;
 import com.kencorhealth.campaign.http.rpm.UrlInfo;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
+import com.kencorhealth.campaign.pdf.PdfFactory;
+import com.kencorhealth.campaign.pdf.handler.PdfBasedHandler;
 
 public class ScriptUtil {
-//    private static final ScriptEngine ENGINE;
     private static final Map<String, MongoHandler> DB_HANDLERS;
     private static final Map<String, RpmBasedHandler> RPM_HANDLERS;
+    private static final Map<String, PdfBasedHandler> PDF_HANDLERS;
 
     public static Object invoke(Script script, ScriptInput scriptInput)
         throws CampaignException {
@@ -42,6 +44,7 @@ public class ScriptUtil {
             
             input.put("campaign.script", scriptInput);
             input.put("campaign.handler.db", DB_HANDLERS);
+            input.put("campaign.handler.pdf", PDF_HANDLERS);
             input.put(
                 "campaign.handler.http.rpm",
                 rpmHandlers(scriptInput.getContext().getAuthToken())
@@ -100,10 +103,12 @@ public class ScriptUtil {
        // ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
         DB_HANDLERS = new HashMap();
         RPM_HANDLERS = new HashMap();
+        PDF_HANDLERS = new HashMap();
 
         Object[] packages = {
             "com.kencorhealth.campaign.db",
-            "com.kencorhealth.campaign.http.rpm"
+            "com.kencorhealth.campaign.http.rpm",
+            "com.kencorhealth.campaign.pdf"
         };
 
         Reflections reflections = new Reflections(packages);
@@ -122,6 +127,9 @@ public class ScriptUtil {
                         (Class<? extends RpmBasedHandler>) type;
                     RpmBasedHandler handler = CHRFactory.get(rpmHandlerType);
                     RPM_HANDLERS.put(handler.alias(), handler);
+                } else if (PdfBasedHandler.class.isAssignableFrom(type)) {
+                    PdfBasedHandler handler = PdfFactory.get();
+                    PDF_HANDLERS.put(handler.alias(), handler);
                 }
             }
         });

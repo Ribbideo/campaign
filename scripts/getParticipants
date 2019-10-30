@@ -2,4 +2,4 @@
 
 curl \
 	-H "Content-Type: application/json" \
-	https://nuc.emsemble.com:6060/api/provider/$PROVIDER_ID/campaign/$CAMPAIGN_ID/participant | jq .
+	http://srini.kencorhealth.com:6060/api/provider/$PROVIDER_ID/campaign/$CAMPAIGN_ID/participant | jq .

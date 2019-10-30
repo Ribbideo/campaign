@@ -2,7 +2,7 @@ package com.kencorhealth.campaign.dm.delivery;
 
 import com.kencorhealth.campaign.dm.delivery.nav.*;
 
-public class UrlDisplay extends DisplayBased {
+public class PdfDisplay extends DisplayBased {
     private String title;
     private String url;
 
@@ -24,6 +24,6 @@ public class UrlDisplay extends DisplayBased {
 
     @Override
     public String toString() {
-        return "UrlDisplay{" + "title=" + title + ", url=" + url + "}";
+        return "PdfDisplay{" + "title=" + title + ", url=" + url + "}";
     }
 }

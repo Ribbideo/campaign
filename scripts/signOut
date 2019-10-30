@@ -5,5 +5,5 @@ curl \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer $JWT" \
 	--request DELETE \
-	https://nuc.emsemble.com:6060/api/auth
+	http://srini.kencorhealth.com:6060/api/auth
 

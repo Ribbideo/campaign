@@ -3,4 +3,4 @@
 curl \
 	-H "Content-Type: application/json" \
 	-H "Authorization: Bearer 688b306b-6c54-4c2c-99ad-7ce1f58a3477" \
-	https://nuc.emsemble.com:8443/rx/api/v1/admin/campaign/$CAMPAIGN_ID/flow | jq .
+	http://srini.kencorhealth.com:8443/rx/api/v1/admin/campaign/$CAMPAIGN_ID/flow | jq .
