@@ -143,7 +143,7 @@ public class SeedEnrolment {
         terms.setProcessing(termsProcessing);
         
         PdfDisplay pd = new PdfDisplay();
-        pd.setUrl("https://s3-us-west-2.amazonaws.com/com.kencorhealth.campaign/ConsentForm.pdf");
+        pd.setUrl("https://test.kencorhealth.com:6060/api/file/ConsentForm.pdf");
         pd.setTitle("Consent Form");
 
         FileInput fi = new FileInput();
