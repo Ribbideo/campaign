@@ -12,6 +12,11 @@ public class PostAuthenticator implements Authenticator<String, AuthToken> {
     @Override
     public Optional<AuthToken> authenticate(String jwt)
         throws AuthenticationException {
+        return doAuthenticate(jwt);
+    }
+
+    public static Optional<AuthToken> doAuthenticate(String jwt)
+        throws AuthenticationException {
         Optional<AuthToken> retVal = null;
         
         try {

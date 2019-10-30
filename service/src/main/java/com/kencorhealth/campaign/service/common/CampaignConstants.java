@@ -19,6 +19,8 @@ public interface CampaignConstants {
     String LAST_NAME = "lastName";
     String TYPE = "type";
 
+    String AUTHORIZATION = "authorization";
+
     String PROVIDER_ID = "providerId";
     String CAMPAIGN_ID = "campaignId";
     String FILE_ID = "fileId";

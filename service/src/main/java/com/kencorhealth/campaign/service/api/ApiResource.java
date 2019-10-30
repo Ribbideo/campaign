@@ -2,6 +2,7 @@ package com.kencorhealth.campaign.service.api;
 
 import com.kencorhealth.campaign.service.api.auth.AuthResource;
 import com.kencorhealth.campaign.service.api.campaign.CampaignResource;
+import com.kencorhealth.campaign.service.api.file.FileResource;
 import com.kencorhealth.campaign.service.api.provider.ProviderResource;
 import javax.ws.rs.Path;
 import com.kencorhealth.campaign.service.common.CampaignConstants;
@@ -16,6 +17,11 @@ public class ApiResource extends CampaignBasedResource {
     @Path("/" + AUTH)
     public AuthResource getAuthResource() {
         return new AuthResource();
+    }
+
+    @Path("/" + FILE)
+    public FileResource getFileResource() {
+        return new FileResource();
     }
 
     @Path("/" + PROVIDER)
