@@ -1,7 +1,6 @@
 package com.kencorhealth.campaign.dm.delivery.script;
 
 import com.kencorhealth.campaign.dm.delivery.nav.Nav;
-import com.kencorhealth.campaign.dm.input.MemberInput;
 import java.util.Map;
 
 public class ScriptInput {
@@ -21,10 +20,6 @@ public class ScriptInput {
         return context;
     }
     
-    public MemberInput newMember() {
-        return new MemberInput();
-    }
-
     public void setContext(ScriptContext context) {
         this.context = context;
     }

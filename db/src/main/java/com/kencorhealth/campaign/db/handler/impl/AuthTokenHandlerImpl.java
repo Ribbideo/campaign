@@ -38,7 +38,7 @@ public class AuthTokenHandlerImpl
                 key = EMAIL_KEY;
                 break;
             case MOBILE_NUMBER:
-                key = MOBILE_NUMBER_KEY;
+                key = PHONE_NUMBER_KEY;
                 break;
         }
         

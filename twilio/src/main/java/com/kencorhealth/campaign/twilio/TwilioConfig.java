@@ -1,6 +1,6 @@
 package com.kencorhealth.campaign.twilio;
 
-public class TwilioConfig {
+public class TwilioConfig implements TwilioConfigProvider {
     private String adminNumber;
     private String accountSid;
     private String authToken;
@@ -27,5 +27,10 @@ public class TwilioConfig {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    @Override
+    public TwilioConfig getTwilio() {
+        return this;
     }
 }

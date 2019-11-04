@@ -4,6 +4,7 @@ import com.kencorhealth.campaign.dm.common.Address;
 import com.kencorhealth.campaign.dm.common.Gender;
 import com.kencorhealth.campaign.dm.common.Identified;
 import com.kencorhealth.campaign.dm.common.NotifSettings;
+import com.kencorhealth.campaign.dm.common.PhoneType;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,8 +15,8 @@ public class Member extends Identified {
     private String approverName;
     private String firstName;
     private String lastName;
-    private String landLine;
-    private String mobileNumber;
+    private String phoneNumber;
+    private PhoneType phoneType;
     private NotifSettings notifSettings;
     private String email;
     private Gender gender;
@@ -24,6 +25,22 @@ public class Member extends Identified {
     private Set<String> tags;
     private RoleInfo roleInfo;
     private Map<String, Object> extra;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public PhoneType getPhoneType() {
+        return phoneType;
+    }
+
+    public void setPhoneType(PhoneType phoneType) {
+        this.phoneType = phoneType;
+    }
 
     public String getConsentDocUrl() {
         return consentDocUrl;
@@ -71,22 +88,6 @@ public class Member extends Identified {
 
     public void setNotifSettings(NotifSettings notifSettings) {
         this.notifSettings = notifSettings;
-    }
-    
-    public String getLandLine() {
-        return landLine;
-    }
-
-    public void setLandLine(String landLine) {
-        this.landLine = landLine;
-    }
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
     }
     
     public Gender getGender() {
@@ -157,10 +158,10 @@ public class Member extends Identified {
     public String toString() {
         return
             "Member{" + "providerId=" + providerId + ", firstName=" +
-            firstName + ", lastName=" + lastName + ", landLine=" +
-            landLine + ", mobileNumber=" + mobileNumber + ", email=" +
-            email + ", gender=" + gender + ", dob=" + dob + ", location=" +
-            location + ", tags=" + tags + ", notifSettings=" + notifSettings +
+            firstName + ", lastName=" + lastName + ", phoneNumber=" +
+            phoneNumber + ", phoneType=" + phoneType + ", email=" + email +
+            ", gender=" + gender + ", dob=" + dob + ", location=" + location +
+            ", tags=" + tags + ", notifSettings=" + notifSettings +
             ", roleInfo=" + roleInfo + ", extra=" + extra + ", approverId=" +
             approverId + ", approverName=" + approverName +
             ", consentDocUrl=" + consentDocUrl + "}, " + super.toString();

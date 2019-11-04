@@ -1,4 +1,4 @@
-// Register processor
+/* Register processor */
 function execute(input) {
     print("Register processor");
 

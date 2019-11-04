@@ -4,6 +4,7 @@ import com.kencorhealth.campaign.dm.common.Address;
 import com.kencorhealth.campaign.dm.common.Gender;
 import com.kencorhealth.campaign.dm.common.Input;
 import com.kencorhealth.campaign.dm.common.NotifSettings;
+import com.kencorhealth.campaign.dm.common.PhoneType;
 import com.kencorhealth.campaign.dm.provider.Member;
 import com.kencorhealth.campaign.dm.provider.RoleInfo;
 import com.ribbideo.dm.input.register.PhoneNumber;
@@ -17,8 +18,8 @@ public class MemberInput extends Input<Member> {
     private String approverName;
     private String firstName;
     private String lastName;
-    private String landline;
-    private String mobileNumber;
+    private String phoneNumber;
+    private PhoneType phoneType;
     private NotifSettings notifSettings;
     private String email;
     private Gender gender;
@@ -36,16 +37,21 @@ public class MemberInput extends Input<Member> {
         
         PhoneNumber.PhoneNumberType phoneType = patient.getPhoneType();
         
+        String mobileNumber = patient.getMobileNumber();
+        
         if (phoneType == null) {
-            mobileNumber = patient.getMobileNumber();
+            this.phoneNumber = mobileNumber;
+            this.phoneType = PhoneType.from(phoneType.name());
         } else {
             switch (phoneType) {
                 case mobile:
-                case home:
-                    mobileNumber = patient.getMobileNumber();
+                    this.phoneNumber = mobileNumber;
+                    this.phoneType = PhoneType.from(phoneType.name());
                     break;
+                case home:
                 case landline:
-                    landline = patient.getMobileNumber();
+                    this.phoneNumber = mobileNumber;
+                    this.phoneType = PhoneType.from(phoneType.name());
                     break;
             }
         }
@@ -74,8 +80,8 @@ public class MemberInput extends Input<Member> {
         retVal.setApproverName(approverName);
         retVal.setFirstName(firstName);
         retVal.setLastName(lastName);
-        retVal.setLandLine(landline);
-        retVal.setMobileNumber(mobileNumber);
+        retVal.setPhoneNumber(phoneNumber);
+        retVal.setPhoneType(phoneType);
         retVal.setEmail(email);
         retVal.setGender(gender);
         retVal.setNotifSettings(notifSettings);
@@ -126,21 +132,21 @@ public class MemberInput extends Input<Member> {
     public void setNotifSettings(NotifSettings notifSettings) {
         this.notifSettings = notifSettings;
     }
-    
-    public String getLandline() {
-        return landline;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setLandline(String landline) {
-        this.landline = landline;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public PhoneType getPhoneType() {
+        return phoneType;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setPhoneType(PhoneType phoneType) {
+        this.phoneType = phoneType;
     }
     
     public Gender getGender() {
@@ -211,12 +217,12 @@ public class MemberInput extends Input<Member> {
     public String toString() {
         return
             "MemberInput{" + "providerId=" + providerId + ", firstName=" +
-            firstName + ", lastName=" + lastName + ", landline=" + landline +
-            ", mobileNumber=" + mobileNumber + ", email=" + email +
-            ", gender=" + gender + ", dob=" + dob + ", location=" +
-            location + ", tags=" + tags + ", notifSettings=" +
-            notifSettings + ", roleName=" + roleName + ", approverId=" +
-            approverId + ", approverName=" + approverName +
-            ", consentDocUrl=" + consentDocUrl + '}';
+            firstName + ", lastName=" + lastName + ", phoneNumber=" +
+            phoneNumber + ", phoneType=" + phoneType + ", email=" + email +
+            ", gender=" + gender + ", dob=" + dob + ", location=" + location +
+            ", tags=" + tags + ", notifSettings=" + notifSettings +
+            ", roleName=" + roleName + ", approverId=" + approverId +
+            ", approverName=" + approverName + ", consentDocUrl=" +
+            consentDocUrl + '}';
     }
 }

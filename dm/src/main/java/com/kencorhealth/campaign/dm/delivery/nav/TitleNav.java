@@ -4,7 +4,16 @@ public class TitleNav extends Nav {
     private String title;
     private String buttonText;
     private String hint;
+    private String logoUrl;
 
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -33,6 +42,6 @@ public class TitleNav extends Nav {
     public String toString() {
         return
             "TitleNav{" + "title=" + title + ", buttonText=" + buttonText +
-            ", hint=" + hint + '}';
+            ", hint=" + hint + ", logoUrl=" + logoUrl + '}';
     }
 }

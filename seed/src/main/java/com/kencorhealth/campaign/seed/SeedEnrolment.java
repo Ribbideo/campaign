@@ -13,6 +13,7 @@ import com.kencorhealth.campaign.dm.delivery.nav.ChoiceInput;
 import com.kencorhealth.campaign.dm.delivery.nav.ChoiceNav;
 import com.kencorhealth.campaign.dm.delivery.nav.ChoiceType;
 import com.kencorhealth.campaign.dm.delivery.nav.ElseCondition;
+import com.kencorhealth.campaign.dm.delivery.nav.FieldType;
 import com.kencorhealth.campaign.dm.delivery.nav.FileInput;
 import com.kencorhealth.campaign.dm.delivery.nav.PostProcessor;
 import com.kencorhealth.campaign.dm.delivery.nav.PreProcessor;
@@ -45,14 +46,15 @@ public class SeedEnrolment {
         WebMethod webMethod = new WebMethod();
         
         TitleNav title = new TitleNav();
-        title.setTitle("Welcome to the campaign");
+        title.setTitle("Welcome to Kespra Clinic");
+        title.setLogoUrl("https://s3-us-west-2.amazonaws.com/com.kencorhealth.campaign/ClinicLogo.png");
         title.setButtonText("Next");
         title.setHint("Press ENTER");
         
         MediaNav media = new MediaNav();
         media.setTitle("Here is a video");
         media.setMediaType(MediaType.VIDEO);
-        media.setUrl("https://www.youtube.com/watch?v=LEUwgnBkFyU");
+        media.setUrl("https://www.youtube.com/watch?v=2GdN9fmPlzk");
         media.setButtonText("Next");
         media.setHint("Press ENTER");
         
@@ -104,21 +106,24 @@ public class SeedEnrolment {
         register.setProcessing(processing);
         
         TextInput fnn = new TextInput();
+        fnn.setFieldType(FieldType.NAME);
         fnn.setFieldName("firstName");
         fnn.setTitle("First Name");
         fnn.setHint("Enter first name");
         
         TextInput lnn = new TextInput();
+        lnn.setFieldType(FieldType.NAME);
         lnn.setFieldName("lastName");
         lnn.setTitle("Last Name");
         lnn.setHint("Enter last name");
         
-        TextInput mnn = new TextInput();
-        mnn.setFieldName("mobileNumber");
-        mnn.setTitle("Mobile Number");
-        mnn.setHint("Enter mobile number");
+        TextInput pnn = new TextInput();
+        pnn.setFieldType(FieldType.PHONE_NUMBER);
+        pnn.setFieldName("phoneNumber");
+        pnn.setTitle("Phone Number");
+        pnn.setHint("Enter phone number");
         
-        register.setItems(Arrays.asList(fnn, lnn, mnn));
+        register.setItems(Arrays.asList(fnn, lnn, pnn));
         register.setButtonText("Submit");
         register.setHint("Press ENTER");
         
@@ -192,7 +197,7 @@ public class SeedEnrolment {
         havePhoneBranch.setElseCondition(elseNoPhoneCondition);
         
         TitleNav noConditionMatched = new TitleNav();
-        noConditionMatched.setTitle("Oops. No condition matched. Check your script");
+        noConditionMatched.setTitle("Sorry, you need a smartphone");
         noConditionMatched.setButtonText("Finish");
         noConditionMatched.setHint("Press ENTER");
         

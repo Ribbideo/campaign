@@ -1,4 +1,4 @@
-// Have phone processor
+/* Have phone processor */
 function execute(input) {
     print("Have phone processor");
 

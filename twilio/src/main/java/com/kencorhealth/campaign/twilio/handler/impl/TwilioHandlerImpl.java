@@ -15,6 +15,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 import com.kencorhealth.campaign.db.handler.AuthTokenHandler;
+import com.kencorhealth.campaign.dm.common.PhoneType;
 
 public class TwilioHandlerImpl implements TwilioHandler {
     @Override
@@ -54,7 +55,7 @@ public class TwilioHandlerImpl implements TwilioHandler {
 
             Message message =
                 Message.creator(
-                    new PhoneNumber(member.getMobileNumber()),
+                    new PhoneNumber(member.getPhoneNumber()),
                     new PhoneNumber(from), 
                     filledSms
                 ).create();
@@ -62,6 +63,25 @@ public class TwilioHandlerImpl implements TwilioHandler {
             retVal = message.getSid();
         } catch (Exception e) {
             throw new CampaignException(e);
+        }
+        
+        return retVal;
+    }
+    
+    @Override
+    public PhoneType getPhoneType(String number) throws CampaignException {
+        PhoneType retVal = null;
+        
+        try {
+            com.twilio.rest.lookups.v1.PhoneNumber pn =
+                com.twilio.rest.lookups.v1.PhoneNumber
+                .fetcher(new com.twilio.type.PhoneNumber(number))
+                .setType("carrier")
+                .fetch();
+
+            retVal = PhoneType.from(pn.getCarrier().get("type"));
+        } catch (Exception e) {
+            retVal = PhoneType.MOBILE;
         }
         
         return retVal;

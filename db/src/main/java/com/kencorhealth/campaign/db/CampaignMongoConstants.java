@@ -25,6 +25,7 @@ public interface CampaignMongoConstants extends MongoConstants {
     String LAST_NAME_KEY = "lastName";
     String FIRST_NAME_KEY = "firstName";
     String MOBILE_NUMBER_KEY = "mobileNumber";
+    String PHONE_NUMBER_KEY = "phoneNumber";
     String EXTRA_KEY = "extra";
     String ROLE_INFO_KEY = "roleInfo";
     String JWT_KEY = "jwt";

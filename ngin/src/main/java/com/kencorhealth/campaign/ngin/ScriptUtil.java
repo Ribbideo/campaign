@@ -24,8 +24,11 @@ import com.kencorhealth.campaign.http.rpm.UrlInfo;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
 import com.kencorhealth.campaign.pdf.PdfFactory;
 import com.kencorhealth.campaign.pdf.handler.PdfBasedHandler;
+import com.kencorhealth.campaign.twilio.TwilioFactory;
+import com.kencorhealth.campaign.twilio.handler.TwilioBasedHandler;
 
 public class ScriptUtil {
+    private static final Map<String, TwilioBasedHandler> TWILIO_HANDLERS;
     private static final Map<String, MongoHandler> DB_HANDLERS;
     private static final Map<String, RpmBasedHandler> RPM_HANDLERS;
     private static final Map<String, PdfBasedHandler> PDF_HANDLERS;
@@ -42,8 +45,10 @@ public class ScriptUtil {
             
             Map<String, Object> input = new HashMap();
             
+            input.put("campaign.helper", new Helper());
             input.put("campaign.script", scriptInput);
             input.put("campaign.handler.db", DB_HANDLERS);
+            input.put("campaign.handler.twilio", TWILIO_HANDLERS);
             input.put("campaign.handler.pdf", PDF_HANDLERS);
             input.put(
                 "campaign.handler.http.rpm",
@@ -75,7 +80,7 @@ public class ScriptUtil {
             
             UrlInfo ui = new UrlInfo();
             ui.setBaseUrl(baseUrl);
-            ui.setUserName(member.getMobileNumber());
+            ui.setUserName(member.getPhoneNumber());
             ui.setPassword(password);
             
             for (String key: RPM_HANDLERS.keySet()) {
@@ -102,11 +107,13 @@ public class ScriptUtil {
     static {
        // ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
         DB_HANDLERS = new HashMap();
+        TWILIO_HANDLERS = new HashMap();
         RPM_HANDLERS = new HashMap();
         PDF_HANDLERS = new HashMap();
 
         Object[] packages = {
             "com.kencorhealth.campaign.db",
+            "com.kencorhealth.campaign.twilio",
             "com.kencorhealth.campaign.http.rpm",
             "com.kencorhealth.campaign.pdf"
         };
@@ -122,6 +129,11 @@ public class ScriptUtil {
                         (Class<? extends MongoHandler>) type;
                     MongoHandler handler = CampaignFactory.get(dbHandlerType);
                     DB_HANDLERS.put(handler.alias(), handler);
+                } else if (TwilioBasedHandler.class.isAssignableFrom(type)) {
+                    Class<? extends TwilioBasedHandler> tbh =
+                        (Class<? extends TwilioBasedHandler>) type;
+                    TwilioBasedHandler handler = TwilioFactory.get(tbh);
+                    TWILIO_HANDLERS.put(handler.alias(), handler);
                 } else if (RpmBasedHandler.class.isAssignableFrom(type)) {
                     Class<? extends RpmBasedHandler> rpmHandlerType =
                         (Class<? extends RpmBasedHandler>) type;

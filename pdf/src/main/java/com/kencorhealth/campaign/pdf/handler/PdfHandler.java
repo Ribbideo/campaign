@@ -1,6 +1,7 @@
 package com.kencorhealth.campaign.pdf.handler;
 
 import com.kencorhealth.campaign.dm.annotations.Exportable;
+import java.util.Map;
 
 @Exportable
 public interface PdfHandler extends PdfBasedHandler, AutoCloseable {
@@ -9,9 +10,9 @@ public interface PdfHandler extends PdfBasedHandler, AutoCloseable {
         return "pdf";
     }
     
-    String transform(
-        String pdfFileId, String campaignId, String signatureFileId)
-        throws Exception;
+    String transform(String pdfFileId,
+                     String campaignId,
+                     Map<String, Object> data) throws Exception;
 
     @Override
     default void close() {

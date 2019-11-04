@@ -1,4 +1,4 @@
-// Terms post processor
+/* Terms post processor */
 function execute(input) {
     print("Terms post processor");
 
@@ -8,22 +8,40 @@ function execute(input) {
     var context = scriptInput.context;
     var authToken = context.authToken;
 
+    var helper = input["campaign.helper"];
+
     var mh = input["campaign.handler.db"].member;
     var wdh = input["campaign.handler.db"].workflowData;
+    var twh = input["campaign.handler.twilio"].twilio;
+    var proh = input["campaign.handler.db"].provider;
     var uh = input["campaign.handler.http.rpm"].user;
     var ph = input["campaign.handler.pdf"].pdf;
 
     var userFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 1);
     var signatureFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 2);
 
-    var consentDocUrl = ph.transform("ConsentForm.pdf", context.campaignId, signatureFormData.file);
+    var consentForm = helper.download("ConsentForm.pdf");
 
-    var memberInput = scriptInput.newMember();
+    var data = helper.newMap();
+
+    data.put("patientFullName", userFormData.firstName + " " + userFormData.lastName);
+    data.put("todaysDate", helper.today());
+    data.put("patientSignature", helper.download(context.campaignId, signatureFormData.file));
+    data.put("clinicName", proh.findById(authToken.providerId).name);
+
+    var consentDocUrl = ph.transform("ConsentForm.pdf", context.campaignId, data);
+
+    var memberInput = helper.newMember();
+
+    var phoneNumber = userFormData.phoneNumber;
+
+    var phoneType = twh.getPhoneType("1" + phoneNumber);
 
     memberInput.providerId = authToken.providerId;
     memberInput.firstName = userFormData.firstName;
     memberInput.lastName = userFormData.lastName;
-    memberInput.mobileNumber = userFormData.mobileNumber;
+    memberInput.phoneNumber = phoneNumber;
+    memberInput.phoneType = phoneType;
     memberInput.roleName = "PATIENT";
     memberInput.consentDocUrl = consentDocUrl;
 
@@ -33,12 +51,12 @@ function execute(input) {
         templateType: "CHF",
         firstName: userFormData.firstName,
         lastName: userFormData.lastName,
-        mobileNumber: userFormData.mobileNumber,
+        mobileNumber: phoneNumber,
         consentDocUrl: consentDocUrl,
-        phoneType: "mobile",
+        phoneType: phoneType.stringify(),
         userType: "PATIENT",
         role: "patient",
-        userName: userFormData.mobileNumber,
+        userName: phoneNumber,
         clinicId: authToken.providerId,
         billingApproverId: authToken.approverId,
         billingApproverName: authToken.approverName,

@@ -1,4 +1,4 @@
-// Terns processor
+/* Terms processor */
 function execute(input) {
     print("Terms processor");
 
