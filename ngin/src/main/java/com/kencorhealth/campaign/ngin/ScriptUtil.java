@@ -70,7 +70,7 @@ public class ScriptUtil {
         try (ProviderHandler ph = CampaignFactory.get(ProviderHandler.class);
              MemberHandler mh = CampaignFactory.get(MemberHandler.class)) {
             String baseUrl =
-                ph.findById(at.getProviderId()).getBaseUrl() + "/rx/api";
+                ph.findById(at.getProviderId()).getBaseUrl() + "/api";
             Member member = mh.findById(at.getUserId());
             String password =
                 CampaignUtil.crypter().decrypt(

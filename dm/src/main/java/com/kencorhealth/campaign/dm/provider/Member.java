@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Member extends Identified {
-    private String consentDocUrl;
+    private String consentFormUrl;
     private String providerId;
     private String approverId;
     private String approverName;
@@ -42,12 +42,12 @@ public class Member extends Identified {
         this.phoneType = phoneType;
     }
 
-    public String getConsentDocUrl() {
-        return consentDocUrl;
+    public String getConsentFormUrl() {
+        return consentFormUrl;
     }
 
-    public void setConsentDocUrl(String consentDocUrl) {
-        this.consentDocUrl = consentDocUrl;
+    public void setConsentFormUrl(String consentFormUrl) {
+        this.consentFormUrl = consentFormUrl;
     }
 
     public String getApproverId() {
@@ -164,6 +164,6 @@ public class Member extends Identified {
             ", tags=" + tags + ", notifSettings=" + notifSettings +
             ", roleInfo=" + roleInfo + ", extra=" + extra + ", approverId=" +
             approverId + ", approverName=" + approverName +
-            ", consentDocUrl=" + consentDocUrl + "}, " + super.toString();
+            ", consentFormUrl=" + consentFormUrl + "}, " + super.toString();
     }
 }

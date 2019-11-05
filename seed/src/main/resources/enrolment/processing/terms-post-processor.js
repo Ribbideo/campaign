@@ -24,12 +24,14 @@ function execute(input) {
 
     var data = helper.newMap();
 
+    var provider = proh.findById(authToken.providerId);
+
     data.put("patientFullName", userFormData.firstName + " " + userFormData.lastName);
     data.put("todaysDate", helper.today());
     data.put("patientSignature", helper.download(context.campaignId, signatureFormData.file));
-    data.put("clinicName", proh.findById(authToken.providerId).name);
+    data.put("clinicName", provider.name);
 
-    var consentDocUrl = ph.transform(consentForm, context.campaignId, data);
+    var consentFormUrl = ph.transform(consentForm, context.campaignId, data);
 
     var memberInput = helper.newMember();
 
@@ -43,29 +45,37 @@ function execute(input) {
     memberInput.phoneNumber = phoneNumber;
     memberInput.phoneType = phoneType;
     memberInput.roleName = "PATIENT";
-    memberInput.consentDocUrl = consentDocUrl;
+    memberInput.consentFormUrl = consentFormUrl;
 
     var memberId = mh.add(memberInput);
 
-    var userInput = {
-        templateType: "CHF",
-        firstName: userFormData.firstName,
-        lastName: userFormData.lastName,
-        mobileNumber: phoneNumber,
-        consentDocUrl: consentDocUrl,
-        phoneType: phoneType.stringify(),
-        userType: "PATIENT",
-        role: "patient",
-        userName: phoneNumber,
-        clinicId: authToken.providerId,
-        billingApproverId: authToken.approverId,
-        billingApproverName: authToken.approverName,
-        initialPassword: "123456"
-    };
+    var existingPatient = uh.userIfExists(phoneNumber);
 
-    var userOutput = uh.create(userInput);
+    if (existingPatient != null) {
+        /* Just add consent doc URL */
+        uh.updateConsentFormUrl(existingPatient.id, consentFormUrl);
+    } else {
+        /* Create patient in RPM */
+        var userInput = {
+	  templateType: "CHF",
+	  firstName: userFormData.firstName,
+	  lastName: userFormData.lastName,
+	  mobileNumber: phoneNumber,
+	  consentFormUrl: consentFormUrl,
+	  phoneType: phoneType.stringify(),
+	  userType: "PATIENT",
+	  role: "patient",
+	  userName: phoneNumber,
+	  clinicId: provider.clinicId,
+	  billingApproverId: authToken.approverId,
+	  billingApproverName: authToken.approverName,
+	  initialPassword: "123456"
+	};
 
-    print("User output: " + userOutput);
+        var userOutput = uh.create(userInput);
+
+        print("User output: " + userOutput);
+    }
  
     return true;
 }

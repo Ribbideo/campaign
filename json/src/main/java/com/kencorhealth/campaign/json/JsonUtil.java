@@ -139,6 +139,10 @@ public class JsonUtil {
             );
     }
 
+    public static JavaType simpleType(Class type) {
+        return MAPPER.getTypeFactory().constructType(type);
+    }
+
     private static final ObjectMapper MAPPER;
     private static final ObjectMapper PRETTY_MAPPER;
 

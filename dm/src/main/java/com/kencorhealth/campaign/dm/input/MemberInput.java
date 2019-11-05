@@ -11,7 +11,7 @@ import com.ribbideo.dm.input.register.PhoneNumber;
 import java.util.Set;
 
 public class MemberInput extends Input<Member> {
-    private String consentDocUrl;
+    private String consentFormUrl;
     private String roleName;
     private String providerId;
     private String approverId;
@@ -60,6 +60,7 @@ public class MemberInput extends Input<Member> {
         gender = Gender.from(patient.getGender());
         dob = patient.getDob();
         roleName = patient.getRoleName();
+        consentFormUrl = patient.getConsentFormUrl();
         
         com.ribbideo.dm.shared.Address address = patient.getAddress();
         
@@ -74,7 +75,7 @@ public class MemberInput extends Input<Member> {
 
         retVal.autoFill();
         
-        retVal.setConsentDocUrl(consentDocUrl);
+        retVal.setConsentFormUrl(consentFormUrl);
         retVal.setProviderId(providerId);
         retVal.setApproverId(approverId);
         retVal.setApproverName(approverName);
@@ -93,12 +94,12 @@ public class MemberInput extends Input<Member> {
         return retVal;
     }
 
-    public String getConsentDocUrl() {
-        return consentDocUrl;
+    public String getConsentFormUrl() {
+        return consentFormUrl;
     }
 
-    public void setConsentDocUrl(String consentDocUrl) {
-        this.consentDocUrl = consentDocUrl;
+    public void setConsentFormUrl(String consentFormUrl) {
+        this.consentFormUrl = consentFormUrl;
     }
     
     public String getApproverName() {
@@ -222,7 +223,7 @@ public class MemberInput extends Input<Member> {
             ", gender=" + gender + ", dob=" + dob + ", location=" + location +
             ", tags=" + tags + ", notifSettings=" + notifSettings +
             ", roleName=" + roleName + ", approverId=" + approverId +
-            ", approverName=" + approverName + ", consentDocUrl=" +
-            consentDocUrl + '}';
+            ", approverName=" + approverName + ", consentFormUrl=" +
+            consentFormUrl + '}';
     }
 }

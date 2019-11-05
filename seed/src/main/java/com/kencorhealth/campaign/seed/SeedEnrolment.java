@@ -148,7 +148,7 @@ public class SeedEnrolment {
         terms.setProcessing(termsProcessing);
         
         PdfDisplay pd = new PdfDisplay();
-        pd.setUrl("https://test.kencorhealth.com:6060/api/file/ConsentForm.pdf");
+        pd.setUrl("http://192.168.0.110:6060/api/file/ConsentForm.pdf");
         pd.setTitle("Consent Form");
 
         FileInput fi = new FileInput();
