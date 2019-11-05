@@ -311,7 +311,7 @@ public abstract class HttpBasedHandlerImpl implements HttpBasedHandler {
                     Type t = (Type) responseType;
                     retVal = JsonUtil.asObject(json, t);
                 }
-            } else if (statusCode != 404) {
+            } else if (statusCode != 404 && statusCode != 204) {
                 String message =
                     "Expected response code " + expectedCode +
                     ", got " + statusCode;
