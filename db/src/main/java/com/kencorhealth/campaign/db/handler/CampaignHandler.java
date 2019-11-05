@@ -5,6 +5,7 @@ import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.dm.exception.NotFoundException;
 import com.kencorhealth.campaign.dm.input.CampaignInput;
+import java.util.List;
 
 @Exportable
 public interface CampaignHandler
@@ -18,4 +19,6 @@ public interface CampaignHandler
         throws NotFoundException, CampaignException;
     Campaign findByProviderAndId(String providerId, String campaignId)
         throws NotFoundException, CampaignException;
+    public List<Campaign> findByProvider(String providerId)
+        throws CampaignException;
 }

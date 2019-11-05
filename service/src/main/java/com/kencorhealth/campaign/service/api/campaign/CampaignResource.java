@@ -51,7 +51,7 @@ public class CampaignResource extends CampaignBasedResource {
         Response retVal = null;
         
         try (CampaignHandler ch = CampaignFactory.get(CampaignHandler.class)) {
-            List<Campaign> campaigns = ch.findAll();
+            List<Campaign> campaigns = ch.findByProvider(at.getProviderId());
             retVal =
                 Response
                     .status(HttpServletResponse.SC_OK)

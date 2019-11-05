@@ -84,6 +84,15 @@ public class CampaignHandlerImpl
     }
     
     @Override
+    public List<Campaign> findByProvider(String providerId)
+        throws CampaignException {
+        Map<String, Object> filter = new HashMap();
+        filter.put(PROVIDER_ID_KEY, providerId);
+        
+        return findMany(filter);
+    }
+    
+    @Override
     protected void doAdd(Campaign data)
         throws CampaignException, ExistsException {
         boolean proceed = false;
