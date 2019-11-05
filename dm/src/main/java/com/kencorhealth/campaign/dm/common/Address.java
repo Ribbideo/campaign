@@ -8,19 +8,6 @@ public class Address {
     private String zipCode;
     private String country;
 
-    public Address() {
-        super();
-    }
-
-    public Address(com.ribbideo.dm.shared.Address address) {
-        line1 = address.getLine1();
-        line2 = address.getLine2();
-        city = address.getCity();
-        state = address.getState();
-        zipCode = address.getZipCode();
-        country = address.getCountry();
-    }
-    
     public String getLine1() {
         return line1;
     }

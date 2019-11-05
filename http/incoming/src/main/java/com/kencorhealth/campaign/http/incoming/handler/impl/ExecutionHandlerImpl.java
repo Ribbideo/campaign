@@ -2,7 +2,7 @@ package com.kencorhealth.campaign.http.incoming.handler.impl;
 
 import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
-import com.ribbideo.dm.exceptions.InvalidException;
+import com.kencorhealth.campaign.dm.exception.InvalidException;
 import com.kencorhealth.campaign.dm.input.IVRInput;
 import com.kencorhealth.campaign.dm.input.SMSInput;
 import com.kencorhealth.campaign.http.base.handler.impl.HttpBasedHandlerImpl;

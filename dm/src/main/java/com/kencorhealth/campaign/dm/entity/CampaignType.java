@@ -1,6 +1,6 @@
 package com.kencorhealth.campaign.dm.entity;
 
-import com.ribbideo.dm.input.Stringifier;
+import com.kencorhealth.campaign.dm.common.Stringifier;
 
 public enum CampaignType implements Stringifier {
     PATIENT_ENROLMENT,

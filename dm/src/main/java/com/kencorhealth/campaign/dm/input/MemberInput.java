@@ -7,7 +7,6 @@ import com.kencorhealth.campaign.dm.common.NotifSettings;
 import com.kencorhealth.campaign.dm.common.PhoneType;
 import com.kencorhealth.campaign.dm.provider.Member;
 import com.kencorhealth.campaign.dm.provider.RoleInfo;
-import com.ribbideo.dm.input.register.PhoneNumber;
 import java.util.Set;
 
 public class MemberInput extends Input<Member> {
@@ -27,48 +26,6 @@ public class MemberInput extends Input<Member> {
     private Address location;
     private Set<String> tags;
 
-    public MemberInput() {
-        super();
-    }
-    
-    public MemberInput(com.ribbideo.dm.input.register.Patient patient) {
-        firstName = patient.getFirstName();
-        lastName = patient.getLastName();
-        
-        PhoneNumber.PhoneNumberType phoneType = patient.getPhoneType();
-        
-        String mobileNumber = patient.getMobileNumber();
-        
-        if (phoneType == null) {
-            this.phoneNumber = mobileNumber;
-            this.phoneType = PhoneType.from(phoneType.name());
-        } else {
-            switch (phoneType) {
-                case mobile:
-                    this.phoneNumber = mobileNumber;
-                    this.phoneType = PhoneType.from(phoneType.name());
-                    break;
-                case home:
-                case landline:
-                    this.phoneNumber = mobileNumber;
-                    this.phoneType = PhoneType.from(phoneType.name());
-                    break;
-            }
-        }
-        
-        email = patient.getEmail();
-        gender = Gender.from(patient.getGender());
-        dob = patient.getDob();
-        roleName = patient.getRoleName();
-        consentFormUrl = patient.getConsentFormUrl();
-        
-        com.ribbideo.dm.shared.Address address = patient.getAddress();
-        
-        if (address != null) {
-            location = new Address(address);
-        }
-    }
-    
     @Override
     public Member convert() {
         Member retVal = new Member();
