@@ -4,8 +4,10 @@ import com.kencorhealth.campaign.db.handler.CampaignHandler;
 import com.kencorhealth.campaign.db.handler.ProviderHandler;
 import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
+import com.kencorhealth.campaign.dm.exception.ExistsException;
 import com.kencorhealth.campaign.dm.exception.NotFoundException;
 import com.kencorhealth.campaign.dm.input.CampaignInput;
+import com.kencorhealth.campaign.json.JsonUtil;
 import com.kencorhealth.campaign.mongo.handler.impl.MongoHandlerImpl;
 import com.mongodb.MongoClient;
 import java.util.HashMap;
@@ -79,5 +81,33 @@ public class CampaignHandlerImpl
         }
         
         return retVal;
+    }
+    
+    @Override
+    protected void doAdd(Campaign data)
+        throws CampaignException, ExistsException {
+        boolean proceed = false;
+        
+        String name = data.getName();
+        String providerId = data.getProviderId();
+            
+        Map<String, Object> filter = new HashMap();
+        filter.put(NAME_KEY, name);
+        filter.put(PROVIDER_ID_KEY, providerId);
+
+        List<Campaign> campaigns = findMany(filter);
+
+        if (!campaigns.isEmpty()) {
+            String message =
+                "Campaign with name '" + name + "' already exists";
+            throw new ExistsException(message);
+        } else {
+            proceed = true;
+        }
+        
+        if (proceed) {
+            // We are good to go
+            collection().insertOne(JsonUtil.asDoc(data));
+        }
     }
 }

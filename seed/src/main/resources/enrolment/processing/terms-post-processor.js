@@ -62,14 +62,16 @@ function execute(input) {
 	  lastName: userFormData.lastName,
 	  mobileNumber: phoneNumber,
 	  consentFormUrl: consentFormUrl,
-	  phoneType: phoneType.stringify(),
 	  userType: "PATIENT",
 	  role: "patient",
 	  userName: phoneNumber,
 	  clinicId: provider.clinicId,
 	  billingApproverId: authToken.approverId,
 	  billingApproverName: authToken.approverName,
-	  initialPassword: "123456"
+	  initialPassword: "123456",
+          phoneNumber: "",
+          address:{},
+          diagnosis:{}
 	};
 
         var userOutput = uh.create(userInput);
