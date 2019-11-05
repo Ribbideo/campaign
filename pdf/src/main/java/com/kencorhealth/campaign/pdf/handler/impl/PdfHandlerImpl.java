@@ -10,16 +10,14 @@ import java.util.Map;
 public class PdfHandlerImpl implements PdfHandler {
     @Override
     public String transform(
-        String pdfFileId,
+        File inputPdf,
         String campaignId,
         Map<String, Object> data) throws Exception {
-        File pdfFile = CDNUtil.download(pdfFileId);
-        
         String outputFileId = CampaignUtil.uniqueString() + ".pdf";
 
         File outFile = CDNUtil.tmpFile(outputFileId);
         
-        ModifyDoc.modify(pdfFile, outFile, data);
+        ModifyDoc.modify(inputPdf, outFile, data);
 
         return CDNUtil.upload(campaignId, outFile);
     }

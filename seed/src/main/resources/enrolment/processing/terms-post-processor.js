@@ -20,7 +20,7 @@ function execute(input) {
     var userFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 1);
     var signatureFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 2);
 
-    var consentForm = helper.download("ConsentForm.pdf");
+    var consentForm = helper.download("ConsentFormAnnotated.pdf");
 
     var data = helper.newMap();
 
@@ -29,7 +29,7 @@ function execute(input) {
     data.put("patientSignature", helper.download(context.campaignId, signatureFormData.file));
     data.put("clinicName", proh.findById(authToken.providerId).name);
 
-    var consentDocUrl = ph.transform("ConsentForm.pdf", context.campaignId, data);
+    var consentDocUrl = ph.transform(consentForm, context.campaignId, data);
 
     var memberInput = helper.newMember();
 
