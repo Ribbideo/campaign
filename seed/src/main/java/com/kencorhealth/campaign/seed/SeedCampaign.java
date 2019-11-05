@@ -5,12 +5,12 @@ import com.kencorhealth.campaign.dm.common.Identified;
 
 public class SeedCampaign {
     public static void main(String[] args) throws Exception {
-        SeedEnrolment.create();
+        //SeedEnrolment.create();
         
-        /*Identified identified = new Identified() {
+        Identified identified = new Identified() {
         };
         
-        identified.setId("3923dcfa-7735-4ea1-a38a-3bd5ccc1e1bc");
+        identified.setId("a7be3382-9218-44c5-bc31-4344de76f97e");
         identified.setCreateTime(1565279369531L);
         
         String encrypted = CampaignUtil.crypter().encrypt("123456", identified);
@@ -19,6 +19,6 @@ public class SeedCampaign {
         
         String decrypted = CampaignUtil.crypter().decrypt(encrypted, identified);
 
-        System.out.println(decrypted);*/
+        System.out.println(decrypted);
     }
 }

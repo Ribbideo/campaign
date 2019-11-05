@@ -84,6 +84,10 @@ public class AuthTokenHandlerImpl
                     } else {
                         retVal = tokens.get(0);
                         String jwt = JWTUtil.create(userId, retVal.getId(), 30);
+                        retVal.setProviderId(m.getProviderId());
+                        retVal.setApproverId(m.getApproverId());
+                        retVal.setApproverName(m.getApproverName());
+                        retVal.setUserId(m.getId());
                         retVal.setJwt(jwt);
                         doUpdate(retVal);
                     }
