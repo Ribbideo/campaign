@@ -6,7 +6,7 @@ import com.kencorhealth.campaign.dm.common.TypeInfo;
 import com.kencorhealth.campaign.dm.entity.Delivery;
 
 public class CampaignInput extends DescribedInput<Campaign> {
-    private String providerId;
+    private String clinicId;
     private Long beginDate;
     private Long endDate;
     private String goal;
@@ -25,7 +25,7 @@ public class CampaignInput extends DescribedInput<Campaign> {
         retVal.setGoal(goal);
         retVal.setTypeInfo(typeInfo);
         retVal.setDelivery(delivery);
-        retVal.setProviderId(providerId);
+        retVal.setClinicId(clinicId);
         retVal.setBeginDate(beginDate);
         retVal.setEndDate(endDate);
         retVal.setSettings(settings);
@@ -99,18 +99,18 @@ public class CampaignInput extends DescribedInput<Campaign> {
         this.endDate = endDate;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     @Override
     public String toString() {
         return
-            "Campaign{" + "providerId=" + providerId + ", beginDate=" +
+            "Campaign{" + "clinicId=" + clinicId + ", beginDate=" +
             beginDate + ", endDate=" + endDate + ", settings=" + settings +
             ", delivery=" + delivery + ", goal=" + goal +
             ", typeInfo=" + typeInfo + ", logoUrl=" + logoUrl +

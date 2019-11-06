@@ -26,7 +26,7 @@ public class IVRResource extends CampaignBasedResource {
             CampaignIVR input = new CampaignIVR(ivrInput);
             
             input.setCampaignId(campaignId);
-            input.setProviderId(at.getProviderId());
+            input.setClinicId(at.clinicId());
             
             CMQFactory.getDispatcher().dispatchExecCampaignIVR(input);
             

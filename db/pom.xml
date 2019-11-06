@@ -25,6 +25,11 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>campaign.http.rpm</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <name>campaign.db</name>
     <build>

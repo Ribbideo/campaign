@@ -15,11 +15,11 @@ public interface ParticipantHandler
         return PARTICIPANT_COLLECTION;
     }
     
-    List<Participant> findByProviderAndCampaign(
-        String providerId, String campaignId)
+    List<Participant> findByClinicAndCampaign(
+        String clinicId, String campaignId)
         throws NotFoundException, CampaignException;
     
     Participant findById(
-        String providerId, String campaignId, String participantId)
+        String clinicId, String campaignId, String participantId)
         throws NotFoundException, CampaignException;
 }

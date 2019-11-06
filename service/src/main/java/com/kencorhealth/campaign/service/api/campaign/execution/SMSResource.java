@@ -25,7 +25,7 @@ public class SMSResource extends CampaignBasedResource {
         try {
             CampaignSMS input = new CampaignSMS(smsInput);
             input.setCampaignId(campaignId);
-            input.setProviderId(at.getProviderId());
+            input.setClinicId(at.clinicId());
             
             CMQFactory.getDispatcher().dispatchExecCampaignSMS(input);
             

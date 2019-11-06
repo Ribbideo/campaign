@@ -8,9 +8,9 @@ import java.util.List;
 public interface ParticipantHandler extends CampaignBasedHandler {
     String create(ParticipantInput input) throws CampaignException;
     ParticipantDetail getById(
-        String providerId,
+        String clinicId,
         String campaignId,
         String participantId) throws CampaignException;
-    List<ParticipantDetail> getByCampaign(String providerId, String campaignId)
+    List<ParticipantDetail> getByCampaign(String clinicId, String campaignId)
         throws CampaignException;
 }

@@ -1,5 +1,6 @@
 package com.kencorhealth.campaign.mq;
 
+import com.kencorhealth.campaign.dm.config.BrokerConfig;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.json.JsonUtil;
 import com.rabbitmq.client.*;
@@ -134,7 +135,7 @@ public class MQUtil implements CMQConstants {
     }
 
     public static QueueingConsumer getConsumer(
-        BrokerInfo brokerInfo,
+        BrokerConfig brokerInfo,
         String queueName,
         String[] routingKeys) throws Exception {
         QueueingConsumer retVal = null;

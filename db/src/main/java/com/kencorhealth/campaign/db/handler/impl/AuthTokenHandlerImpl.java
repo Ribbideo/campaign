@@ -6,13 +6,13 @@ import com.kencorhealth.campaign.dm.exception.NotFoundException;
 import com.kencorhealth.campaign.mongo.handler.impl.MongoHandlerImpl;
 import com.mongodb.MongoClient;
 import com.kencorhealth.campaign.db.handler.AuthTokenHandler;
-import com.kencorhealth.campaign.db.handler.MemberHandler;
 import com.kencorhealth.campaign.dm.input.AuthInput;
 import com.kencorhealth.campaign.dm.auth.AuthToken;
 import com.kencorhealth.campaign.dm.auth.Identity;
-import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.exception.ExistsException;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.rpm.RpmInfo;
+import com.kencorhealth.campaign.http.rpm.RpmFactory;
+import com.kencorhealth.campaign.http.rpm.handler.RpmHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,59 +42,39 @@ public class AuthTokenHandlerImpl
                 break;
         }
         
-        Map<String, Object> filter = new HashMap();
-        filter.put(key, identity.getValue());
-        filter.put(ROLE_INFO_KEY + "." + ROLE_KEY, input.getRole());
+        RpmInfo rpmInfo = null;
+        String userId = null;
         
-        try (MemberHandler mh = new MemberHandlerImpl(mc)) {
-            List<Member> members = mh.findMany(filter);
-            
-            if (!members.isEmpty()) {
-                Member m = members.get(0);
-                
-                Map<String, Object> extra = m.getExtra();
-                
-                String password = (String) extra.get(PASSWORD_KEY);
-                
-                if (CampaignUtil.verify(input.getPassword(), password, m)) {
-                    String providerId = m.getProviderId();
-                    String userId = m.getId();
-                    
-                    filter.clear();
-                    filter.put(PROVIDER_ID_KEY, providerId);
-                    filter.put(USER_ID_KEY, userId);
-                    
-                    List<AuthToken> tokens = findMany(filter);
-                    
-                    if (tokens.isEmpty()) {
-                        retVal = input.convert();
-                        retVal.setProviderId(m.getProviderId());
-                        retVal.setApproverId(m.getApproverId());
-                        retVal.setApproverName(m.getApproverName());
-                        retVal.setUserId(m.getId());
-                        String jwt = JWTUtil.create(userId, retVal.getId(), 30);
-                        retVal.setJwt(jwt);
+        try (RpmHandler handler = RpmFactory.get(RpmHandler.class)) {
+            rpmInfo = handler.signIn(input);
+            userId = rpmInfo.userId();
+        } catch (Exception e) {
+            throw new NotFoundException(e);
+        }
+        
+        Map<String, Object> filter = new HashMap();
+        filter.put(USER_ID_KEY, rpmInfo.userId());
+        
+        List<AuthToken> tokens = findMany(filter);
 
-                        try {
-                            doAdd(retVal);
-                        } catch (ExistsException ex) {
-                            // Will not happen
-                            ex.printStackTrace();
-                        }
-                    } else {
-                        retVal = tokens.get(0);
-                        String jwt = JWTUtil.create(userId, retVal.getId(), 30);
-                        retVal.setProviderId(m.getProviderId());
-                        retVal.setApproverId(m.getApproverId());
-                        retVal.setApproverName(m.getApproverName());
-                        retVal.setUserId(m.getId());
-                        retVal.setJwt(jwt);
-                        doUpdate(retVal);
-                    }
-                }
-            } else {
-                throw new NotFoundException("Entry not found");
+        if (tokens.isEmpty()) {
+            retVal = input.convert();
+            retVal.setRpm(rpmInfo);
+            String jwt = JWTUtil.create(userId, retVal.getId(), 30);
+            retVal.setJwt(jwt);
+
+            try {
+                doAdd(retVal);
+            } catch (ExistsException ex) {
+                // Will not happen
+                ex.printStackTrace();
             }
+        } else {
+            retVal = tokens.get(0);
+            String jwt = JWTUtil.create(userId, retVal.getId(), 30);
+            retVal.setRpm(rpmInfo);
+            retVal.setJwt(jwt);
+            doUpdate(retVal);
         }
         
         return retVal;

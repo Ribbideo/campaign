@@ -1,7 +1,7 @@
 package com.kencorhealth.campaign.http.incoming.handler.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.dm.input.MemberInput;
 import com.kencorhealth.campaign.http.base.handler.impl.HttpBasedHandlerImpl;
@@ -17,23 +17,23 @@ public class MemberHandlerImpl extends HttpBasedHandlerImpl
                 null,
                 input,
                 String.class,
-                PROVIDER,
-                input.getProviderId(),
+                CLINIC,
+                input.getClinicId(),
                 MEMBER
             );
     }
 
     @Override
     public Member getByName(
-        String providerId,
+        String clinicId,
         String lastName,
         String firstName) throws CampaignException {
         return
             sendGet(
                 null,
                 Member.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 MEMBER,
                 BY_NAME,
                 lastName,
@@ -42,28 +42,27 @@ public class MemberHandlerImpl extends HttpBasedHandlerImpl
     }
 
     @Override
-    public Member getById(String providerId, String memberId)
+    public Member getById(String clinicId, String memberId)
         throws CampaignException {
         return
             sendGet(
                 null,
                 Member.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 MEMBER,
                 memberId
             );
     }
 
     @Override
-    public List<Member> getByProvider(String providerId)
-        throws CampaignException {
+    public List<Member> getByClinic(String clinicId) throws CampaignException {
         return
             sendGet(
                 null,
                 new TypeReference<List<Member>>() {},
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 MEMBER
             );
     }

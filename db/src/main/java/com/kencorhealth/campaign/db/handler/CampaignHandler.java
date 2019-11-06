@@ -15,10 +15,10 @@ public interface CampaignHandler
         return CAMPAIGN_COLLECTION;
     }
 
-    Campaign findByProviderAndName(String providerId, String name)
+    Campaign findByClinicAndName(String clinicId, String name)
         throws NotFoundException, CampaignException;
-    Campaign findByProviderAndId(String providerId, String campaignId)
+    Campaign findByClinicAndId(String clinicId, String campaignId)
         throws NotFoundException, CampaignException;
-    public List<Campaign> findByProvider(String providerId)
+    public List<Campaign> findByClinic(String clinicId)
         throws CampaignException;
 }

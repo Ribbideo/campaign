@@ -1,6 +1,10 @@
 package com.kencorhealth.campaign.dm.delivery.nav;
 
-public class QualifiedNav {
+import com.kencorhealth.campaign.dm.common.Transformable;
+import com.kencorhealth.campaign.dm.common.Transformer;
+import com.kencorhealth.campaign.dm.exception.CampaignException;
+
+public class QualifiedNav implements Transformable {
     private String containerId;
     private Nav nav;
 
@@ -18,6 +22,12 @@ public class QualifiedNav {
 
     public void setNav(Nav nav) {
         this.nav = nav;
+    }
+    
+    @Override
+    public void transformFrom(Transformer transformer)
+        throws CampaignException {
+        nav.transformFrom(transformer);
     }
 
     @Override

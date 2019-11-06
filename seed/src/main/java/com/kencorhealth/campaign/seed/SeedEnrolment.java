@@ -46,8 +46,8 @@ public class SeedEnrolment {
         WebMethod webMethod = new WebMethod();
         
         TitleNav title = new TitleNav();
-        title.setTitle("Welcome to Kespra Clinic");
-        title.setLogoUrl("https://s3-us-west-2.amazonaws.com/com.kencorhealth.campaign/ClinicLogo.png");
+        title.setTitle("Welcome to ${auth.rpm.clinic.name}");
+        title.setLogoUrl("${auth.rpm.clinic.logoUrl}");
         title.setButtonText("Next");
         title.setHint("Press ENTER");
         

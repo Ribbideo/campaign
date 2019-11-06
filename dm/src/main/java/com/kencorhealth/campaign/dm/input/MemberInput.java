@@ -5,16 +5,14 @@ import com.kencorhealth.campaign.dm.common.Gender;
 import com.kencorhealth.campaign.dm.common.Input;
 import com.kencorhealth.campaign.dm.common.NotifSettings;
 import com.kencorhealth.campaign.dm.common.PhoneType;
-import com.kencorhealth.campaign.dm.provider.Member;
-import com.kencorhealth.campaign.dm.provider.RoleInfo;
+import com.kencorhealth.campaign.dm.clinic.Member;
+import com.kencorhealth.campaign.dm.clinic.RoleInfo;
 import java.util.Set;
 
 public class MemberInput extends Input<Member> {
     private String consentFormUrl;
     private String roleName;
-    private String providerId;
-    private String approverId;
-    private String approverName;
+    private String clinicId;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -33,9 +31,7 @@ public class MemberInput extends Input<Member> {
         retVal.autoFill();
         
         retVal.setConsentFormUrl(consentFormUrl);
-        retVal.setProviderId(providerId);
-        retVal.setApproverId(approverId);
-        retVal.setApproverName(approverName);
+        retVal.setClinicId(clinicId);
         retVal.setFirstName(firstName);
         retVal.setLastName(lastName);
         retVal.setPhoneNumber(phoneNumber);
@@ -59,22 +55,6 @@ public class MemberInput extends Input<Member> {
         this.consentFormUrl = consentFormUrl;
     }
     
-    public String getApproverName() {
-        return approverName;
-    }
-
-    public void setApproverName(String approverName) {
-        this.approverName = approverName;
-    }
-    
-    public String getApproverId() {
-        return approverId;
-    }
-
-    public void setApproverId(String approverId) {
-        this.approverId = approverId;
-    }
-
     public String getRoleName() {
         return roleName;
     }
@@ -139,12 +119,12 @@ public class MemberInput extends Input<Member> {
         this.tags = tags;
     }
     
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     public String getFirstName() {
@@ -174,13 +154,12 @@ public class MemberInput extends Input<Member> {
     @Override
     public String toString() {
         return
-            "MemberInput{" + "providerId=" + providerId + ", firstName=" +
+            "MemberInput{" + "clinicId=" + clinicId + ", firstName=" +
             firstName + ", lastName=" + lastName + ", phoneNumber=" +
             phoneNumber + ", phoneType=" + phoneType + ", email=" + email +
             ", gender=" + gender + ", dob=" + dob + ", location=" + location +
             ", tags=" + tags + ", notifSettings=" + notifSettings +
-            ", roleName=" + roleName + ", approverId=" + approverId +
-            ", approverName=" + approverName + ", consentFormUrl=" +
+            ", roleName=" + roleName + ", approverId=" + ", consentFormUrl=" +
             consentFormUrl + '}';
     }
 }

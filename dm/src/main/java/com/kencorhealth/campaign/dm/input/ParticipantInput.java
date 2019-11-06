@@ -7,7 +7,7 @@ import com.kencorhealth.campaign.dm.entity.ParticipantStatus;
 public class ParticipantInput extends Input<Participant> {
     private String memberId;
     private String campaignId;
-    private String providerId;
+    private String clinicId;
     private ParticipantStatus status;
 
     @Override
@@ -15,7 +15,7 @@ public class ParticipantInput extends Input<Participant> {
         Participant retVal = new Participant();
         retVal.autoFill();
         
-        retVal.setProviderId(providerId);
+        retVal.setClinicId(clinicId);
         retVal.setCampaignId(campaignId);
         retVal.setMemberId(memberId);
         retVal.setStatus(status);
@@ -23,12 +23,12 @@ public class ParticipantInput extends Input<Participant> {
         return retVal;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
     
     public String getCampaignId() {
@@ -59,7 +59,7 @@ public class ParticipantInput extends Input<Participant> {
     public String toString() {
         return
             "ParticipantInput{" + "memberId=" + memberId + ", status=" +
-            status + ", campaignId=" + campaignId + ", providerId=" +
-            providerId + '}';
+            status + ", campaignId=" + campaignId + ", clinicId=" +
+            clinicId + '}';
     }
 }

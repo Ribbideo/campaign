@@ -6,7 +6,7 @@ import com.kencorhealth.campaign.dm.common.CampaignSettings;
 
 public class Campaign extends Described {
     private String goal;
-    private String providerId;
+    private String clinicId;
     private TypeInfo typeInfo;
     private Long beginDate;
     private Long endDate;
@@ -79,18 +79,18 @@ public class Campaign extends Described {
         this.endDate = endDate;
     }
     
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     @Override
     public String toString() {
         return
-            "Campaign{" + "providerId=" + providerId +
+            "Campaign{" + "clinicId=" + clinicId +
             ", beginDate=" + beginDate + ", endDate=" +
             endDate + ", settings=" + settings + ", typeInfo=" +
             typeInfo + ", goal=" + goal + ", delivery=" + delivery +

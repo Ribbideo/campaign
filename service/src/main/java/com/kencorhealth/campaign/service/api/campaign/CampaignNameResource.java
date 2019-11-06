@@ -23,7 +23,10 @@ public class CampaignNameResource extends CampaignBasedResource {
         
         try (CampaignHandler ch = CampaignFactory.get(CampaignHandler.class)) {
             Campaign campaign =
-                ch.findByProviderAndName(at.getProviderId(), name);
+                ch.findByClinicAndName(
+                    at.clinicId(),
+                    name
+                );
             retVal =
                 Response
                     .status(HttpServletResponse.SC_OK)

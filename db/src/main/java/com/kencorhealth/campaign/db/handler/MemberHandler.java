@@ -1,7 +1,7 @@
 package com.kencorhealth.campaign.db.handler;
 
 import com.kencorhealth.campaign.dm.annotations.Exportable;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.dm.exception.NotFoundException;
 import com.kencorhealth.campaign.dm.input.MemberInput;
@@ -15,14 +15,14 @@ public interface MemberHandler
         return MEMBER_COLLECTION;
     }
     
-    List<Member> findByProvider(String providerId)
+    List<Member> findByClinic(String clinicId)
         throws NotFoundException, CampaignException;
     Member findByName(
-        String providerId, String lastName, String firstName)
+        String clinicId, String lastName, String firstName)
         throws NotFoundException, CampaignException;
     boolean existsByMobileNumber(
-        String providerId, String mobileNumber, String roleName)
+        String clinicId, String mobileNumber, String roleName)
         throws CampaignException;
-    Member findById(String providerId, String memberId)
+    Member findById(String clinicId, String memberId)
         throws NotFoundException, CampaignException;
 }

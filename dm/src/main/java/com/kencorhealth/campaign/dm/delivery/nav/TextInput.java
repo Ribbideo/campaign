@@ -1,5 +1,8 @@
 package com.kencorhealth.campaign.dm.delivery.nav;
 
+import com.kencorhealth.campaign.dm.common.Transformer;
+import com.kencorhealth.campaign.dm.exception.CampaignException;
+
 public class TextInput extends InputBased {
     private FieldType fieldType;
     private String title;
@@ -27,6 +30,13 @@ public class TextInput extends InputBased {
 
     public void setHint(String hint) {
         this.hint = hint;
+    }
+
+    @Override
+    public void transformFrom(Transformer transformer)
+        throws CampaignException {
+        this.title = transformer.transform(title);
+        this.hint = transformer.transform(hint);
     }
 
     @Override

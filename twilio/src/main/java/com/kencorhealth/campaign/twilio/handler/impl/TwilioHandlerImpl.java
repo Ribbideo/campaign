@@ -2,7 +2,7 @@ package com.kencorhealth.campaign.twilio.handler.impl;
 
 import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.db.handler.MemberHandler;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.entity.Participant;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.twilio.TwilioFactory;

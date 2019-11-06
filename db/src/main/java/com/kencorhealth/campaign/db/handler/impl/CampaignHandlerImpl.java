@@ -1,7 +1,6 @@
 package com.kencorhealth.campaign.db.handler.impl;
 
 import com.kencorhealth.campaign.db.handler.CampaignHandler;
-import com.kencorhealth.campaign.db.handler.ProviderHandler;
 import com.kencorhealth.campaign.dm.entity.Campaign;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.dm.exception.ExistsException;
@@ -10,9 +9,12 @@ import com.kencorhealth.campaign.dm.input.CampaignInput;
 import com.kencorhealth.campaign.json.JsonUtil;
 import com.kencorhealth.campaign.mongo.handler.impl.MongoHandlerImpl;
 import com.mongodb.MongoClient;
+import com.mongodb.client.model.Filters;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.bson.conversions.Bson;
 
 public class CampaignHandlerImpl
     extends MongoHandlerImpl<Campaign, CampaignInput>
@@ -22,19 +24,13 @@ public class CampaignHandlerImpl
     }
     
     @Override
-    public Campaign findByProviderAndName(
-        String providerId, String name)
+    public Campaign findByClinicAndName(
+        String clinicId, String name)
         throws NotFoundException, CampaignException {
         Campaign retVal = null;
         
-        try (ProviderHandler ph = new ProviderHandlerImpl(mc)) {
-            ph.findById(providerId);
-        } catch (Exception e) {
-            throw new CampaignException(e);
-        }
-        
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(NAME_KEY, name);
         
         List<Campaign> campaigns = findMany(filter);
@@ -44,7 +40,7 @@ public class CampaignHandlerImpl
         } else {
             String message =
                 "No campaign found for name '" + name +
-                "' and provider '" + providerId + "'";
+                "' and clinic '" + clinicId + "'";
             
             throw new NotFoundException(message);
         }
@@ -53,19 +49,13 @@ public class CampaignHandlerImpl
     }
 
     @Override
-    public Campaign findByProviderAndId(
-        String providerId, String campaignId)
+    public Campaign findByClinicAndId(
+        String clinicId, String campaignId)
         throws NotFoundException, CampaignException {
         Campaign retVal = null;
         
-        try (ProviderHandler ph = new ProviderHandlerImpl(mc)) {
-            ph.findById(providerId);
-        } catch (Exception e) {
-            throw new CampaignException(e);
-        }
-        
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(ID_KEY, campaignId);
         
         List<Campaign> campaigns = findMany(filter);
@@ -75,7 +65,7 @@ public class CampaignHandlerImpl
         } else {
             String message =
                 "No campaign found for Id '" + campaignId +
-                "' and provider '" + providerId + "'";
+                "' and clinic '" + clinicId + "'";
             
             throw new NotFoundException(message);
         }
@@ -84,12 +74,24 @@ public class CampaignHandlerImpl
     }
     
     @Override
-    public List<Campaign> findByProvider(String providerId)
+    public List<Campaign> findByClinic(String clinicId)
         throws CampaignException {
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+
         
-        return findMany(filter);
+        Bson orFilter =
+            Filters.or(
+                    Filters.eq(CLINIC_ID_KEY, clinicId), 
+                    Filters.eq(CLINIC_ID_KEY, null)
+                  );        
+        
+        Map<String, Object> or = new HashMap();
+        List<Object> values = Arrays.asList(clinicId, null);
+        or.put(CLINIC_ID_KEY, values);
+        
+        filter.put(OR_KEY, or);
+        
+        return doFindMany(orFilter);
     }
     
     @Override
@@ -98,11 +100,11 @@ public class CampaignHandlerImpl
         boolean proceed = false;
         
         String name = data.getName();
-        String providerId = data.getProviderId();
+        String clinicId = data.getClinicId();
             
         Map<String, Object> filter = new HashMap();
         filter.put(NAME_KEY, name);
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
 
         List<Campaign> campaigns = findMany(filter);
 

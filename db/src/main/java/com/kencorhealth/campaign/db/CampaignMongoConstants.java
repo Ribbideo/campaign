@@ -4,7 +4,6 @@ import com.kencorhealth.campaign.mongo.MongoConstants;
 
 public interface CampaignMongoConstants extends MongoConstants {
     // Collections
-    String PROVIDER_COLLECTION = "Provider";
     String MEMBER_COLLECTION = "Member";
     String CAMPAIGN_COLLECTION = "Campaign";
     String WORKFLOW_DATA_COLLECTION = "WorkflowData";
@@ -17,8 +16,10 @@ public interface CampaignMongoConstants extends MongoConstants {
     String JWT_SUBJECT = "AuthToken";
         
     // Keys
-    String PROVIDER_TYPE_KEY = "providerType";
-    String PROVIDER_ID_KEY = "providerId";
+    String OR_KEY = "$or";
+    String AND_KEY = "$and";
+    String CLINIC_TYPE_KEY = "clinicType";
+    String CLINIC_ID_KEY = "clinicId";
     String USER_ID_KEY = "userId";
     String IN_USE_KEY = "inUse";
     String CAMPAIGN_ID_KEY = "campaignId";
@@ -32,5 +33,4 @@ public interface CampaignMongoConstants extends MongoConstants {
     String ROLE_KEY = "role";
     String FILE_ID_KEY = "fileId";
     String EMAIL_KEY = "email";
-    String PASSWORD_KEY = "password";
 }

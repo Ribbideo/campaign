@@ -1,15 +1,15 @@
 package com.kencorhealth.campaign.dm.delegate;
 
 public class CampaignBasedData {
-    private String providerId;
+    private String clinicId;
     private String campaignId;
 
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     public String getCampaignId() {
@@ -24,6 +24,6 @@ public class CampaignBasedData {
     public String toString() {
         return
             "CampaignBasedData{" + "campaignId=" + campaignId +
-            ", providerId=" + providerId + '}';
+            ", clinicId=" + clinicId + '}';
     }
 }

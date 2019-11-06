@@ -34,17 +34,23 @@ public abstract class HttpBasedHandlerImpl implements HttpBasedHandler {
     private String baseUrl;
     private String authorization;
     protected String contentType;
-    private boolean internalMode;
 
     @Override
-    public void setBaseUrl(String baseUrl, boolean internalMode) {
+    public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-        this.internalMode = internalMode;
     }
 
     @Override
     public void setAuthorization(String authorization) {
         this.authorization = authorization;
+    }
+    
+    protected String getBaseUrl() {
+        return baseUrl;
+    }
+    
+    protected String getAuthorization() {
+        return authorization;
     }
     
     public  <T> T sendGet(
@@ -330,10 +336,6 @@ public abstract class HttpBasedHandlerImpl implements HttpBasedHandler {
         String retVal = null;
         
         StringBuilder uri = new StringBuilder(baseUrl);
-        
-        if (internalMode) {
-            uri.append("api");
-        }
         
         for (String endpoint: endpoints) {
             uri.append("/").append(CampaignUtil.urlSafe(endpoint));

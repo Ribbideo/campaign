@@ -41,9 +41,14 @@ public class NavResource extends CampaignBasedResource {
             qn.setNav(nav);
             
             WorkflowData unused =
-                wdh.createOrGetUnused(at.getProviderId(), campaignId);
+                wdh.createOrGetUnused(
+                    at.clinicId(),
+                    campaignId
+                );
             
             qn.setContainerId(unused.getId());
+            
+            NavUtil.transform(qn, at);
             
             retVal =
                 Response

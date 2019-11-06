@@ -1,6 +1,8 @@
 package com.kencorhealth.campaign.dm.delivery;
 
+import com.kencorhealth.campaign.dm.common.Transformer;
 import com.kencorhealth.campaign.dm.delivery.nav.*;
+import com.kencorhealth.campaign.dm.exception.CampaignException;
 
 public class PdfDisplay extends DisplayBased {
     private String title;
@@ -20,6 +22,13 @@ public class PdfDisplay extends DisplayBased {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public void transformFrom(Transformer transformer)
+        throws CampaignException {
+        this.title = transformer.transform(title);
+        this.url = transformer.transform(url);
     }
 
     @Override

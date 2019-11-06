@@ -1,5 +1,8 @@
 package com.kencorhealth.campaign.dm.delivery.nav;
 
+import com.kencorhealth.campaign.dm.common.CampaignUtil;
+import com.kencorhealth.campaign.dm.common.Transformer;
+import com.kencorhealth.campaign.dm.exception.CampaignException;
 import java.util.List;
 
 public class ChoiceNav extends ProcessingBasedNav {
@@ -47,6 +50,20 @@ public class ChoiceNav extends ProcessingBasedNav {
 
     public void setChoices(List<ChoiceInput> choices) {
         this.choices = choices;
+    }
+
+    @Override
+    public void transformFrom(Transformer transformer)
+        throws CampaignException {
+        this.title = transformer.transform(title);
+        this.buttonText = transformer.transform(buttonText);
+        this.hint = transformer.transform(hint);
+        
+        if (CampaignUtil.valid(choices)) {
+            for (ChoiceInput input: choices) {
+                input.transformFrom(transformer);
+            }
+        }
     }
 
     @Override

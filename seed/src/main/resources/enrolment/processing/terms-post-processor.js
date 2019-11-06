@@ -13,23 +13,22 @@ function execute(input) {
     var mh = input["campaign.handler.db"].member;
     var wdh = input["campaign.handler.db"].workflowData;
     var twh = input["campaign.handler.twilio"].twilio;
-    var proh = input["campaign.handler.db"].provider;
-    var uh = input["campaign.handler.http.rpm"].user;
+    var rpmh = input["campaign.handler.http.rpm"].rpm;
     var ph = input["campaign.handler.pdf"].pdf;
 
-    var userFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 1);
-    var signatureFormData = wdh.get(authToken.providerId, context.campaignId, context.containerId, 2);
+    var clinicId = authToken.rpm.clinic.id;
+
+    var userFormData = wdh.get(clinicId, context.campaignId, context.containerId, 1);
+    var signatureFormData = wdh.get(clinicId, context.campaignId, context.containerId, 2);
 
     var consentForm = helper.download("ConsentFormAnnotated.pdf");
 
     var data = helper.newMap();
 
-    var provider = proh.findById(authToken.providerId);
-
     data.put("patientFullName", userFormData.firstName + " " + userFormData.lastName);
     data.put("todaysDate", helper.today());
     data.put("patientSignature", helper.download(context.campaignId, signatureFormData.file));
-    data.put("clinicName", provider.name);
+    data.put("clinicName", authToken.rpm.clinic.name);
 
     var consentFormUrl = ph.transform(consentForm, context.campaignId, data);
 
@@ -39,7 +38,7 @@ function execute(input) {
 
     var phoneType = twh.getPhoneType("1" + phoneNumber);
 
-    memberInput.providerId = authToken.providerId;
+    memberInput.clinicId = clinicId;
     memberInput.firstName = userFormData.firstName;
     memberInput.lastName = userFormData.lastName;
     memberInput.phoneNumber = phoneNumber;
@@ -49,11 +48,11 @@ function execute(input) {
 
     var memberId = mh.add(memberInput);
 
-    var existingPatient = uh.userIfExists(phoneNumber);
+    var existingPatient = rpmh.userIfExists(phoneNumber);
 
     if (existingPatient != null) {
         /* Just add consent doc URL */
-        uh.updateConsentFormUrl(existingPatient.id, consentFormUrl);
+        rpmh.updateConsentFormUrl(existingPatient.id, consentFormUrl);
     } else {
         /* Create patient in RPM */
         var userInput = {
@@ -65,7 +64,7 @@ function execute(input) {
 	  userType: "PATIENT",
 	  role: "patient",
 	  userName: phoneNumber,
-	  clinicId: provider.clinicId,
+	  clinicId: clinicId,
 	  billingApproverId: authToken.approverId,
 	  billingApproverName: authToken.approverName,
 	  initialPassword: "123456",
@@ -74,7 +73,7 @@ function execute(input) {
           diagnosis:{}
 	};
 
-        var userOutput = uh.create(userInput);
+        var userOutput = rpmh.create(userInput);
 
         print("User output: " + userOutput);
     }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WorkflowData extends Identified {
     private boolean inUse;
-    private String providerId;
+    private String clinicId;
     private String campaignId;
     private List<FormData> formData;
 
@@ -17,12 +17,12 @@ public class WorkflowData extends Identified {
         this.campaignId = campaignId;
     }
     
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     public boolean isInUse() {
@@ -45,7 +45,7 @@ public class WorkflowData extends Identified {
     public String toString() {
         return
             "WorkflowData{" + "formData=" + formData + ", inUse=" + inUse +
-            ", providerId=" + providerId + ", campaignId=" + campaignId +
+            ", clinicId=" + clinicId + ", campaignId=" + campaignId +
             "}, " + super.toString();
     }
 }

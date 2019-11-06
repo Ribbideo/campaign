@@ -43,6 +43,8 @@ public class NavIdResource extends CampaignBasedResource {
             
             Nav item = campaign.getDelivery().getWeb().findById(navId);
             
+            NavUtil.transform(item, at);
+            
             retVal =
                 Response
                     .status(HttpServletResponse.SC_OK)
@@ -116,9 +118,11 @@ public class NavIdResource extends CampaignBasedResource {
                 web.findNextById(
                     navId,
                     scriptInput,
-                    ExUtil.getExecutor()
+                    NavUtil.getExecutor()
                 );
             
+            NavUtil.transform(child, at);
+
             retVal =
                 Response
                     .status(HttpServletResponse.SC_OK)

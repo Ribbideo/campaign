@@ -14,18 +14,17 @@ public class ExecutionHandlerImpl extends HttpBasedHandlerImpl
     implements ExecutionHandler {
     @Override
     public boolean dispatchSMS(
-        String providerId,
+        String clinicId,
         String campaignId,
         SMSInput input) throws InvalidException, CampaignException {
-        ensureCampaignExistence(providerId, campaignId);
+        ensureCampaignExistence(clinicId, campaignId);
         
         return
-            sendPut(
-                null,
+            sendPut(null,
                 input,
                 Boolean.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN,
                 campaignId,
                 EXECUTION,
@@ -35,17 +34,16 @@ public class ExecutionHandlerImpl extends HttpBasedHandlerImpl
 
     @Override
     public boolean dispatchIVR(
-        String providerId, String campaignId, IVRInput input)
+        String clinicId, String campaignId, IVRInput input)
         throws InvalidException, CampaignException {
-        ensureCampaignExistence(providerId, campaignId);
+        ensureCampaignExistence(clinicId, campaignId);
         
         return
-            sendPut(
-                null,
+            sendPut(null,
                 input,
                 Boolean.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN,
                 campaignId,
                 EXECUTION,
@@ -53,12 +51,12 @@ public class ExecutionHandlerImpl extends HttpBasedHandlerImpl
             );
     }
     
-    private void ensureCampaignExistence(String providerId, String campaignId)
+    private void ensureCampaignExistence(String clinicId, String campaignId)
         throws InvalidException, CampaignException {
         Campaign campaign = null;
         
         try (CampaignHandler ch = CHIFactory.internal(CampaignHandler.class)) {
-            campaign = ch.getById(providerId, campaignId);
+            campaign = ch.getById(clinicId, campaignId);
         }
         
         if (campaign == null) {

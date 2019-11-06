@@ -4,7 +4,7 @@ import com.kencorhealth.campaign.dm.auth.AuthToken;
 import com.kencorhealth.campaign.dm.auth.Identity;
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.common.Input;
-import com.kencorhealth.campaign.dm.provider.Role;
+import com.kencorhealth.campaign.dm.clinic.Role;
 
 public class AuthInput extends Input<AuthToken> {
     private Identity identity;
@@ -16,8 +16,6 @@ public class AuthInput extends Input<AuthToken> {
         AuthToken retVal = new AuthToken();
 
         retVal.autoFill();
-        
-        retVal.setRole(role);
         
         return retVal;
     }

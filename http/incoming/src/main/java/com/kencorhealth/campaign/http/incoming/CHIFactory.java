@@ -37,7 +37,7 @@ public class CHIFactory {
                 Class.forName(packageName + ".impl." + implClassName);
             Constructor<H> ctor = implClass.getConstructor();
             retVal = ctor.newInstance();
-            retVal.setBaseUrl(baseUrl, internal);
+            retVal.setBaseUrl(baseUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }

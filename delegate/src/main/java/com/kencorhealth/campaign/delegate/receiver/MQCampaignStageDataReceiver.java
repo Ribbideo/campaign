@@ -28,7 +28,7 @@ public class MQCampaignStageDataReceiver
         
         String campaignId = cd.getCampaignId();
         String containerId = cd.getContainerId();
-        String providerId = cd.getAuthToken().getProviderId();
+        String clinicId = cd.getAuthToken().clinicId();
         
         Map<String, Object> formData = si.getFormData();
         
@@ -37,7 +37,7 @@ public class MQCampaignStageDataReceiver
                  CampaignFactory.get(WorkflowDataHandler.class)) {
 
                 wdh.update(
-                    providerId,
+                    clinicId,
                     campaignId,
                     containerId,
                     nav.getId(),

@@ -1,16 +1,14 @@
 package com.kencorhealth.campaign.db.handler.impl;
 
 import com.kencorhealth.campaign.db.handler.MemberHandler;
-import com.kencorhealth.campaign.db.handler.ProviderHandler;
-import com.kencorhealth.campaign.dm.provider.Member;
-import com.kencorhealth.campaign.dm.provider.Provider;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.dm.exception.DbException;
 import com.kencorhealth.campaign.dm.exception.ExistsException;
 import com.kencorhealth.campaign.dm.exception.InvalidException;
 import com.kencorhealth.campaign.dm.exception.NotFoundException;
 import com.kencorhealth.campaign.dm.input.MemberInput;
-import com.kencorhealth.campaign.dm.provider.Role;
+import com.kencorhealth.campaign.dm.clinic.Role;
 import com.kencorhealth.campaign.mongo.handler.impl.MongoHandlerImpl;
 import com.mongodb.MongoClient;
 import java.util.HashMap;
@@ -29,22 +27,12 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
         DbException, NotFoundException, CampaignException {
         Member retVal = null;
         
-        try (ProviderHandler ph = new ProviderHandlerImpl(mc)) {
-            String providerId = input.getProviderId();
-            
-            Provider p = ph.findById(providerId);
-            
-            if (p == null) {
-                String message =
-                    "Provider with Id '" + providerId + "' not found";
-                throw new InvalidException(message);
-            }
-            
+        try {
             String lastName = input.getLastName();
             String firstName = input.getFirstName();
 
             try {
-                findByName(providerId, lastName, firstName);
+                findByName(input.getClinicId(), lastName, firstName);
 
                 String message =
                     "Member for last name '" + lastName +
@@ -62,11 +50,11 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
     }
 
     @Override
-    public List<Member> findByProvider(String providerId)
+    public List<Member> findByClinic(String clinicId)
         throws NotFoundException, CampaignException {
         Map<String, Object> filter = new HashMap();
         
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         
         List<Member> retVal = super.findMany(filter);
 
@@ -79,13 +67,13 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
 
     @Override
     public Member findByName(
-        String providerId, String lastName, String firstName)
+        String clinicId, String lastName, String firstName)
         throws NotFoundException, CampaignException {
         Member retVal = null;
         
         Map<String, Object> filter = new HashMap();
 
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(LAST_NAME_KEY, lastName);
         filter.put(FIRST_NAME_KEY, firstName);
         
@@ -102,11 +90,11 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
 
     @Override
     public boolean existsByMobileNumber(
-        String providerId, String mobileNumber, String roleName)
+        String clinicId, String mobileNumber, String roleName)
         throws CampaignException {
         Map<String, Object> filter = new HashMap();
 
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(MOBILE_NUMBER_KEY, mobileNumber);
         filter.put(ROLE_INFO_KEY + "." + ROLE_KEY, Role.valueOf(roleName));
         
@@ -116,13 +104,13 @@ public class MemberHandlerImpl extends MongoHandlerImpl<Member, MemberInput>
     }
 
     @Override
-    public Member findById(String providerId, String memberId)
+    public Member findById(String clinicId, String memberId)
         throws NotFoundException, CampaignException {
         Member retVal = null;
         
         Map<String, Object> filter = new HashMap();
         
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(ID_KEY, memberId);
         
         List<Member> members = super.findMany(filter);

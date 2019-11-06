@@ -4,8 +4,9 @@ import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.kencorhealth.campaign.cdn.CDNUtil;
 import com.kencorhealth.campaign.db.CampaignFactory;
-import com.kencorhealth.campaign.db.handler.ProviderHandler;
+import com.kencorhealth.campaign.db.handler.CampaignHandler;
 import com.kencorhealth.campaign.dm.auth.AuthToken;
+import com.kencorhealth.campaign.http.rpm.RpmFactory;
 import com.kencorhealth.campaign.mongo.MongoHealthCheck;
 import com.kencorhealth.campaign.mq.CMQFactory;
 import com.kencorhealth.campaign.service.api.ApiResource;
@@ -42,9 +43,10 @@ public class Campaign extends Application<CampaignConfig>
     @Override
     public void run(CampaignConfig cc, Environment e) throws Exception {
         CampaignFactory.init(cc.getMongo().getUri());
+        RpmFactory.init(cc.getRouter());
         
         final MongoHealthCheck mhc =
-            new MongoHealthCheck(ProviderHandler.class);
+            new MongoHealthCheck(CampaignHandler.class);
         HealthCheckRegistry hcr = e.healthChecks();
         hcr.register("Mongo", mhc);        
         

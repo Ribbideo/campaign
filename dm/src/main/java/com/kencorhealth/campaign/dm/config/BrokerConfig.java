@@ -1,6 +1,6 @@
-package com.kencorhealth.campaign.mq;
+package com.kencorhealth.campaign.dm.config;
 
-public class BrokerInfo {
+public class BrokerConfig {
     private String host;
     private int port;
 

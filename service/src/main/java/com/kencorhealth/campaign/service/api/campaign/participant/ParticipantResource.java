@@ -5,7 +5,7 @@ import com.kencorhealth.campaign.db.CampaignFactory;
 import com.kencorhealth.campaign.db.handler.MemberHandler;
 import com.kencorhealth.campaign.db.handler.ParticipantHandler;
 import com.kencorhealth.campaign.dm.auth.AuthToken;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.entity.Participant;
 import com.kencorhealth.campaign.dm.input.ParticipantInput;
 import com.kencorhealth.campaign.dm.output.ParticipantDetail;
@@ -36,7 +36,7 @@ public class ParticipantResource extends CampaignBasedResource {
         try (ParticipantHandler ph =
              CampaignFactory.get(ParticipantHandler.class)) {
             input.setCampaignId(campaignId);
-            input.setProviderId(at.getProviderId());
+            input.setClinicId(at.clinicId());
             
             Participant p = ph.add(input);
             
@@ -59,12 +59,12 @@ public class ParticipantResource extends CampaignBasedResource {
         @PathParam(CAMPAIGN_ID) String campaignId) {
         Response retVal = null;
         
-        String providerId = at.getProviderId();
+        String clinicId = at.clinicId();
         
         try (ParticipantHandler ph =
              CampaignFactory.get(ParticipantHandler.class)) {
             Map<String, Object> filter = new HashMap();
-            filter.put(PROVIDER_ID, providerId);
+            filter.put(CLINIC_ID, clinicId);
             filter.put(CAMPAIGN_ID, campaignId);
             
             List<Participant> participants = ph.findMany(filter);
@@ -79,7 +79,7 @@ public class ParticipantResource extends CampaignBasedResource {
                     String memberId = participant.getMemberId();
 
                     try {
-                        Member member = mh.findById(providerId, memberId);
+                        Member member = mh.findById(clinicId, memberId);
 
                         pd.setMember(member);
 

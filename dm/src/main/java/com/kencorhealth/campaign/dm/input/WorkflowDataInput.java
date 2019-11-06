@@ -6,7 +6,7 @@ import com.kencorhealth.campaign.dm.delivery.web.WorkflowData;
 
 public class WorkflowDataInput extends Input<WorkflowData> {
     private String campaignId;
-    private String providerId;
+    private String clinicId;
     private String id;
 
     public WorkflowDataInput() {
@@ -36,24 +36,24 @@ public class WorkflowDataInput extends Input<WorkflowData> {
         retVal.setId(id);
         retVal.autoFill();
         
-        retVal.setProviderId(providerId);
+        retVal.setClinicId(clinicId);
         retVal.setCampaignId(campaignId);
         
         return retVal;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     @Override
     public String toString() {
         return
-            "WorkflowDataInput{" + "providerId=" + providerId +
+            "WorkflowDataInput{" + "clinicId=" + clinicId +
             ", campaignId=" + campaignId + "}, " + super.toString();
     }
 }

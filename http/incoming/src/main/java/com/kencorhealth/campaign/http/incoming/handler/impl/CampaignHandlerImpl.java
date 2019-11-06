@@ -17,21 +17,21 @@ public class CampaignHandlerImpl extends HttpBasedHandlerImpl
                 null,
                 input,
                 String.class,
-                PROVIDER,
-                input.getProviderId(),
+                CLINIC,
+                input.getClinicId(),
                 CAMPAIGN
             );
     }
 
     @Override
-    public Campaign getByName(String providerId, String name)
+    public Campaign getByName(String clinicId, String name)
         throws CampaignException {
         return
             sendGet(
                 null,
                 Campaign.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN,
                 BY_NAME,
                 name
@@ -39,28 +39,28 @@ public class CampaignHandlerImpl extends HttpBasedHandlerImpl
     }
 
     @Override
-    public Campaign getById(String providerId, String campaignId)
+    public Campaign getById(String clinicId, String campaignId)
         throws CampaignException {
         return
             sendGet(
                 null,
                 Campaign.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN,
                 campaignId
             );
     }
 
     @Override
-    public List<Campaign> getByProvider(String providerId)
+    public List<Campaign> getByClinic(String clinicId)
         throws CampaignException {
         return
             sendGet(
                 null,
                 new TypeReference<List<Campaign>>() {},
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN
             );
     }

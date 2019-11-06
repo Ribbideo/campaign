@@ -23,12 +23,12 @@ public class WorkflowDataHandlerImpl
     }
 
     @Override
-    public WorkflowData createOrGetUnused(String providerId, String campaignId)
+    public WorkflowData createOrGetUnused(String clinicId, String campaignId)
         throws CampaignException, DbException {
         WorkflowData retVal = null;
         
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
         filter.put(IN_USE_KEY, false);
         
@@ -38,7 +38,7 @@ public class WorkflowDataHandlerImpl
             retVal = values.get(0);
         } else {
             WorkflowDataInput input = new WorkflowDataInput();
-            input.setProviderId(providerId);
+            input.setClinicId(clinicId);
             input.setCampaignId(campaignId);
             try {
                 retVal = input.convert();
@@ -55,7 +55,7 @@ public class WorkflowDataHandlerImpl
 
     @Override
     public void update(
-        String providerId,
+        String clinicId,
         String campaignId,
         String containerId,
         String key,
@@ -63,7 +63,7 @@ public class WorkflowDataHandlerImpl
         throws NotFoundException, CampaignException, DbException {
         
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
         filter.put(ID_KEY, containerId);
         
@@ -111,7 +111,7 @@ public class WorkflowDataHandlerImpl
             update(wfd);
         } else {
             String message =
-                "No data found for provider '" + providerId +
+                "No data found for clinic '" + clinicId +
                 "' and Id '" + containerId + "'";
             throw new NotFoundException(message);
         }
@@ -119,7 +119,7 @@ public class WorkflowDataHandlerImpl
     
     @Override
     public Map<String, Object> get(
-        String providerId,
+        String clinicId,
         String campaignId,
         String containerId,
         String key)
@@ -127,7 +127,7 @@ public class WorkflowDataHandlerImpl
         Map<String, Object> retVal = null;
         
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
         filter.put(ID_KEY, containerId);
         
@@ -146,7 +146,7 @@ public class WorkflowDataHandlerImpl
             }
         } else {
             String message =
-                "No data found for provider '" + providerId +
+                "No data found for clinic '" + clinicId +
                 "' and Id '" + containerId + "'";
             throw new NotFoundException(message);
         }
@@ -156,7 +156,7 @@ public class WorkflowDataHandlerImpl
 
     @Override
     public Map<String, Object> get(
-        String providerId,
+        String clinicId,
         String campaignId,
         String containerId,
         int index)
@@ -164,7 +164,7 @@ public class WorkflowDataHandlerImpl
         Map<String, Object> retVal = null;
         
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
         filter.put(ID_KEY, containerId);
         
@@ -176,7 +176,7 @@ public class WorkflowDataHandlerImpl
             retVal = value.getFormData().get(index).getData();
         } else {
             String message =
-                "No data found for provider '" + providerId +
+                "No data found for clinic '" + clinicId +
                 "' and Id '" + containerId + "'";
             throw new NotFoundException(message);
         }

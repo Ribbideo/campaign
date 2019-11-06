@@ -1,10 +1,14 @@
 package com.kencorhealth.campaign.http.rpm;
 
-import com.kencorhealth.campaign.dm.exception.CampaignException;
+import com.kencorhealth.campaign.dm.config.RouterConfig;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
 import java.lang.reflect.Constructor;
 
-public class CHRFactory {
+public class RpmFactory {
+    public static void init(RouterConfig router) {
+        RpmFactory.router = router;
+    }
+    
     public static <H extends RpmBasedHandler> H get(Class<H> handlerClass) {
         H retVal = null;
         
@@ -15,6 +19,7 @@ public class CHRFactory {
                 Class.forName(packageName + ".impl." + implClassName);
             Constructor<H> ctor = implClass.getConstructor();
             retVal = ctor.newInstance();
+            retVal.setRouterConfig(router);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -22,12 +27,5 @@ public class CHRFactory {
         return retVal;
     }
     
-    public static <H extends RpmBasedHandler> H get(
-        Class<H> handlerClass, UrlInfo urlInfo) throws CampaignException {
-        H retVal = get(handlerClass);
-
-        retVal.setUrlInfo(urlInfo);
-        
-        return retVal;
-    }
+    private static RouterConfig router;
 }

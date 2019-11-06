@@ -1,4 +1,4 @@
-package com.kencorhealth.campaign.dm.provider;
+package com.kencorhealth.campaign.dm.clinic;
 
 public class RoleInfo {
     private Role role;

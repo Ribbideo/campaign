@@ -1,7 +1,7 @@
 package com.kencorhealth.campaign.dm.output;
 
 import com.kencorhealth.campaign.dm.common.Identified;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.entity.Participant;
 import com.kencorhealth.campaign.dm.entity.ParticipantStatus;
 

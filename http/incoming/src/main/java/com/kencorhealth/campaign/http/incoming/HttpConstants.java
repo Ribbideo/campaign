@@ -3,7 +3,7 @@ package com.kencorhealth.campaign.http.incoming;
 public interface HttpConstants {
     String FLOW = "flow";
     String TYPE = "type";
-    String PROVIDER = "provider";
+    String CLINIC = "clinic";
     String CAMPAIGN = "campaign";
     String EXECUTIONS = "Executions";
     String EXECUTION = "execution";

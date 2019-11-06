@@ -29,7 +29,7 @@ public class MQExecCampaignSMSReceiver extends MessageHandler<CampaignSMS> {
         
         String from = twilio.getAdminNumber();
         
-        String providerId = cs.getProviderId();
+        String clinicId = cs.getClinicId();
         String campaignId = cs.getCampaignId();
         Set<String> participantIds = cs.getParticipantIds();
         
@@ -39,11 +39,11 @@ public class MQExecCampaignSMSReceiver extends MessageHandler<CampaignSMS> {
              CampaignFactory.get(ParticipantHandler.class);
              CampaignHandler ch =
              CampaignFactory.get(CampaignHandler.class)) {
-            Campaign campaign = ch.findByProviderAndId(providerId, campaignId);
+            Campaign campaign = ch.findByClinicAndId(clinicId, campaignId);
             
             for (String participantId: participantIds) {
                 Participant participant =
-                    ph.findById(providerId, campaignId, participantId);
+                    ph.findById(clinicId, campaignId, participantId);
                 Map<String, Object> twilioData = new HashMap();
                 // TODO: Fill with data later if needed
                 Delivery methods = campaign.getDelivery();

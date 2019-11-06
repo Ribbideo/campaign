@@ -1,5 +1,6 @@
 package com.kencorhealth.campaign.mongo.handler;
 
+import com.kencorhealth.campaign.dm.common.AliasProvider;
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.common.Identified;
 import com.kencorhealth.campaign.dm.common.Input;
@@ -13,8 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface MongoHandler<T extends Identified, TI extends Input>
-    extends AutoCloseable, MongoConstants {
+    extends AliasProvider, AutoCloseable, MongoConstants {
     String collectionName();
+    @Override
     default String alias() {
         return CampaignUtil.smartLowerCase(collectionName());
     }

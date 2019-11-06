@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CampaignHandler extends CampaignBasedHandler {
     String create(CampaignInput input) throws CampaignException;
-    Campaign getByName(String providerId, String name) throws CampaignException;
-    Campaign getById(String providerId, String campaignId) throws CampaignException;
-    List<Campaign> getByProvider(String providerId) throws CampaignException;
+    Campaign getByName(String clinicId, String name) throws CampaignException;
+    Campaign getById(String clinicId, String campaignId) throws CampaignException;
+    List<Campaign> getByClinic(String clinicId) throws CampaignException;
 }

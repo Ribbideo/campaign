@@ -28,7 +28,7 @@ public class CampaignResource extends CampaignBasedResource {
         Response retVal = null;
         
         try (CampaignHandler ch = CampaignFactory.get(CampaignHandler.class)) {
-            input.setProviderId(at.getProviderId());
+            input.setClinicId(at.clinicId());
             
             Campaign campaign = ch.add(input);
             retVal =
@@ -51,7 +51,7 @@ public class CampaignResource extends CampaignBasedResource {
         Response retVal = null;
         
         try (CampaignHandler ch = CampaignFactory.get(CampaignHandler.class)) {
-            List<Campaign> campaigns = ch.findByProvider(at.getProviderId());
+            List<Campaign> campaigns = ch.findByClinic(at.clinicId());
             retVal =
                 Response
                     .status(HttpServletResponse.SC_OK)

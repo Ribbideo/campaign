@@ -1,43 +1,28 @@
 package com.kencorhealth.campaign.http.rpm.handler.impl;
 
-import com.kencorhealth.campaign.dm.exception.CampaignException;
+import com.kencorhealth.campaign.dm.common.CampaignUtil;
+import com.kencorhealth.campaign.dm.config.RouterConfig;
 import com.kencorhealth.campaign.http.base.handler.impl.HttpBasedHandlerImpl;
-import com.kencorhealth.campaign.http.rpm.UrlInfo;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
-import com.kencorhealth.campaign.json.JsonUtil;
-import java.util.HashMap;
-import java.util.Map;
 
 abstract class RpmBasedHandlerImpl extends HttpBasedHandlerImpl
     implements RpmBasedHandler {
+    protected RouterConfig router;
+
     @Override
-    public void setUrlInfo(UrlInfo urlInfo) throws CampaignException {
-        setBaseUrl(urlInfo.getBaseUrl(), false);
-        setAuthorization("Bearer " + getAuthToken(urlInfo));
+    public void setAuthorization(String authToken) {
+        String tokenToSet = null;
+        if (CampaignUtil.valid(authToken)) {
+            tokenToSet =
+                authToken.startsWith("Bearer ") ?
+                authToken : "Bearer " + authToken;
+        }
+
+        super.setAuthorization(tokenToSet);
     }
     
-    protected String getAuthToken(UrlInfo urlInfo) throws CampaignException  {
-        Map<String, Object> result = doSignIn(urlInfo);
-        Map authOutput = (Map) result.get("authOutput");
-        
-        return (String) authOutput.get("authToken");
-    }
-
-    protected Map<String, Object> doSignIn(UrlInfo urlInfo)
-        throws CampaignException  {
-        Map<String, Object> input = new HashMap();
-        
-        input.put("mobileNumber", urlInfo.getUserName());
-        input.put("token", urlInfo.getPassword());
-        
-        return
-            sendPut(
-                null,
-                input,
-                JsonUtil.mapType(String.class, Object.class),
-                V2,
-                USER,
-                SIGN_IN
-            );
+    @Override
+    public void setRouterConfig(RouterConfig router) {
+        this.router = router;
     }
 }

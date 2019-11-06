@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
     implements MongoHandler<T, TI> {
@@ -75,14 +76,18 @@ public abstract class MongoHandlerImpl<T extends Identified, TI extends Input>
         
         Document and = new Document("$and", filterDoc);
         
-        FindIterable<Document> result = collection().find(and);
-        
-        return JsonUtil.asList(result, type);
+        return doFindMany(and);
     }
     
     @Override
     public List<T> findAll() throws CampaignException {
         FindIterable<Document> result = collection().find();
+        
+        return JsonUtil.asList(result, type);
+    }
+    
+    protected List<T> doFindMany(Bson filter) throws CampaignException {
+        FindIterable<Document> result = collection().find(filter);
         
         return JsonUtil.asList(result, type);
     }

@@ -1,4 +1,4 @@
-package com.kencorhealth.campaign.service.config;
+package com.kencorhealth.campaign.dm.config;
 
 public class MongoConfig {
     private String uri;

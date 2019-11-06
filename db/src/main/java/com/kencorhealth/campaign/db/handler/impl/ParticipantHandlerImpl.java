@@ -3,8 +3,7 @@ package com.kencorhealth.campaign.db.handler.impl;
 import com.kencorhealth.campaign.db.handler.CampaignHandler;
 import com.kencorhealth.campaign.db.handler.MemberHandler;
 import com.kencorhealth.campaign.db.handler.ParticipantHandler;
-import com.kencorhealth.campaign.db.handler.ProviderHandler;
-import com.kencorhealth.campaign.dm.provider.Member;
+import com.kencorhealth.campaign.dm.clinic.Member;
 import com.kencorhealth.campaign.dm.entity.Participant;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
 import com.kencorhealth.campaign.dm.exception.DbException;
@@ -51,28 +50,22 @@ public class ParticipantHandlerImpl
     }
 
     @Override
-    public List<Participant> findByProviderAndCampaign(
-        String providerId, String campaignId)
+    public List<Participant> findByClinicAndCampaign(
+        String clinicId, String campaignId)
         throws NotFoundException, CampaignException {
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
         
         return findMany(filter);
     }
 
     @Override
-    public Participant findById(String providerId,
+    public Participant findById(String clinicId,
                                 String campaignId,
                                 String participantId)
         throws NotFoundException, CampaignException {
         Participant retVal = null;
-        
-        try (ProviderHandler ph = new ProviderHandlerImpl(mc)) {
-            ph.findById(providerId);
-        } catch (Exception e) {
-            throw new CampaignException(e);
-        }
         
         try (CampaignHandler ch = new CampaignHandlerImpl(mc)) {
             ch.findById(campaignId);
@@ -81,7 +74,7 @@ public class ParticipantHandlerImpl
         }
         
         Map<String, Object> filter = new HashMap();
-        filter.put(PROVIDER_ID_KEY, providerId);
+        filter.put(CLINIC_ID_KEY, clinicId);
         filter.put(CAMPAIGN_ID_KEY, campaignId);
         
         List<Participant> participants = findMany(filter);
@@ -91,7 +84,7 @@ public class ParticipantHandlerImpl
         } else {
             String message =
                 "No campaign found for Id '" + campaignId +
-                "' and provider '" + providerId + "'";
+                "' and clinic '" + clinicId + "'";
             
             throw new NotFoundException(message);
         }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.common.RequestType;
 import com.kencorhealth.campaign.dm.common.Sanitizer;
+import com.kencorhealth.campaign.dm.common.Transformable;
 import java.util.Objects;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
@@ -14,7 +15,7 @@ import java.util.Objects;
     @JsonSubTypes.Type(value = BranchNav.class, name = "branch"),
     @JsonSubTypes.Type(value = ProcessingBasedNav.class, name = "processing-based")
 })
-public abstract class Nav implements Sanitizer {
+public abstract class Nav implements Transformable, Sanitizer {
     private String id;
     protected RequestType requestType;
     private transient boolean mustAbort;
@@ -47,7 +48,7 @@ public abstract class Nav implements Sanitizer {
     public void setId(String id) {
         this.id = id;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 5;

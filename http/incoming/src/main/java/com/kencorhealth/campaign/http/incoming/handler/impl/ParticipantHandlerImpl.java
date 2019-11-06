@@ -13,12 +13,11 @@ public class ParticipantHandlerImpl extends HttpBasedHandlerImpl
     @Override
     public String create(ParticipantInput input) throws CampaignException {
         return
-            sendPost(
-                null,
+            sendPost(null,
                 input,
                 String.class,
-                PROVIDER,
-                input.getProviderId(),
+                CLINIC,
+                input.getClinicId(),
                 CAMPAIGN,
                 input.getCampaignId(),
                 PARTICIPANT
@@ -27,15 +26,15 @@ public class ParticipantHandlerImpl extends HttpBasedHandlerImpl
 
     @Override
     public ParticipantDetail getById(
-        String providerId,
+        String clinicId,
         String campaignId,
         String participantId) throws CampaignException {
         return
             sendGet(
                 null,
                 ParticipantDetail.class,
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN,
                 campaignId,
                 PARTICIPANT,
@@ -45,13 +44,13 @@ public class ParticipantHandlerImpl extends HttpBasedHandlerImpl
 
     @Override
     public List<ParticipantDetail> getByCampaign(
-        String providerId, String campaignId) throws CampaignException {
+        String clinicId, String campaignId) throws CampaignException {
         return
             sendGet(
                 null,
                 new TypeReference<List<ParticipantDetail>>() {},
-                PROVIDER,
-                providerId,
+                CLINIC,
+                clinicId,
                 CAMPAIGN,
                 campaignId,
                 PARTICIPANT

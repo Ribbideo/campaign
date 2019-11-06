@@ -4,7 +4,7 @@ import com.kencorhealth.campaign.mq.AppDelegate;
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.kencorhealth.campaign.db.CampaignFactory;
-import com.kencorhealth.campaign.db.handler.ProviderHandler;
+import com.kencorhealth.campaign.db.handler.CampaignHandler;
 import com.kencorhealth.campaign.mongo.MongoHealthCheck;
 import com.kencorhealth.campaign.delegate.config.CampaigndConfig;
 import io.dropwizard.setup.Bootstrap;
@@ -14,6 +14,7 @@ import com.kencorhealth.campaign.delegate.common.CampaigndConstants;
 import com.kencorhealth.campaign.delegate.receiver.MQExecCampaignIVRReceiver;
 import com.kencorhealth.campaign.delegate.receiver.MQExecCampaignSMSReceiver;
 import com.kencorhealth.campaign.delegate.receiver.MQCampaignStageDataReceiver;
+import com.kencorhealth.campaign.http.rpm.RpmFactory;
 import com.kencorhealth.campaign.mq.CMQConstants;
 import com.kencorhealth.campaign.mq.MessageHandler;
 import com.kencorhealth.campaign.ngin.ScriptUtil;
@@ -39,13 +40,14 @@ public class Campaignd extends AppDelegate<CampaigndConfig>
 
     @Override
     public void run(CampaigndConfig cc, Environment e) throws Exception {
+        RpmFactory.init(cc.getRouter());
         CampaignFactory.init(cc.getMongo().getUri());
         TwilioFactory.init(cc.getTwilio());
         PdfFactory.init(cc.getS3());
         Class.forName(ScriptUtil.class.getName());
         
         final MongoHealthCheck mhc =
-            new MongoHealthCheck(ProviderHandler.class);
+            new MongoHealthCheck(CampaignHandler.class);
         HealthCheckRegistry hcr = e.healthChecks();
         hcr.register("Mongo", mhc);        
         

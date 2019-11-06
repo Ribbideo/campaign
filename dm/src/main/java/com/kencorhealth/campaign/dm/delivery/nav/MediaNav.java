@@ -1,5 +1,8 @@
 package com.kencorhealth.campaign.dm.delivery.nav;
 
+import com.kencorhealth.campaign.dm.common.Transformer;
+import com.kencorhealth.campaign.dm.exception.CampaignException;
+
 public class MediaNav extends Nav {
     private String title;
     private String url;
@@ -45,6 +48,15 @@ public class MediaNav extends Nav {
 
     public void setHint(String hint) {
         this.hint = hint;
+    }
+
+    @Override
+    public void transformFrom(Transformer transformer)
+        throws CampaignException {
+        this.title = transformer.transform(title);
+        this.url = transformer.transform(url);
+        this.buttonText = transformer.transform(buttonText);
+        this.hint = transformer.transform(hint);
     }
 
     @Override

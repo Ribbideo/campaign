@@ -1,15 +1,11 @@
 package com.kencorhealth.campaign.ngin;
 
 import com.kencorhealth.campaign.db.CampaignFactory;
-import com.kencorhealth.campaign.db.handler.MemberHandler;
-import com.kencorhealth.campaign.db.handler.ProviderHandler;
 import com.kencorhealth.campaign.dm.annotations.Exportable;
 import com.kencorhealth.campaign.dm.auth.AuthToken;
-import com.kencorhealth.campaign.dm.common.CampaignUtil;
 import com.kencorhealth.campaign.dm.common.Script;
 import com.kencorhealth.campaign.dm.delivery.script.ScriptInput;
 import com.kencorhealth.campaign.dm.exception.CampaignException;
-import com.kencorhealth.campaign.dm.provider.Member;
 import com.kencorhealth.campaign.mongo.handler.MongoHandler;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -19,8 +15,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import org.reflections.Reflections;
-import com.kencorhealth.campaign.http.rpm.CHRFactory;
-import com.kencorhealth.campaign.http.rpm.UrlInfo;
+import com.kencorhealth.campaign.http.rpm.RpmFactory;
 import com.kencorhealth.campaign.http.rpm.handler.RpmBasedHandler;
 import com.kencorhealth.campaign.pdf.PdfFactory;
 import com.kencorhealth.campaign.pdf.handler.PdfBasedHandler;
@@ -67,34 +62,14 @@ public class ScriptUtil {
         throws Exception {
         Map<String, RpmBasedHandler> retVal = new HashMap();
         
-        try (ProviderHandler ph = CampaignFactory.get(ProviderHandler.class);
-             MemberHandler mh = CampaignFactory.get(MemberHandler.class)) {
-            String baseUrl =
-                ph.findById(at.getProviderId()).getBaseUrl() + "/api";
-            Member member = mh.findById(at.getUserId());
-            String password =
-                CampaignUtil.crypter().decrypt(
-                    (String) member.getExtra().get("password"),
-                    member
-                );
-            
-            UrlInfo ui = new UrlInfo();
-            ui.setBaseUrl(baseUrl);
-            ui.setUserName(member.getPhoneNumber());
-            ui.setPassword(password);
-            
-            for (String key: RPM_HANDLERS.keySet()) {
-                try {
-                    RpmBasedHandler handler =
-                        RPM_HANDLERS.get(key)
-                        .getClass().getConstructor().newInstance();
-                    handler.setUrlInfo(ui);
+        for (String key: RPM_HANDLERS.keySet()) {
+            RpmBasedHandler handler =
+                RPM_HANDLERS.get(key)
+                .getClass().getConstructor().newInstance();
+            handler.setBaseUrl(at.getRpm().getBaseUrl());
+            handler.setAuthorization(at.getRpm().getAuthToken());
 
-                    retVal.put(key, handler);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            retVal.put(key, handler);
         }
         
         return retVal;
@@ -137,7 +112,7 @@ public class ScriptUtil {
                 } else if (RpmBasedHandler.class.isAssignableFrom(type)) {
                     Class<? extends RpmBasedHandler> rpmHandlerType =
                         (Class<? extends RpmBasedHandler>) type;
-                    RpmBasedHandler handler = CHRFactory.get(rpmHandlerType);
+                    RpmBasedHandler handler = RpmFactory.get(rpmHandlerType);
                     RPM_HANDLERS.put(handler.alias(), handler);
                 } else if (PdfBasedHandler.class.isAssignableFrom(type)) {
                     PdfBasedHandler handler = PdfFactory.get();

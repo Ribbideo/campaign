@@ -1,5 +1,7 @@
 package com.kencorhealth.campaign.pdf.handler;
 
-public interface PdfBasedHandler {
-    String alias();
+import com.kencorhealth.campaign.dm.common.AliasProvider;
+
+public interface PdfBasedHandler extends AliasProvider {
+    // Empty
 }

@@ -5,15 +5,15 @@ import com.kencorhealth.campaign.dm.common.Identified;
 public class Participant extends Identified {
     private String memberId;
     private String campaignId;
-    private String providerId;
+    private String clinicId;
     private ParticipantStatus status;
 
-    public String getProviderId() {
-        return providerId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
     public String getCampaignId() {
@@ -44,7 +44,7 @@ public class Participant extends Identified {
     public String toString() {
         return
             "Participant{" + "memberId=" + memberId + ", status=" +
-            status + ", campaignId=" + campaignId + ", providerId=" +
-            providerId + "}, " + super.toString();
+            status + ", campaignId=" + campaignId + ", clinicId=" +
+            clinicId + "}, " + super.toString();
     }
 }

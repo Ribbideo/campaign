@@ -1,5 +1,6 @@
 package com.kencorhealth.campaign.mq;
 
+import com.kencorhealth.campaign.dm.config.BrokerConfig;
 import com.rabbitmq.client.QueueingConsumer;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
@@ -14,12 +15,12 @@ public abstract class AppDelegate<C extends Configuration>
     private final static Logger log =
         LoggerFactory.getLogger(AppDelegate.class);
     private QueueingConsumer consumer;
-    private BrokerInfo brokerInfo;
+    private BrokerConfig brokerInfo;
     private Map<String, Class<? extends MessageHandler<?>>> routingDataMap;
 
     @Override
     public void run(C config, Environment e) throws Exception {
-        BrokerInfoProvider bcp = (BrokerInfoProvider) config;
+        BrokerConfigProvider bcp = (BrokerConfigProvider) config;
         
         CMQFactory.init(bcp);
 

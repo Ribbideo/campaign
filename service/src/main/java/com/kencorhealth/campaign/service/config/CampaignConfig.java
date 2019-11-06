@@ -2,18 +2,21 @@ package com.kencorhealth.campaign.service.config;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kencorhealth.campaign.cdn.S3Config;
-import com.kencorhealth.campaign.mq.BrokerInfo;
+import com.kencorhealth.campaign.dm.config.MongoConfig;
+import com.kencorhealth.campaign.dm.config.BrokerConfig;
+import com.kencorhealth.campaign.dm.config.RouterConfig;
 import io.dropwizard.Configuration;
-import com.kencorhealth.campaign.mq.BrokerInfoProvider;
 import com.palantir.websecurity.WebSecurityConfigurable;
 import com.palantir.websecurity.WebSecurityConfiguration;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import com.kencorhealth.campaign.mq.BrokerConfigProvider;
 
 public class CampaignConfig extends Configuration
-    implements BrokerInfoProvider, WebSecurityConfigurable {
+    implements BrokerConfigProvider, WebSecurityConfigurable {
     private MongoConfig mongo;
-    private BrokerInfo broker;
+    private BrokerConfig broker;
+    private RouterConfig router;
     private S3Config s3;
 
     @JsonProperty("webSecurity")
@@ -26,6 +29,14 @@ public class CampaignConfig extends Configuration
         return this.webSecurity;
     }
 
+    public RouterConfig getRouter() {
+        return router;
+    }
+
+    public void setRouter(RouterConfig router) {
+        this.router = router;
+    }
+
     public S3Config getS3() {
         return s3;
     }
@@ -35,11 +46,11 @@ public class CampaignConfig extends Configuration
     }
     
     @Override
-    public BrokerInfo getBroker() {
+    public BrokerConfig getBroker() {
         return broker;
     }
 
-    public void setBroker(BrokerInfo broker) {
+    public void setBroker(BrokerConfig broker) {
         this.broker = broker;
     }
     

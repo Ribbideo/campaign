@@ -4,7 +4,7 @@ public interface CampaignConstants {
     String API = "api";
     String CAMPAIGN = "campaign";
     String AUTH = "auth";
-    String PROVIDER = "provider";
+    String CLINIC = "clinic";
     String MEMBER = "member";
     String EXECUTION = "execution";
     String SMS = "sms";
@@ -21,7 +21,7 @@ public interface CampaignConstants {
 
     String AUTHORIZATION = "authorization";
 
-    String PROVIDER_ID = "providerId";
+    String CLINIC_ID = "clinicId";
     String CAMPAIGN_ID = "campaignId";
     String FILE_ID = "fileId";
     String NAV_ID = "navId";
@@ -30,7 +30,7 @@ public interface CampaignConstants {
     String MEMBER_ID = "memberId";
     String PARTICIPANT_ID = "participantId";
     
-    String PROVIDER_ID_ENDPOINT = "{" + PROVIDER_ID + "}";
+    String CLINIC_ID_ENDPOINT = "{" + CLINIC_ID + "}";
     String MEMBER_ID_ENDPOINT = "{" + MEMBER_ID + "}";
     String CAMPAIGN_ID_ENDPOINT = "{" + CAMPAIGN_ID + "}";
     String FILE_ID_ENDPOINT = "{" + FILE_ID + "}";

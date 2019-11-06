@@ -16,21 +16,21 @@ public interface WorkflowDataHandler
         return WORKFLOW_DATA_COLLECTION;
     }
 
-    WorkflowData createOrGetUnused(String providerId, String campaignId)
+    WorkflowData createOrGetUnused(String clinicId, String campaignId)
         throws CampaignException, DbException;
     Map<String, Object> get(
-        String providerId,
+        String clinicId,
         String campaignId,
         String containerId,
         String key)
         throws NotFoundException, CampaignException, DbException;
     Map<String, Object> get(
-        String providerId,
+        String clinicId,
         String campaignId,
         String containerId,
         int index)
         throws NotFoundException, CampaignException, DbException;
-    void update(String providerId,
+    void update(String clinicId,
                 String campaignId,
                 String containerId,
                 String key,

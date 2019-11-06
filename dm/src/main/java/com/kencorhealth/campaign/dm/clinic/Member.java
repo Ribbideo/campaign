@@ -1,4 +1,4 @@
-package com.kencorhealth.campaign.dm.provider;
+package com.kencorhealth.campaign.dm.clinic;
 
 import com.kencorhealth.campaign.dm.common.Address;
 import com.kencorhealth.campaign.dm.common.Gender;
@@ -10,9 +10,7 @@ import java.util.Set;
 
 public class Member extends Identified {
     private String consentFormUrl;
-    private String providerId;
-    private String approverId;
-    private String approverName;
+    private String clinicId;
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -50,22 +48,14 @@ public class Member extends Identified {
         this.consentFormUrl = consentFormUrl;
     }
 
-    public String getApproverId() {
-        return approverId;
+    public String getClinicId() {
+        return clinicId;
     }
 
-    public void setApproverId(String approverId) {
-        this.approverId = approverId;
+    public void setClinicId(String clinicId) {
+        this.clinicId = clinicId;
     }
 
-    public String getApproverName() {
-        return approverName;
-    }
-
-    public void setApproverName(String approverName) {
-        this.approverName = approverName;
-    }
-    
     public RoleInfo getRoleInfo() {
         return roleInfo;
     }
@@ -122,14 +112,6 @@ public class Member extends Identified {
         this.tags = tags;
     }
     
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -157,13 +139,12 @@ public class Member extends Identified {
     @Override
     public String toString() {
         return
-            "Member{" + "providerId=" + providerId + ", firstName=" +
+            "Member{" + "clinicId=" + clinicId + ", firstName=" +
             firstName + ", lastName=" + lastName + ", phoneNumber=" +
             phoneNumber + ", phoneType=" + phoneType + ", email=" + email +
             ", gender=" + gender + ", dob=" + dob + ", location=" + location +
             ", tags=" + tags + ", notifSettings=" + notifSettings +
-            ", roleInfo=" + roleInfo + ", extra=" + extra + ", approverId=" +
-            approverId + ", approverName=" + approverName +
-            ", consentFormUrl=" + consentFormUrl + "}, " + super.toString();
+            ", roleInfo=" + roleInfo + ", consentFormUrl=" +
+            consentFormUrl + "}, " + super.toString();
     }
 }

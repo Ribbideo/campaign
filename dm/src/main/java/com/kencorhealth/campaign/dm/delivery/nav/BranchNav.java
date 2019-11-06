@@ -1,6 +1,8 @@
 package com.kencorhealth.campaign.dm.delivery.nav;
 
 import com.kencorhealth.campaign.dm.common.CampaignUtil;
+import com.kencorhealth.campaign.dm.common.Transformer;
+import com.kencorhealth.campaign.dm.exception.CampaignException;
 import java.util.List;
 
 public class BranchNav extends Nav {
@@ -39,6 +41,26 @@ public class BranchNav extends Nav {
 
     public void setElseCondition(ElseCondition elseCondition) {
         this.elseCondition = elseCondition;
+    }
+
+    @Override
+    public void transformFrom(Transformer transformer)
+        throws CampaignException {
+        ifCondition.transformFrom(transformer);
+        
+        if (elseIfCondition != null) {
+            for (ElseIfCondition item: elseIfCondition) {
+                item.transformFrom(transformer);
+            }
+        }
+        
+        if (elseCondition != null) {
+            elseCondition.transformFrom(transformer);
+        }
+        
+        if (failureNav != null) {
+            failureNav.transformFrom(transformer);
+        }
     }
 
     @Override
