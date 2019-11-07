@@ -12,6 +12,7 @@ public interface RpmConstants {
     
     // Constants for keys
     String CONSENT_FORM_URL_KEY = "consentFormUrl";
+    String STATE_KEY = "state";
     String PHONE_NUMBER_KEY = "phoneNumber";
     String AUTH_OUTPUT_KEY = "authOutput";
     String CLINIC_DETAIL_KEY = "clinicDetail";

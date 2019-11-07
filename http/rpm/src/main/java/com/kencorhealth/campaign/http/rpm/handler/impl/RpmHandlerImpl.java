@@ -115,6 +115,7 @@ public class RpmHandlerImpl extends RpmBasedHandlerImpl
         throws CampaignException {
         Map<String, Object> body = new HashMap();
         body.put(CONSENT_FORM_URL_KEY, consentFormUrl);
+        body.put(STATE_KEY, "invite_sent");
         
         return
             sendPut(
