@@ -46,6 +46,7 @@ public class RpmHandlerImpl extends RpmBasedHandlerImpl
         String name = (String) clinicDetail.get(NAME_KEY);
         String description = (String) clinicDetail.get(DESCRIPTION_KEY);
         String logoUrl = (String) clinicDetail.get(LOGO_URL_KEY);
+        String videoUrl = (String) clinicDetail.get(VIDEO_URL_KEY);
 
         ClinicInfo retVal = new ClinicInfo();
         
@@ -53,6 +54,7 @@ public class RpmHandlerImpl extends RpmBasedHandlerImpl
         retVal.setDescription(description);
         retVal.setType(clinicType);
         retVal.setLogoUrl(logoUrl);
+        retVal.setVideoUrl(videoUrl);
         retVal.setName(name);
         
         return retVal;

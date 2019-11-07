@@ -22,4 +22,5 @@ public interface RpmConstants {
     String NAME_KEY = "name";
     String DESCRIPTION_KEY = "description";
     String LOGO_URL_KEY = "logoUrl";
+    String VIDEO_URL_KEY = "videoUrl";
 }

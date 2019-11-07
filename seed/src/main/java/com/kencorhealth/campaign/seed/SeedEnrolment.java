@@ -54,7 +54,7 @@ public class SeedEnrolment {
         MediaNav media = new MediaNav();
         media.setTitle("Here is a video");
         media.setMediaType(MediaType.VIDEO);
-        media.setUrl("https://www.youtube.com/watch?v=2GdN9fmPlzk");
+        media.setUrl("${auth.rpm.clinic.videoUrl}");
         media.setButtonText("Next");
         media.setHint("Press ENTER");
         

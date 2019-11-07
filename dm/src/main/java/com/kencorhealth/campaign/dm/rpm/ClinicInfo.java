@@ -6,7 +6,16 @@ public class ClinicInfo {
     private String name;
     private String description;
     private String logoUrl;
+    private String videoUrl;
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+    
     public ClinicType getType() {
         return type;
     }
@@ -51,6 +60,7 @@ public class ClinicInfo {
     public String toString() {
         return
             "ClinicInfo{" + "id=" + id + ", name=" + name + ", description=" +
-            description + ", logoUrl=" + logoUrl + ", type=" + type + '}';
+            description + ", logoUrl=" + logoUrl + ", type=" + type +
+            ", videoUrl=" + videoUrl + '}';
     }
 }
