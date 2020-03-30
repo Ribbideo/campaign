@@ -15,9 +15,9 @@ mongo:
   uri: mongodb://khadmin:k3nc0rh@localhost:27017/campaigndb
 
 twilio:
-  accountSid: AC4faf925d7493efa2fd1025febf86db0f
-  authToken: 1777916f53fcf34310cb875149cdcd2a
-  adminNumber: +14082146400
+  accountSid: TODO
+  authToken: TODO
+  adminNumber: TODO
 
 logging:
   level: DEBUG
